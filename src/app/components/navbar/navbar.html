@@ -1,0 +1,1114 @@
+<nav
+  class="sticky top-0 z-[100] border-b border-gray-200/70 dark:border-gray-800/80
+         bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl
+         shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+         dark:shadow-[0_8px_30px_rgb(0,0,0,0.25)]">
+
+  <!-- Gradient top accent line -->
+  <div
+    class="absolute inset-x-0 top-0 h-[2px]
+           bg-gradient-to-r from-transparent via-red-500 to-transparent
+           opacity-80">
+  </div>
+
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between min-h-[76px] py-2">
+
+      <!-- ========================= -->
+      <!-- LOGO -->
+      <!-- ========================= -->
+      <div class="flex items-center">
+        <a
+          routerLink="/"
+          (click)="closeMenus()"
+          class="group flex items-center gap-3 cursor-pointer select-none">
+
+          <div
+            class="relative w-12 h-12 rounded-[18px]
+                   bg-gradient-to-br from-red-500 via-red-600 to-red-800
+                   text-white flex items-center justify-center
+                   shadow-[0_10px_25px_rgba(220,38,38,0.35)]
+                   ring-4 ring-red-500/10
+                   transition-all duration-300
+                   group-hover:scale-105 group-hover:-rotate-2
+                   group-hover:shadow-[0_14px_30px_rgba(220,38,38,0.45)]">
+
+            <span class="text-2xl drop-shadow-md">🚌</span>
+
+            <span
+              class="absolute -right-1 -top-1 w-3 h-3 rounded-full
+                     bg-yellow-400 border-2 border-white dark:border-gray-900
+                     shadow-sm">
+            </span>
+          </div>
+
+          <div class="leading-none">
+            <div
+              class="text-xl sm:text-2xl font-black tracking-tight
+                     text-red-600 dark:text-red-500">
+              TED<span class="text-gray-900 dark:text-white"> BUS</span>
+            </div>
+
+            <div
+              class="mt-1 text-[9px] uppercase tracking-[0.3em]
+                     text-gray-400 dark:text-gray-500 font-bold">
+              Smart Travel
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- ========================= -->
+      <!-- DESKTOP NAVIGATION -->
+      <!-- ========================= -->
+      <div
+        class="hidden lg:flex items-center gap-1.5
+               bg-gray-100/70 dark:bg-gray-800/70
+               rounded-[20px] p-1.5
+               border border-gray-200/80 dark:border-gray-700
+               shadow-inner">
+
+        <!-- HOME -->
+        <a
+          routerLink="/"
+          routerLinkActive="!bg-blue-50 dark:!bg-blue-900/20
+                            !text-blue-600 dark:!text-blue-400
+                            !shadow-sm"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="group relative px-4 py-2.5 rounded-[15px]
+                 text-sm font-bold text-gray-600 dark:text-gray-300
+                 hover:text-blue-600 dark:hover:text-blue-400
+                 hover:bg-blue-50 dark:hover:bg-blue-900/20
+                 hover:shadow-sm transition-all duration-200
+                 flex items-center gap-2">
+
+          <span
+            class="text-base opacity-75 transition-transform duration-200
+                   group-hover:scale-110 group-hover:text-blue-500">
+            🏠
+          </span>
+
+          <span>{{ 'HOME' | translate }}</span>
+        </a>
+
+        <!-- BUS TICKETS -->
+        <a
+          routerLink="/"
+          class="group relative px-4 py-2.5 rounded-[15px]
+                 text-sm font-bold text-gray-600 dark:text-gray-300
+                 hover:text-amber-600 dark:hover:text-amber-400
+                 hover:bg-amber-50 dark:hover:bg-amber-900/20
+                 hover:shadow-sm transition-all duration-200
+                 flex items-center gap-2">
+
+          <span
+            class="text-base opacity-75 transition-transform duration-200
+                   group-hover:scale-110 group-hover:text-amber-500">
+            🎫
+          </span>
+
+          <span>{{ 'BUS_TICKETS' | translate }}</span>
+        </a>
+
+        <!-- COMMUNITY -->
+        <a
+          routerLink="/community"
+          routerLinkActive="!bg-emerald-50 dark:!bg-emerald-900/20
+                            !text-emerald-600 dark:!text-emerald-400
+                            !shadow-sm"
+          class="group relative px-4 py-2.5 rounded-[15px]
+                 text-sm font-bold text-gray-600 dark:text-gray-300
+                 hover:text-emerald-600 dark:hover:text-emerald-400
+                 hover:bg-emerald-50 dark:hover:bg-emerald-900/20
+                 hover:shadow-sm transition-all duration-200
+                 flex items-center gap-2">
+
+          <span
+            class="text-base opacity-75 transition-transform duration-200
+                   group-hover:scale-110 group-hover:text-emerald-500">
+            🌍
+          </span>
+
+          <span>{{ 'COMMUNITY' | translate }}</span>
+        </a>
+
+        <!-- ROUTE PLANNER -->
+        <a
+          routerLink="/route-planner"
+          routerLinkActive="!bg-violet-50 dark:!bg-violet-900/20
+                            !text-violet-600 dark:!text-violet-400
+                            !shadow-sm"
+          class="group relative px-4 py-2.5 rounded-[15px]
+                 text-sm font-bold text-gray-600 dark:text-gray-300
+                 hover:text-violet-600 dark:hover:text-violet-400
+                 hover:bg-violet-50 dark:hover:bg-violet-900/20
+                 hover:shadow-sm transition-all duration-200
+                 flex items-center gap-2">
+
+          <span
+            class="text-base opacity-75 transition-transform duration-200
+                   group-hover:scale-110 group-hover:text-violet-500">
+            🗺️
+          </span>
+
+          <span>{{ 'ROUTE_PLANNER' | translate }}</span>
+        </a>
+      </div>
+
+      <!-- ========================= -->
+      <!-- DESKTOP RIGHT SECTION -->
+      <!-- ========================= -->
+      <div class="hidden md:flex items-center gap-3">
+
+        <!-- Theme Toggle -->
+        <button
+          type="button"
+          (click)="toggleTheme()"
+          [attr.title]="
+            isDark()
+              ? ('LIGHT_MODE' | translate)
+              : ('DARK_MODE' | translate)
+          "
+          class="group h-11 px-4 rounded-2xl
+                 bg-gray-900 dark:bg-yellow-500
+                 text-white dark:text-gray-900
+                 border border-gray-700 dark:border-yellow-400
+                 shadow-lg shadow-gray-900/10
+                 hover:bg-black dark:hover:bg-yellow-400
+                 hover:-translate-y-0.5
+                 active:translate-y-0
+                 transition-all duration-200
+                 flex items-center gap-2">
+
+          <span
+            class="text-base transition-transform duration-300
+                   group-hover:rotate-12 group-hover:scale-110">
+            {{ isDark() ? '☀️' : '🌙' }}
+          </span>
+
+          <span class="hidden xl:inline text-sm font-bold">
+            {{
+              isDark()
+                ? ('LIGHT_MODE' | translate)
+                : ('DARK_MODE' | translate)
+            }}
+          </span>
+        </button>
+
+        <!-- ========================= -->
+        <!-- DESKTOP LANGUAGE SELECTOR -->
+        <!-- ========================= -->
+        <div
+          class="relative notranslate"
+          translate="no"
+          data-no-translate="true">
+
+          <select
+            class="notranslate h-11 min-w-[88px]
+                   appearance-none
+                   border border-gray-200 dark:border-gray-600
+                   rounded-2xl px-4 pr-9
+                   text-sm font-bold
+                   text-gray-700 dark:text-gray-200
+                   bg-white dark:bg-gray-800
+                   shadow-sm
+                   hover:border-red-400 dark:hover:border-red-500
+                   focus:ring-4 focus:ring-red-500/10
+                   focus:border-red-500
+                   outline-none cursor-pointer
+                   transition-all duration-200"
+            translate="no"
+            data-no-translate="true"
+            [value]="selectedLanguage()"
+            (change)="changeLanguage($event)"
+            [attr.aria-label]="'LANGUAGE.SELECT' | translate">
+
+            <option
+              value="en"
+              class="notranslate"
+              translate="no"
+              data-no-translate="true">
+              EN
+            </option>
+
+            <option
+              value="hi"
+              class="notranslate"
+              translate="no"
+              data-no-translate="true">
+              हिंदी
+            </option>
+          </select>
+        </div>
+
+        <!-- Logged Out -->
+        @if (!isLoggedIn()) {
+          <a
+            routerLink="/login"
+            class="group relative h-11 px-6
+                   flex items-center justify-center
+                   rounded-2xl
+                   bg-gradient-to-r from-red-600 via-red-600 to-red-700
+                   text-white font-extrabold
+                   shadow-[0_8px_20px_rgba(220,38,38,0.25)]
+                   hover:shadow-[0_12px_25px_rgba(220,38,38,0.4)]
+                   hover:-translate-y-0.5
+                   active:translate-y-0
+                   overflow-hidden
+                   transition-all duration-200">
+
+            <span
+              class="absolute inset-0 -translate-x-full
+                     bg-gradient-to-r from-transparent via-white/20 to-transparent
+                     group-hover:translate-x-full
+                     transition-transform duration-700">
+            </span>
+
+            <span class="relative">
+              {{ 'LOGIN' | translate }}
+            </span>
+          </a>
+        }
+
+        <!-- Logged In -->
+        @if (isLoggedIn()) {
+          <div class="relative">
+
+            <!-- Account Trigger -->
+            <button
+              type="button"
+              (click)="toggleAccountMenu($event)"
+              class="group relative flex items-center gap-3
+                     bg-white/90 dark:bg-gray-800/90
+                     border border-gray-200 dark:border-gray-700
+                     rounded-2xl px-3 py-2
+                     hover:border-red-300 dark:hover:border-red-700
+                     hover:shadow-lg hover:shadow-red-500/5
+                     hover:-translate-y-0.5
+                     transition-all duration-200
+                     min-w-[200px]">
+
+              @if (hasAvatar()) {
+                <img
+                  [src]="currentUser()?.avatar"
+                  alt="User Avatar"
+                  class="w-10 h-10 rounded-[15px] object-cover
+                         border-2 border-white dark:border-gray-700
+                         shadow-md ring-2 ring-red-500/10" />
+              } @else {
+                <div
+                  class="w-10 h-10 rounded-[15px]
+                         bg-gradient-to-br from-red-500 to-red-800
+                         text-white flex items-center justify-center
+                         font-black shadow-md ring-2 ring-red-500/10">
+                  {{ userInitial() }}
+                </div>
+              }
+
+              <div class="flex-1 min-w-0 text-left">
+                <p
+                  class="text-sm font-bold text-gray-900
+                         dark:text-gray-100 truncate">
+                  {{ currentUser()?.name || 'Account' }}
+                </p>
+
+                <p
+                  class="text-[11px] text-gray-500
+                         dark:text-gray-400 truncate">
+                  {{ currentUser()?.email }}
+                </p>
+              </div>
+
+              <span
+                class="text-xs text-gray-500 dark:text-gray-400
+                       transition-transform"
+                [class.rotate-180]="showAccountMenu()">
+                ▼
+              </span>
+
+              @if (unreadCount() > 0) {
+                <span
+                  class="absolute -top-1 -right-1 min-w-5 h-5 px-1
+                         bg-red-600 text-white text-[10px] font-bold
+                         rounded-full flex items-center justify-center
+                         shadow-md">
+                  {{ unreadCount() > 99 ? '99+' : unreadCount() }}
+                </span>
+              }
+            </button>
+
+            <!-- Account Dropdown -->
+            @if (showAccountMenu()) {
+              <div
+                class="absolute right-0 mt-3 w-80
+                       bg-white/95 dark:bg-gray-800/95
+                       backdrop-blur-2xl
+                       border border-gray-200/80 dark:border-gray-700
+                       rounded-[26px]
+                       shadow-[0_20px_60px_rgba(0,0,0,0.16)]
+                       dark:shadow-[0_20px_60px_rgba(0,0,0,0.45)]
+                       z-[200] overflow-hidden
+                       animate-fade-in">
+
+                <!-- User Header -->
+                <div
+                  class="px-5 py-5
+                         bg-gradient-to-br
+                         from-gray-50 via-red-50 to-white
+                         dark:from-gray-800 dark:via-gray-800
+                         dark:to-gray-700/70
+                         border-b border-gray-100 dark:border-gray-700">
+
+                  <div class="flex items-center gap-3">
+
+                    @if (hasAvatar()) {
+                      <img
+                        [src]="currentUser()?.avatar"
+                        alt="User Avatar"
+                        class="w-12 h-12 rounded-2xl object-cover
+                               border-2 border-white dark:border-gray-700
+                               shadow-md ring-2 ring-red-500/10" />
+                    } @else {
+                      <div
+                        class="w-12 h-12
+                               bg-gradient-to-br from-red-500 to-red-800
+                               text-white rounded-2xl
+                               flex items-center justify-center
+                               font-black shadow-md
+                               ring-2 ring-red-500/10">
+                        {{ userInitial() }}
+                      </div>
+                    }
+
+                    <div class="min-w-0">
+                      <p
+                        class="text-sm font-bold text-gray-900
+                               dark:text-gray-100 truncate">
+                        {{ currentUser()?.name || 'TED BUS User' }}
+                      </p>
+
+                      <p
+                        class="text-xs text-gray-500
+                               dark:text-gray-400 truncate">
+                        {{ currentUser()?.email }}
+                      </p>
+
+                      @if (currentUser()?.isVerified) {
+                        <span
+                          class="inline-flex mt-1
+                                 bg-blue-100 dark:bg-blue-900/50
+                                 text-blue-700 dark:text-blue-300
+                                 text-[10px] font-bold
+                                 px-2 py-0.5 rounded-full">
+                          ✓ {{ 'COMMON.VERIFIED_BADGE' | translate }}
+                        </span>
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Dropdown Links -->
+                <div class="p-2">
+
+                  <a
+                    routerLink="/profile"
+                    (click)="closeMenus()"
+                    class="group flex items-center gap-3
+                           px-4 py-3.5 text-sm font-semibold
+                           text-gray-700 dark:text-gray-300
+                           hover:bg-red-50 dark:hover:bg-red-900/20
+                           hover:text-red-600 dark:hover:text-red-400
+                           rounded-2xl transition-all duration-200">
+
+                    <span
+                      class="w-9 h-9 rounded-xl
+                             bg-gray-100 dark:bg-gray-700
+                             flex items-center justify-center
+                             group-hover:bg-red-100
+                             dark:group-hover:bg-red-900/40
+                             group-hover:scale-105 transition-all">
+                      👤
+                    </span>
+
+                    <span>{{ 'MY_PROFILE' | translate }}</span>
+                  </a>
+
+                  @if (isAdminOrModerator()) {
+                    <a
+                      routerLink="/admin"
+                      (click)="closeMenus()"
+                      class="group flex items-center gap-3
+                             px-4 py-3.5 text-sm font-semibold
+                             text-purple-700 dark:text-purple-400
+                             hover:bg-purple-50
+                             dark:hover:bg-purple-900/20
+                             rounded-2xl transition-all duration-200">
+
+                      <span
+                        class="w-9 h-9 rounded-xl
+                               bg-purple-100 dark:bg-purple-900/40
+                               flex items-center justify-center
+                               group-hover:bg-purple-200
+                               dark:group-hover:bg-purple-900/60
+                               group-hover:scale-105 transition-all">
+                        🛡️
+                      </span>
+
+                      <span>{{ 'ADMIN_PANEL' | translate }}</span>
+                    </a>
+                  }
+
+                  <a
+                    routerLink="/my-bookings"
+                    (click)="closeMenus()"
+                    class="group flex items-center gap-3
+                           px-4 py-3.5 text-sm font-semibold
+                           text-gray-700 dark:text-gray-300
+                           hover:bg-red-50 dark:hover:bg-red-900/20
+                           hover:text-red-600 dark:hover:text-red-400
+                           rounded-2xl transition-all duration-200">
+
+                    <span
+                      class="w-9 h-9 rounded-xl
+                             bg-gray-100 dark:bg-gray-700
+                             flex items-center justify-center
+                             group-hover:bg-red-100
+                             dark:group-hover:bg-red-900/40
+                             group-hover:scale-105 transition-all">
+                      🎫
+                    </span>
+
+                    <span>{{ 'MY_BOOKINGS' | translate }}</span>
+                  </a>
+
+                  <a
+                    routerLink="/notifications"
+                    (click)="closeMenus()"
+                    class="group flex items-center justify-between
+                           px-4 py-3.5 text-sm font-semibold
+                           text-gray-700 dark:text-gray-300
+                           hover:bg-red-50 dark:hover:bg-red-900/20
+                           hover:text-red-600 dark:hover:text-red-400
+                           rounded-2xl transition-all duration-200">
+
+                    <span class="flex items-center gap-3">
+                      <span
+                        class="w-9 h-9 rounded-xl
+                               bg-gray-100 dark:bg-gray-700
+                               flex items-center justify-center
+                               group-hover:bg-red-100
+                               dark:group-hover:bg-red-900/40
+                               group-hover:scale-105 transition-all">
+                        🔔
+                      </span>
+
+                      <span>{{ 'NOTIFICATIONS' | translate }}</span>
+                    </span>
+
+                    @if (unreadCount() > 0) {
+                      <span
+                        class="min-w-5 h-5 px-1
+                               bg-red-600 text-white text-[10px] font-bold
+                               rounded-full flex items-center justify-center">
+                        {{ unreadCount() > 99 ? '99+' : unreadCount() }}
+                      </span>
+                    }
+                  </a>
+
+                  <a
+                    routerLink="/discussion-board"
+                    (click)="closeMenus()"
+                    class="group flex items-center gap-3
+                           px-4 py-3.5 text-sm font-semibold
+                           text-gray-700 dark:text-gray-300
+                           hover:bg-red-50 dark:hover:bg-red-900/20
+                           hover:text-red-600 dark:hover:text-red-400
+                           rounded-2xl transition-all duration-200">
+
+                    <span
+                      class="w-9 h-9 rounded-xl
+                             bg-gray-100 dark:bg-gray-700
+                             flex items-center justify-center
+                             group-hover:bg-red-100
+                             dark:group-hover:bg-red-900/40
+                             group-hover:scale-105 transition-all">
+                      💬
+                    </span>
+
+                    <span>{{ 'DISCUSSION_BOARD' | translate }}</span>
+                  </a>
+
+                  <a
+                    routerLink="/notification-preferences"
+                    (click)="closeMenus()"
+                    class="group flex items-center gap-3
+                           px-4 py-3.5 text-sm font-semibold
+                           text-gray-700 dark:text-gray-300
+                           hover:bg-red-50 dark:hover:bg-red-900/20
+                           hover:text-red-600 dark:hover:text-red-400
+                           rounded-2xl transition-all duration-200">
+
+                    <span
+                      class="w-9 h-9 rounded-xl
+                             bg-gray-100 dark:bg-gray-700
+                             flex items-center justify-center
+                             group-hover:bg-red-100
+                             dark:group-hover:bg-red-900/40
+                             group-hover:scale-105 transition-all">
+                      ⚙️
+                    </span>
+
+                    <span>{{ 'PREFERENCES' | translate }}</span>
+                  </a>
+                </div>
+
+                <div
+                  class="border-t border-gray-100
+                         dark:border-gray-700 mx-3">
+                </div>
+
+                <!-- Logout -->
+                <div class="p-2">
+                  <button
+                    type="button"
+                    (click)="logout()"
+                    class="group w-full flex items-center gap-3
+                           px-4 py-3.5 text-left text-sm font-semibold
+                           text-red-600 dark:text-red-400
+                           hover:bg-red-50 dark:hover:bg-red-900/20
+                           rounded-2xl transition-all duration-200">
+
+                    <span
+                      class="w-9 h-9 rounded-xl
+                             bg-red-100 dark:bg-red-900/40
+                             flex items-center justify-center
+                             group-hover:bg-red-200
+                             dark:group-hover:bg-red-900/60
+                             transition-all">
+                      🚪
+                    </span>
+
+                    <span>{{ 'LOGOUT' | translate }}</span>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- ========================= -->
+      <!-- MOBILE RIGHT -->
+      <!-- ========================= -->
+      <div class="md:hidden flex items-center gap-2">
+
+        @if (isLoggedIn()) {
+          <a
+            routerLink="/notifications"
+            (click)="closeMenus()"
+            aria-label="Notifications"
+            class="relative w-11 h-11
+                   flex items-center justify-center
+                   rounded-2xl
+                   bg-gray-50 dark:bg-gray-800
+                   border border-gray-200 dark:border-gray-700
+                   shadow-sm
+                   hover:border-red-300 dark:hover:border-red-700
+                   hover:text-red-600 dark:hover:text-red-400
+                   hover:shadow-md
+                   transition-all duration-200">
+
+            🔔
+
+            @if (unreadCount() > 0) {
+              <span
+                class="absolute -top-1 -right-1 min-w-5 h-5 px-1
+                       bg-red-600 text-white text-[9px] font-bold
+                       rounded-full flex items-center justify-center
+                       shadow-md">
+                {{ unreadCount() > 99 ? '99+' : unreadCount() }}
+              </span>
+            }
+          </a>
+        }
+
+        <button
+          type="button"
+          (click)="toggleMobileMenu($event)"
+          [attr.aria-expanded]="mobileMenuOpen()"
+          aria-label="Toggle navigation menu"
+          class="w-11 h-11
+                 flex items-center justify-center
+                 rounded-2xl
+                 text-gray-700 dark:text-gray-200
+                 bg-gray-50 dark:bg-gray-800
+                 border border-gray-200 dark:border-gray-700
+                 shadow-sm
+                 hover:border-red-300 dark:hover:border-red-700
+                 hover:text-red-600 dark:hover:text-red-400
+                 hover:shadow-md
+                 transition-all duration-200
+                 text-xl">
+
+          <span class="transition-transform duration-200">
+            {{ mobileMenuOpen() ? '✕' : '☰' }}
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!-- MOBILE MENU -->
+  <!-- ========================= -->
+  @if (mobileMenuOpen()) {
+    <div
+      class="md:hidden
+             border-t border-gray-200/70 dark:border-gray-800
+             bg-white/95 dark:bg-gray-900/95
+             backdrop-blur-2xl
+             shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+
+      <div class="px-4 py-5 space-y-2 animate-slide-down">
+
+        @if (isLoggedIn()) {
+          <div
+            class="flex items-center gap-3 p-4 mb-3
+                   bg-gray-50 dark:bg-gray-800
+                   rounded-3xl
+                   border border-gray-100 dark:border-gray-700">
+
+            @if (hasAvatar()) {
+              <img
+                [src]="currentUser()?.avatar"
+                alt="User Avatar"
+                class="w-12 h-12 rounded-2xl object-cover
+                       border-2 border-white dark:border-gray-700
+                       shadow-md" />
+            } @else {
+              <div
+                class="w-12 h-12
+                       bg-gradient-to-br from-red-500 to-red-800
+                       text-white rounded-2xl
+                       flex items-center justify-center
+                       font-black shadow-md">
+                {{ userInitial() }}
+              </div>
+            }
+
+            <div class="min-w-0">
+              <p
+                class="font-bold text-gray-900
+                       dark:text-gray-100 truncate">
+                {{ currentUser()?.name }}
+              </p>
+
+              <p
+                class="text-xs text-gray-500
+                       dark:text-gray-400 truncate">
+                {{ currentUser()?.email }}
+              </p>
+            </div>
+          </div>
+        }
+
+        <!-- HOME -->
+        <a
+          routerLink="/"
+          routerLinkActive="bg-blue-50 dark:bg-blue-900/20
+                            text-blue-600 dark:text-blue-400"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenus()"
+          class="group flex items-center gap-3
+                 px-4 py-3.5 rounded-2xl
+                 text-gray-700 dark:text-gray-300
+                 font-semibold
+                 hover:bg-blue-50 dark:hover:bg-blue-900/20
+                 hover:text-blue-600 dark:hover:text-blue-400
+                 hover:translate-x-1
+                 transition-all duration-200">
+
+          <span
+            class="w-10 h-10 rounded-xl
+                   bg-gray-100 dark:bg-gray-800
+                   flex items-center justify-center
+                   group-hover:bg-blue-100
+                   dark:group-hover:bg-blue-900/40
+                   transition-colors">
+            🏠
+          </span>
+
+          <span>{{ 'HOME' | translate }}</span>
+        </a>
+
+        <!-- BUS TICKETS -->
+        <a
+          routerLink="/"
+          (click)="closeMenus()"
+          class="group flex items-center gap-3
+                 px-4 py-3.5 rounded-2xl
+                 text-gray-700 dark:text-gray-300
+                 font-semibold
+                 hover:bg-amber-50 dark:hover:bg-amber-900/20
+                 hover:text-amber-600 dark:hover:text-amber-400
+                 hover:translate-x-1
+                 transition-all duration-200">
+
+          <span
+            class="w-10 h-10 rounded-xl
+                   bg-gray-100 dark:bg-gray-800
+                   flex items-center justify-center
+                   group-hover:bg-amber-100
+                   dark:group-hover:bg-amber-900/40
+                   transition-colors">
+            🎫
+          </span>
+
+          <span>{{ 'BUS_TICKETS' | translate }}</span>
+        </a>
+
+        <!-- COMMUNITY -->
+        <a
+          routerLink="/community"
+          routerLinkActive="bg-emerald-50 dark:bg-emerald-900/20
+                            text-emerald-600 dark:text-emerald-400"
+          (click)="closeMenus()"
+          class="group flex items-center gap-3
+                 px-4 py-3.5 rounded-2xl
+                 text-gray-700 dark:text-gray-300
+                 font-semibold
+                 hover:bg-emerald-50 dark:hover:bg-emerald-900/20
+                 hover:text-emerald-600 dark:hover:text-emerald-400
+                 hover:translate-x-1
+                 transition-all duration-200">
+
+          <span
+            class="w-10 h-10 rounded-xl
+                   bg-gray-100 dark:bg-gray-800
+                   flex items-center justify-center
+                   group-hover:bg-emerald-100
+                   dark:group-hover:bg-emerald-900/40
+                   transition-colors">
+            🌍
+          </span>
+
+          <span>{{ 'COMMUNITY' | translate }}</span>
+        </a>
+
+        <!-- ROUTE PLANNER -->
+        <a
+          routerLink="/route-planner"
+          routerLinkActive="bg-violet-50 dark:bg-violet-900/20
+                            text-violet-600 dark:text-violet-400"
+          (click)="closeMenus()"
+          class="group flex items-center gap-3
+                 px-4 py-3.5 rounded-2xl
+                 text-gray-700 dark:text-gray-300
+                 font-semibold
+                 hover:bg-violet-50 dark:hover:bg-violet-900/20
+                 hover:text-violet-600 dark:hover:text-violet-400
+                 hover:translate-x-1
+                 transition-all duration-200">
+
+          <span
+            class="w-10 h-10 rounded-xl
+                   bg-gray-100 dark:bg-gray-800
+                   flex items-center justify-center
+                   group-hover:bg-violet-100
+                   dark:group-hover:bg-violet-900/40
+                   transition-colors">
+            🗺️
+          </span>
+
+          <span>{{ 'ROUTE_PLANNER' | translate }}</span>
+        </a>
+
+        @if (isLoggedIn()) {
+          <!-- PROFILE -->
+          <a
+            routerLink="/profile"
+            routerLinkActive="bg-red-50 dark:bg-red-900/20
+                              text-red-600 dark:text-red-400"
+            (click)="closeMenus()"
+            class="group flex items-center gap-3
+                   px-4 py-3.5 rounded-2xl
+                   text-gray-700 dark:text-gray-300
+                   font-semibold
+                   hover:bg-red-50 dark:hover:bg-red-900/20
+                   hover:text-red-600 dark:hover:text-red-400
+                   hover:translate-x-1
+                   transition-all duration-200">
+
+            <span
+              class="w-10 h-10 rounded-xl
+                     bg-gray-100 dark:bg-gray-800
+                     flex items-center justify-center
+                     group-hover:bg-red-100
+                     dark:group-hover:bg-red-900/40
+                     transition-colors">
+              👤
+            </span>
+
+            <span>{{ 'MY_PROFILE' | translate }}</span>
+          </a>
+
+          @if (isAdminOrModerator()) {
+            <!-- ADMIN -->
+            <a
+              routerLink="/admin"
+              routerLinkActive="bg-purple-50 dark:bg-purple-900/20
+                                text-purple-700 dark:text-purple-400"
+              (click)="closeMenus()"
+              class="group flex items-center gap-3
+                     px-4 py-3.5 rounded-2xl
+                     text-purple-700 dark:text-purple-400
+                     font-semibold
+                     hover:bg-purple-50
+                     dark:hover:bg-purple-900/20
+                     hover:translate-x-1
+                     transition-all duration-200">
+
+              <span
+                class="w-10 h-10 rounded-xl
+                       bg-purple-100 dark:bg-purple-900/40
+                       flex items-center justify-center
+                       group-hover:bg-purple-200
+                       dark:group-hover:bg-purple-900/60
+                       transition-colors">
+                🛡️
+              </span>
+
+              <span>{{ 'ADMIN_PANEL' | translate }}</span>
+            </a>
+          }
+
+          <!-- MY BOOKINGS -->
+          <a
+            routerLink="/my-bookings"
+            routerLinkActive="bg-red-50 dark:bg-red-900/20
+                              text-red-600 dark:text-red-400"
+            (click)="closeMenus()"
+            class="group flex items-center gap-3
+                   px-4 py-3.5 rounded-2xl
+                   text-gray-700 dark:text-gray-300
+                   font-semibold
+                   hover:bg-red-50 dark:hover:bg-red-900/20
+                   hover:text-red-600 dark:hover:text-red-400
+                   hover:translate-x-1
+                   transition-all duration-200">
+
+            <span
+              class="w-10 h-10 rounded-xl
+                     bg-gray-100 dark:bg-gray-800
+                     flex items-center justify-center
+                     group-hover:bg-red-100
+                     dark:group-hover:bg-red-900/40
+                     transition-colors">
+              🎫
+            </span>
+
+            <span>{{ 'MY_BOOKINGS' | translate }}</span>
+          </a>
+
+          <!-- NOTIFICATIONS -->
+          <a
+            routerLink="/notifications"
+            routerLinkActive="bg-red-50 dark:bg-red-900/20
+                              text-red-600 dark:text-red-400"
+            (click)="closeMenus()"
+            class="group flex items-center justify-between
+                   px-4 py-3.5 rounded-2xl
+                   text-gray-700 dark:text-gray-300
+                   font-semibold
+                   hover:bg-red-50 dark:hover:bg-red-900/20
+                   hover:text-red-600 dark:hover:text-red-400
+                   hover:translate-x-1
+                   transition-all duration-200">
+
+            <span class="flex items-center gap-3">
+              <span
+                class="w-10 h-10 rounded-xl
+                       bg-gray-100 dark:bg-gray-800
+                       flex items-center justify-center
+                       group-hover:bg-red-100
+                       dark:group-hover:bg-red-900/40
+                       transition-colors">
+                🔔
+              </span>
+
+              <span>{{ 'NOTIFICATIONS' | translate }}</span>
+            </span>
+
+            @if (unreadCount() > 0) {
+              <span
+                class="min-w-5 h-5 px-1
+                       bg-red-600 text-white text-[10px] font-bold
+                       rounded-full flex items-center justify-center">
+                {{ unreadCount() > 99 ? '99+' : unreadCount() }}
+              </span>
+            }
+          </a>
+
+          <!-- DISCUSSION BOARD -->
+          <a
+            routerLink="/discussion-board"
+            routerLinkActive="bg-red-50 dark:bg-red-900/20
+                              text-red-600 dark:text-red-400"
+            (click)="closeMenus()"
+            class="group flex items-center gap-3
+                   px-4 py-3.5 rounded-2xl
+                   text-gray-700 dark:text-gray-300
+                   font-semibold
+                   hover:bg-red-50 dark:hover:bg-red-900/20
+                   hover:text-red-600 dark:hover:text-red-400
+                   hover:translate-x-1
+                   transition-all duration-200">
+
+            <span
+              class="w-10 h-10 rounded-xl
+                     bg-gray-100 dark:bg-gray-800
+                     flex items-center justify-center
+                     group-hover:bg-red-100
+                     dark:group-hover:bg-red-900/40
+                     transition-colors">
+              💬
+            </span>
+
+            <span>{{ 'DISCUSSION_BOARD' | translate }}</span>
+          </a>
+
+          <!-- PREFERENCES -->
+          <a
+            routerLink="/notification-preferences"
+            routerLinkActive="bg-red-50 dark:bg-red-900/20
+                              text-red-600 dark:text-red-400"
+            (click)="closeMenus()"
+            class="group flex items-center gap-3
+                   px-4 py-3.5 rounded-2xl
+                   text-gray-700 dark:text-gray-300
+                   font-semibold
+                   hover:bg-red-50 dark:hover:bg-red-900/20
+                   hover:text-red-600 dark:hover:text-red-400
+                   hover:translate-x-1
+                   transition-all duration-200">
+
+            <span
+              class="w-10 h-10 rounded-xl
+                     bg-gray-100 dark:bg-gray-800
+                     flex items-center justify-center
+                     group-hover:bg-red-100
+                     dark:group-hover:bg-red-900/40
+                     transition-colors">
+              ⚙️
+            </span>
+
+            <span>{{ 'PREFERENCES' | translate }}</span>
+          </a>
+        }
+
+        <!-- Theme + Language -->
+        <div
+          class="pt-4 mt-3
+                 border-t border-gray-100 dark:border-gray-700">
+
+          <div class="flex items-center justify-between gap-3">
+
+            <!-- Mobile Theme Button -->
+            <button
+              type="button"
+              (click)="toggleTheme()"
+              class="flex-1
+                     bg-gray-900 dark:bg-yellow-500
+                     text-white dark:text-gray-900
+                     px-4 py-3 rounded-2xl
+                     font-bold
+                     hover:bg-black dark:hover:bg-yellow-400
+                     transition-all duration-200">
+
+              {{ isDark() ? '☀️' : '🌙' }}
+
+              {{
+                isDark()
+                  ? ('LIGHT_MODE' | translate)
+                  : ('DARK_MODE' | translate)
+              }}
+            </button>
+
+            <!-- ========================= -->
+            <!-- MOBILE LANGUAGE SELECTOR -->
+            <!-- ========================= -->
+            <div
+              class="relative notranslate"
+              translate="no"
+              data-no-translate="true">
+
+              <select
+                class="notranslate
+                       border border-gray-200 dark:border-gray-600
+                       rounded-2xl px-4 py-3
+                       text-sm font-bold
+                       bg-white dark:bg-gray-800
+                       dark:text-gray-200
+                       outline-none cursor-pointer"
+                translate="no"
+                data-no-translate="true"
+                [value]="selectedLanguage()"
+                (change)="changeLanguage($event)"
+                [attr.aria-label]="'LANGUAGE.SELECT' | translate">
+
+                <option
+                  value="en"
+                  class="notranslate"
+                  translate="no"
+                  data-no-translate="true">
+                  EN
+                </option>
+
+                <option
+                  value="hi"
+                  class="notranslate"
+                  translate="no"
+                  data-no-translate="true">
+                  हिंदी
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login / Logout -->
+        <div class="pt-3">
+          @if (!isLoggedIn()) {
+            <a
+              routerLink="/login"
+              (click)="closeMenus()"
+              class="block w-full
+                     bg-gradient-to-r from-red-600 to-red-700
+                     text-white text-center
+                     px-5 py-3 rounded-2xl
+                     font-extrabold shadow-lg
+                     hover:from-red-700 hover:to-red-800
+                     hover:-translate-y-0.5
+                     transition-all duration-200">
+              {{ 'LOGIN' | translate }}
+            </a>
+          } @else {
+            <button
+              type="button"
+              (click)="logout()"
+              class="w-full flex items-center justify-center gap-2
+                     bg-red-50 dark:bg-red-900/20
+                     text-red-600 dark:text-red-400
+                     px-5 py-3 rounded-2xl
+                     font-semibold
+                     hover:bg-red-100
+                     dark:hover:bg-red-900/30
+                     transition-all duration-200">
+              🚪 {{ 'LOGOUT' | translate }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</nav>

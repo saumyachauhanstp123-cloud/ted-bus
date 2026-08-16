@@ -1,0 +1,301 @@
+:host {
+  display: block;
+}
+
+/* ================================
+   LIGHT HERO
+================================ */
+.ted-hero {
+  background:
+    linear-gradient(
+      135deg,
+      #b91c1c 0%,
+      #dc2626 45%,
+      #881337 100%
+    );
+  transition: background 0.35s ease;
+}
+
+.ted-hero-pattern {
+  opacity: 0.22;
+  background-image:
+    radial-gradient(
+      rgba(255, 255, 255, 0.28) 1px,
+      transparent 1px
+    );
+  background-size: 36px 36px;
+}
+
+.ted-hero-glow-one {
+  background-color: rgba(253, 224, 71, 0.18);
+}
+
+.ted-hero-glow-two {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ================================
+   SHARED GLASS ELEMENTS
+================================ */
+.ted-hero-badge,
+.ted-hero-stat {
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 30px rgba(69, 10, 10, 0.16);
+}
+
+.ted-hero-stat {
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.ted-hero-stat:hover {
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(254, 240, 138, 0.45);
+}
+
+/* Brand gradient text */
+.ted-hero-brand {
+  color: transparent;
+  background-image:
+    linear-gradient(
+      90deg,
+      #fef3c7,
+      #fde047,
+      #fed7aa
+    );
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: drop-shadow(
+    0 8px 20px rgba(250, 204, 21, 0.18)
+  );
+}
+
+/* ================================
+   BUTTONS
+================================ */
+.ted-hero-primary-btn {
+  background-color: #ffffff;
+  color: #dc2626;
+}
+
+.ted-hero-primary-btn:hover {
+  background-color: #fff7ed;
+  box-shadow: 0 22px 45px rgba(69, 10, 10, 0.28);
+}
+
+.ted-hero-secondary-btn {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 28px rgba(69, 10, 10, 0.13);
+}
+
+.ted-hero-secondary-btn:hover {
+  background-color: rgba(255, 255, 255, 0.21);
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+/* ================================
+   RIGHT VISUAL
+================================ */
+.ted-hero-image-panel {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.17),
+      rgba(255, 255, 255, 0.06)
+    );
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 35px 70px rgba(69, 10, 10, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.ted-hero-image-glow {
+  background-color: rgba(253, 224, 71, 0.16);
+}
+
+.ted-hero-floating-card {
+  color: #111827;
+  background-color: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(18px);
+}
+
+.ted-hero-floating-card p:last-child {
+  color: #6b7280;
+}
+
+/* ================================
+   BOTTOM TRANSITION
+================================ */
+.ted-hero-bottom-fade {
+  background:
+    linear-gradient(
+      to top,
+      #f9fafb,
+      transparent
+    );
+}
+
+/* ================================
+   DARK MODE
+   Works with html.dark directly
+================================ */
+html.dark .ted-hero {
+  background:
+    linear-gradient(
+      135deg,
+      #020617 0%,
+      #21080d 48%,
+      #09090b 100%
+    );
+}
+
+html.dark .ted-hero-pattern {
+  opacity: 0.14;
+}
+
+html.dark .ted-hero-glow-one {
+  background-color: rgba(225, 29, 72, 0.16);
+}
+
+html.dark .ted-hero-glow-two {
+  background-color: rgba(190, 24, 93, 0.14);
+}
+
+html.dark .ted-hero-badge,
+html.dark .ted-hero-stat {
+  background-color: rgba(255, 255, 255, 0.055);
+  border-color: rgba(251, 113, 133, 0.18);
+  box-shadow: 0 15px 36px rgba(0, 0, 0, 0.28);
+}
+
+html.dark .ted-hero-stat:hover {
+  background-color: rgba(225, 29, 72, 0.1);
+  border-color: rgba(251, 113, 133, 0.35);
+}
+
+html.dark .ted-hero-brand {
+  background-image:
+    linear-gradient(
+      90deg,
+      #fecdd3,
+      #fb7185,
+      #fdba74
+    );
+  filter: drop-shadow(
+    0 8px 24px rgba(244, 63, 94, 0.2)
+  );
+}
+
+html.dark .ted-hero-primary-btn {
+  background-color: #e11d48;
+  color: #ffffff;
+}
+
+html.dark .ted-hero-primary-btn:hover {
+  background-color: #be123c;
+  box-shadow: 0 22px 45px rgba(225, 29, 72, 0.25);
+}
+
+html.dark .ted-hero-secondary-btn {
+  background-color: rgba(255, 255, 255, 0.055);
+  border-color: rgba(251, 113, 133, 0.2);
+}
+
+html.dark .ted-hero-secondary-btn:hover {
+  background-color: rgba(225, 29, 72, 0.1);
+  border-color: rgba(251, 113, 133, 0.4);
+}
+
+html.dark .ted-hero-image-panel {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(127, 29, 29, 0.08)
+    );
+  border-color: rgba(251, 113, 133, 0.17);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+html.dark .ted-hero-image-glow {
+  background-color: rgba(225, 29, 72, 0.17);
+}
+
+html.dark .ted-hero-floating-card {
+  color: #f8fafc;
+  background-color: rgba(15, 23, 42, 0.94);
+  border-color: rgba(71, 85, 105, 0.75);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+}
+
+html.dark .ted-hero-floating-card p:last-child {
+  color: #94a3b8;
+}
+
+html.dark .ted-hero-bottom-fade {
+  background:
+    linear-gradient(
+      to top,
+      #0b1220,
+      transparent
+    );
+}
+
+/* ================================
+   ANIMATIONS
+================================ */
+@keyframes heroFloatLeft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes heroFloatRight {
+  0%,
+  100% {
+    transform: translateY(-5px);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.ted-hero-floating-left {
+  animation: heroFloatLeft 4.5s ease-in-out infinite;
+}
+
+.ted-hero-floating-right {
+  animation: heroFloatRight 5.5s ease-in-out infinite;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .ted-hero-floating-left,
+  .ted-hero-floating-right {
+    animation: none;
+  }
+
+  .ted-hero *,
+  .ted-hero *::before,
+  .ted-hero *::after {
+    scroll-behavior: auto !important;
+  }
+}

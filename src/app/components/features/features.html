@@ -1,0 +1,178 @@
+<section
+  class="relative overflow-hidden bg-white py-20 dark:bg-gray-950">
+
+  <!-- Background Decorations -->
+  <div
+    class="pointer-events-none absolute -left-40 top-20 h-80 w-80
+           rounded-full bg-red-100/60 blur-3xl
+           dark:bg-red-950/20">
+  </div>
+
+  <div
+    class="pointer-events-none absolute -right-40 bottom-20 h-96 w-96
+           rounded-full bg-blue-100/60 blur-3xl
+           dark:bg-blue-950/20">
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <!-- Section Heading -->
+    <div class="mx-auto mb-16 max-w-3xl text-center">
+
+      <span
+        class="inline-flex items-center gap-2 rounded-full
+               border border-red-200 bg-red-50 px-4 py-2
+               text-[11px] font-extrabold uppercase
+               tracking-[0.22em] text-red-600
+               shadow-sm dark:border-red-900/50
+               dark:bg-red-950/40 dark:text-red-400">
+
+        <span class="h-2 w-2 animate-pulse rounded-full bg-red-500"></span>
+        Why TED BUS?
+      </span>
+
+      <h2
+        class="mt-5 text-3xl font-black tracking-tight
+               text-gray-900 sm:text-4xl md:text-5xl
+               dark:text-white">
+
+        Everything You Need for a
+        <span
+          class="bg-gradient-to-r from-red-600 to-red-800
+                 bg-clip-text text-transparent">
+          Perfect Journey
+        </span>
+      </h2>
+
+      <p
+        class="mx-auto mt-4 max-w-2xl text-sm leading-7
+               text-gray-500 sm:text-base dark:text-gray-400">
+
+        From booking to boarding, we've got every step covered
+        with premium features.
+      </p>
+    </div>
+
+    <!-- Feature Cards -->
+    <div
+      class="grid grid-cols-1 gap-6 md:grid-cols-2
+             lg:grid-cols-3">
+
+      @for (
+        feature of features;
+        track feature.title;
+        let i = $index
+      ) {
+        <article
+          class="feature-card group"
+          [ngClass]="feature.cardColor">
+
+          <!-- Number -->
+          <span class="feature-number">
+            0{{ i + 1 }}
+          </span>
+
+          <!-- Icon -->
+          <div
+            class="feature-icon"
+            [ngClass]="feature.color">
+
+            <span class="text-3xl transition-transform duration-300
+                         group-hover:scale-125 group-hover:-rotate-6">
+              {{ feature.icon }}
+            </span>
+          </div>
+
+          <!-- Content -->
+          <div class="relative z-10">
+            <h3
+              class="text-xl font-black text-gray-900
+                     transition-colors duration-300
+                     group-hover:text-red-600
+                     dark:text-white dark:group-hover:text-red-400">
+
+              {{ feature.title }}
+            </h3>
+
+            <p
+              class="mt-3 text-sm leading-7 text-gray-500
+                     dark:text-gray-400">
+
+              {{ feature.description }}
+            </p>
+          </div>
+
+          <!-- Bottom Arrow -->
+          <div class="feature-arrow">
+            <span>↗</span>
+          </div>
+
+          <!-- Decorative Glow -->
+          <div class="feature-glow"></div>
+        </article>
+      }
+    </div>
+
+    <!-- Stats Bar -->
+    <div
+      class="relative mt-16 overflow-hidden rounded-[30px]
+             bg-gradient-to-br from-red-600 via-red-700 to-red-900
+             p-8 shadow-[0_20px_50px_rgba(220,38,38,0.25)]
+             md:p-12">
+
+      <!-- Decorative Circles -->
+      <div
+        class="pointer-events-none absolute -right-20 -top-24
+               h-64 w-64 rounded-full border
+               border-white/10">
+      </div>
+
+      <div
+        class="pointer-events-none absolute -bottom-28 -left-16
+               h-64 w-64 rounded-full border
+               border-white/10">
+      </div>
+
+      <div class="relative z-10">
+
+        <div class="mb-9 text-center">
+          <p
+            class="text-xs font-bold uppercase tracking-[0.25em]
+                   text-red-100">
+            Trusted by travelers
+          </p>
+
+          <h3
+            class="mt-2 text-2xl font-black text-white sm:text-3xl">
+            Travel Better with TED BUS
+          </h3>
+        </div>
+
+        <div
+          class="grid grid-cols-2 gap-8 text-center
+                 md:grid-cols-4 md:gap-6">
+
+          <div class="stat-item">
+            <div class="stat-value">500+</div>
+            <div class="stat-label">Routes Covered</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-value">1.2L+</div>
+            <div class="stat-label">Happy Travelers</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-value">50+</div>
+            <div class="stat-label">Bus Partners</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Customer Support</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

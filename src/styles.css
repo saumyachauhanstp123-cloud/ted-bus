@@ -1,0 +1,296 @@
+@import 'tailwindcss';
+
+
+/* =========================================
+   GLOBAL BASE & TRANSITIONS
+========================================= */
+html, body {
+  margin: 0;
+  min-height: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  scroll-behavior: smooth;
+}
+
+/* Default Light Theme */
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* =========================================
+   DARK MODE (html.dark class)
+========================================= */
+html.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+/* Dark mode background overrides */
+html.dark .bg-white,
+html.dark .bg-gray-50,
+html.dark .bg-gray-100 {
+  background-color: #1e2937 !important;
+}
+
+html.dark .bg-red-50 {
+  background-color: #3b1f23 !important;
+}
+
+html.dark .bg-green-50 {
+  background-color: #1f2a22 !important;
+}
+
+/* Text colors in dark mode */
+html.dark .text-gray-900,
+html.dark .text-gray-800 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .text-gray-700,
+html.dark .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* Borders */
+html.dark .border-gray-100,
+html.dark .border-gray-200 {
+  border-color: #334155 !important;
+}
+
+/* Inputs, Textarea, Select */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-color: #475569 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Cards & Shadows */
+html.dark .shadow-sm,
+html.dark .shadow,
+html.dark .shadow-md,
+html.dark .shadow-lg,
+html.dark .shadow-xl,
+html.dark .shadow-2xl {
+  box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.4) !important;
+}
+
+/* Navbar */
+html.dark nav {
+  background-color: #0f172a !important;
+  border-color: #1e2937 !important;
+}
+
+/* Hover states */
+html.dark .hover\:bg-gray-100:hover {
+  background-color: #1e2937 !important;
+}
+
+html.dark .hover\:bg-red-50:hover {
+  background-color: #3b1f23 !important;
+}
+
+/* Leaflet Map */
+html.dark .leaflet-container {
+  background-color: #0f172a !important;
+}
+
+html.dark .leaflet-control-zoom a {
+  background-color: #1e2937 !important;
+  color: #e2e8f0 !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e11d48;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #be123c;
+}
+
+/* Dark mode scrollbar */
+html.dark ::-webkit-scrollbar-track {
+  background: #1e2937;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #e11d48;
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, input, textarea, select {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* =========================================
+   GOOGLE WEBSITE TRANSLATOR
+========================================= */
+
+/*
+  Google ka original dropdown screen se bahar rakha gaya hai.
+  Iska element DOM me present rahega, isliye service ise control kar sakegi.
+*/
+#google_translate_element {
+  position: fixed !important;
+  left: -10000px !important;
+  top: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/*
+  Google ka top translation banner hide
+*/
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+/*
+  Google translation ke baad body ko neeche shift hone se rokta hai
+*/
+body {
+  top: 0 !important;
+}
+
+/*
+  Google widget ka default text hide
+*/
+.goog-te-gadget {
+  font-size: 0 !important;
+}
+
+.goog-te-gadget span {
+  display: none !important;
+}
+
+.goog-te-menu-value {
+  display: none !important;
+}
+
+/*
+  Translation tooltip/highlight hide
+*/
+.goog-tooltip {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/*
+  Google ke iframe/banner ki wajah se extra spacing remove
+*/
+iframe.goog-te-menu-frame {
+  max-width: 100% !important;
+}
+
+.skiptranslate {
+  font-size: inherit !important;
+}
+/* =========================================
+   HIDE GOOGLE TRANSLATE DEFAULT UI
+   Custom navbar selector will be used
+========================================= */
+
+/* Google ka top translation bar hide */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+/* Google toolbar ke outer wrapper ko hide */
+body > .skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+/* Body ko Google ke top offset se bachao */
+html,
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Google ka default hidden widget */
+#google_translate_element {
+  position: fixed !important;
+  left: -10000px !important;
+  top: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Google ke default dropdown/gadget ko hide */
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-combo {
+  position: fixed !important;
+  left: -10000px !important;
+  top: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Google translation popup/tooltip hide */
+.goog-te-menu-frame,
+.goog-te-balloon-frame,
+.goog-tooltip {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Translated text ka unwanted highlight remove */
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Google injected iframe hide */
+iframe.goog-te-banner-frame,
+iframe.goog-te-menu-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+/*
+  Custom language selectors ko Google Translate se exclude karta hai.
+*/
+.notranslate,
+.notranslate * {
+  translate: no !important;
+}

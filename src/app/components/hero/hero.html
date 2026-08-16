@@ -1,0 +1,232 @@
+<section
+  class="ted-hero relative min-h-[680px] overflow-hidden text-white flex items-center">
+
+  <!-- Subtle background pattern -->
+  <div class="ted-hero-pattern pointer-events-none absolute inset-0"></div>
+
+  <!-- Decorative glows -->
+  <div
+    class="ted-hero-glow ted-hero-glow-one pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full blur-3xl">
+  </div>
+
+  <div
+    class="ted-hero-glow ted-hero-glow-two pointer-events-none absolute top-20 -right-36 w-[30rem] h-[30rem] rounded-full blur-3xl">
+  </div>
+
+  <!-- Main Content -->
+  <div
+    class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pt-12 pb-32 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+    <!-- ======================== -->
+    <!-- LEFT CONTENT -->
+    <!-- ======================== -->
+    <div class="text-center lg:text-left">
+
+      <!-- Trust Badge -->
+      <div class="ted-hero-badge inline-flex items-center gap-3 px-4 py-2 rounded-full">
+        <span class="text-yellow-300 text-lg">⭐</span>
+
+        <span class="text-sm font-semibold">
+          {{ 'HERO.RATING_DESC' | translate }}
+        </span>
+      </div>
+
+      <!-- Heading -->
+      <h1
+        class="mt-6 text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight">
+
+        <span class="block">
+          {{ 'HERO.TITLE_LINE1' | translate }}
+        </span>
+
+        <span class="block mt-2">
+          {{ 'HERO.TITLE_LINE2' | translate }}
+        </span>
+
+        <span class="ted-hero-brand inline-block mt-2">
+          {{ 'HERO.BRAND' | translate }}
+        </span>
+
+      </h1>
+
+      <!-- Subtitle -->
+      <p
+        class="mt-6 text-lg sm:text-xl text-red-100 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+        {{ 'HERO.SUBTITLE' | translate }}
+      </p>
+
+      <!-- CTA Buttons -->
+      <div
+        class="mt-9 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+
+        <a
+          href="#bus-search"
+          class="ted-hero-primary-btn group px-8 py-4 rounded-2xl font-extrabold shadow-2xl flex items-center justify-center gap-3 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]">
+
+          <span>🎫</span>
+
+          <span>
+            {{ 'HERO.BOOK_NOW' | translate }}
+          </span>
+
+          <span class="transition-transform group-hover:translate-x-1">
+            →
+          </span>
+
+        </a>
+
+        <a
+          routerLink="/route-planner"
+          class="ted-hero-secondary-btn group px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]">
+
+          <span class="transition-transform group-hover:scale-110">
+            🗺️
+          </span>
+
+          <span>
+            {{ 'ROUTE_PLANNER' | translate }}
+          </span>
+
+        </a>
+
+      </div>
+
+      <!-- ======================== -->
+      <!-- STATISTICS -->
+      <!-- ======================== -->
+      <div
+        class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-2xl mx-auto lg:mx-0">
+
+        <!-- Rating -->
+        <div class="ted-hero-stat rounded-2xl p-4 text-center">
+          <div class="text-xl mb-1">⭐</div>
+
+          <div class="text-2xl font-black">
+            {{ 'HERO.RATING' | translate }}
+          </div>
+
+          <div class="text-xs text-red-100 mt-1">
+            {{ 'ROUTE_DETAILS.REVIEWS_LABEL' | translate }}
+          </div>
+        </div>
+
+        <!-- Routes -->
+        <div class="ted-hero-stat rounded-2xl p-4 text-center">
+          <div class="text-3xl font-black">
+            {{ 'HERO.ROUTES' | translate }}
+          </div>
+
+          <div class="text-xs text-red-100 mt-1">
+            {{ 'HERO.ROUTES_LABEL' | translate }}
+          </div>
+        </div>
+
+        <!-- Riders -->
+        <div class="ted-hero-stat rounded-2xl p-4 text-center">
+          <div class="text-3xl font-black">
+            {{ 'HERO.RIDERS' | translate }}
+          </div>
+
+          <div class="text-xs text-red-100 mt-1">
+            {{ 'HERO.RIDERS_LABEL' | translate }}
+          </div>
+        </div>
+
+        <!-- Support -->
+        <div class="ted-hero-stat rounded-2xl p-4 text-center">
+          <div class="text-3xl font-black">
+            {{ 'HERO.SUPPORT' | translate }}
+          </div>
+
+          <div class="text-xs text-red-100 mt-1">
+            {{ 'HERO.SUPPORT_LABEL' | translate }}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================== -->
+    <!-- RIGHT VISUAL -->
+    <!-- ======================== -->
+    <div class="hidden lg:flex justify-center">
+
+      <div class="ted-hero-visual relative w-full max-w-[570px]">
+
+        <!-- Image background panel -->
+        <div
+          class="ted-hero-image-panel relative min-h-[460px] rounded-[2.5rem] flex items-center justify-center overflow-hidden">
+
+          <!-- Inner decorative circle -->
+          <div
+            class="ted-hero-image-glow pointer-events-none absolute w-80 h-80 rounded-full blur-2xl">
+          </div>
+
+          <!-- Bus Image -->
+          <img
+            src="/assets/images/buss.png.png"
+            [attr.alt]="'HERO.IMAGE_ALT' | translate"
+            class="relative z-10 w-[540px] max-w-[95%] object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.35)] transition-transform duration-500 hover:scale-[1.02]"
+          >
+
+        </div>
+
+        <!-- Secure Booking Badge -->
+        <div
+          class="ted-hero-floating-card ted-hero-floating-left absolute left-0 top-10 rounded-2xl px-4 py-3 shadow-2xl">
+
+          <div class="flex items-center gap-3">
+            <div
+              class="w-11 h-11 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-xl">
+              🔒
+            </div>
+
+            <div>
+              <p class="text-sm font-extrabold">
+                {{ 'BOOKING_SUCCESS.CONFIRMED' | translate }}
+              </p>
+
+              <p class="text-xs">
+                {{ 'PAYMENT.SUBTITLE' | translate }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Smart Route Badge -->
+        <div
+          class="ted-hero-floating-card ted-hero-floating-right absolute right-0 bottom-12 rounded-2xl px-4 py-3 shadow-2xl">
+
+          <div class="flex items-center gap-3">
+            <div
+              class="w-11 h-11 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
+              🗺️
+            </div>
+
+            <div>
+              <p class="text-sm font-extrabold">
+                {{ 'ROUTE_PLANNER' | translate }}
+              </p>
+
+              <p class="text-xs">
+                {{ 'ROUTE_PLANNER_PAGE.LIVE_TRAFFIC' | translate }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bottom fade matching next section -->
+  <div
+    class="ted-hero-bottom-fade pointer-events-none absolute bottom-0 left-0 right-0 h-28">
+  </div>
+
+</section>

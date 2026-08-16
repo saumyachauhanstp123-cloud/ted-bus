@@ -1,0 +1,167 @@
+<section class="min-h-screen bg-gray-50 py-10 px-4"> <div class="max-w-3xl mx-auto">
+  <!-- Header -->
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-3xl font-extrabold text-gray-900">
+      {{ 'NOTIFICATIONS_PAGE.TITLE' | translate }}
+    </h1>
+    <p class="text-gray-500 mt-1">
+      {{ 'NOTIFICATIONS_PAGE.SUBTITLE' | translate }}
+    </p>
+  </div>
+
+  @if (notificationService.hasUnread()) {
+    <button (click)="markAllAsRead()"
+      class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-gray-100 transition">
+      ✓ {{ 'NOTIFICATIONS_PAGE.MARK_ALL' | translate }}
+    </button>
+  }
+</div>
+
+<!-- Filter Tabs -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-1.5 mb-6 flex gap-1.5">
+  <button (click)="setFilter('all')"
+    [class]="filter() === 'all' ? 'bg-red-600 text-white' : 'text-gray-600 hover:bg-gray-100'"
+    class="flex-1 py-2 rounded-xl font-semibold text-sm transition">
+    {{ 'NOTIFICATIONS_PAGE.ALL' | translate }}
+  </button>
+  <button (click)="setFilter('unread')"
+    [class]="filter() === 'unread' ? 'bg-red-600 text-white' : 'text-gray-600 hover:bg-gray-100'"
+    class="flex-1 py-2 rounded-xl font-semibold text-sm transition">
+    {{ 'NOTIFICATIONS_PAGE.UNREAD' | translate }} ({{ notificationService.unreadCount() }})
+  </button>
+  <button (click)="setFilter('read')"
+    [class]="filter() === 'read' ? 'bg-red-600 text-white' : 'text-gray-600 hover:bg-gray-100'"
+    class="flex-1 py-2 rounded-xl font-semibold text-sm transition">
+    {{ 'NOTIFICATIONS_PAGE.READ' | translate }}
+  </button>
+</div>
+
+<!-- Loading -->
+@if (notificationService.loading()) {
+  <div class="bg-white rounded-3xl shadow-sm p-12 text-center">
+    <div class="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+    <p class="mt-4 text-gray-600">{{ 'NOTIFICATIONS_PAGE.LOADING' | translate }}</p>
+  </div>
+}
+
+<!-- Empty -->
+@if (!notificationService.loading() && filteredNotifications().length === 0) {
+  <div class="bg-white rounded-3xl shadow-sm p-12 text-center border border-gray-100">
+    <div class="text-6xl mb-4">🔔</div>
+    <h3 class="text-2xl font-bold text-gray-800">
+      {{ 'NOTIFICATIONS_PAGE.NO_NOTIFICATIONS' | translate }}
+    </h3>
+    <p class="text-gray-500 mt-2">
+      {{ 'NOTIFICATIONS_PAGE.ALL_CAUGHT_UP' | translate }}
+    </p>
+    <a routerLink="/"
+      class="inline-block mt-6 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold transition">
+      {{ 'NOTIFICATIONS_PAGE.BOOK_BUS' | translate }} →
+    </a>
+  </div>
+}
+
+<!-- Notifications List -->
+<div class="space-y-3">
+  @for (notification of filteredNotifications(); track notification._id) {
+    <div class="bg-white rounded-2xl shadow-sm border overflow-hidden transition hover:shadow-md"
+      [class]="notification.isRead ? 'border-gray-100' : 'border-l-4 border-l-red-500 border-gray-100'">
+      <div class="p-5 flex gap-4">
+
+        <!-- Icon -->
+        <div class="text-3xl flex-shrink-0 mt-1">
+          {{ getIcon(notification.type) }}
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <h3 class="font-bold text-gray-900"
+              [class]="notification.isRead ? 'font-semibold' : 'font-extrabold'">
+              {{ notification.title }}
+            </h3>
+            <span class="text-xs text-gray-400 flex-shrink-0">
+              {{ getTimeAgo(notification.createdAt) }}
+            </span>
+          </div>
+
+          <p class="text-gray-600 text-sm mt-1 leading-relaxed">
+            {{ notification.message }}
+          </p>
+
+          <!-- Type Badge -->
+          <div class="flex items-center gap-3 mt-3">
+            <span class="text-[10px] uppercase font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+              {{ getTypeKey(notification.type) | translate }}
+            </span>
+
+            @if (!notification.isRead) {
+              <span class="flex h-2 w-2">
+                <span class="animate-ping absolute h-2 w-2 rounded-full bg-red-400 opacity-75"></span>
+                <span class="relative rounded-full h-2 w-2 bg-red-600"></span>
+              </span>
+            }
+          </div>
+
+          <!-- Delivery Status Tracking -->
+          @if (notification.channels) {
+            <div class="flex flex-wrap gap-2 mt-3 text-[10px] font-bold">
+              <span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                {{ 'NOTIFICATIONS_PAGE.CHANNEL_INAPP' | translate }}: {{ notification.channels.inApp.status }}
+              </span>
+
+              @if (notification.channels.email.enabled) {
+                <span class="px-2 py-0.5 rounded-full"
+                  [class]="getChannelBadge(notification.channels.email.status)">
+                  {{ 'NOTIFICATIONS_PAGE.CHANNEL_EMAIL' | translate }}: {{ notification.channels.email.status }}
+                </span>
+              }
+
+              @if (notification.channels.push.enabled) {
+                <span class="px-2 py-0.5 rounded-full"
+                  [class]="getChannelBadge(notification.channels.push.status)">
+                  {{ 'NOTIFICATIONS_PAGE.CHANNEL_PUSH' | translate }}: {{ notification.channels.push.status }}
+                </span>
+              }
+            </div>
+          }
+
+          <!-- Retry Button -->
+          @if (hasFailed(notification) && notification.retryCount < notification.maxRetries) {
+            <button (click)="retryDelivery(notification._id)"
+              class="mt-2 text-sm bg-orange-500 text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-orange-600 transition">
+              {{ 'NOTIFICATIONS_PAGE.RETRY_BTN' | translate }} ({{ notification.retryCount }}/{{ notification.maxRetries }})
+            </button>
+          }
+
+          <!-- Actions -->
+          <div class="flex gap-3 mt-3">
+            @if (!notification.isRead) {
+              <button (click)="markAsRead(notification._id)"
+                class="text-sm text-blue-600 hover:text-blue-800 font-semibold transition">
+                ✓ {{ 'NOTIFICATIONS_PAGE.MARK_AS_READ' | translate }}
+              </button>
+            }
+
+            <button (click)="deleteNotification(notification._id)"
+              class="text-sm text-red-500 hover:text-red-700 font-semibold transition">
+              {{ 'NOTIFICATIONS_PAGE.DELETE_BTN' | translate }}
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Preferences Link -->
+<div class="mt-8 text-center">
+  <a routerLink="/notification-preferences"
+    class="text-gray-500 hover:text-red-600 text-sm font-semibold transition">
+    {{ 'NOTIFICATIONS_PAGE.MANAGE_PREFS' | translate }}
+  </a>
+</div>
+</div>
+ </section> 

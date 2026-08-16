@@ -1,0 +1,86 @@
+<section class="min-h-screen bg-gray-50 py-12 px-4">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-green-600 to-green-700 text-white p-8 text-center">
+        <div class="text-5xl mb-3">✅</div>
+        <h1 class="text-3xl font-extrabold">{{ 'BOOKING_SUCCESS.TITLE' | translate }}</h1>
+        <p class="mt-2 text-green-100">{{ 'BOOKING_SUCCESS.SUBTITLE' | translate }}</p>
+      </div>
+
+      <!-- Ticket body -->
+      <div class="p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+          <div>
+            <p class="text-sm text-gray-500">{{ 'BOOKING_SUCCESS.BOOKING_ID' | translate }}</p>
+            <p class="text-xl font-extrabold text-blue-600">{{ bookingId }}</p>
+          </div>
+          <div class="text-sm bg-green-50 text-green-700 px-4 py-2 rounded-full font-semibold w-fit">
+            {{ 'BOOKING_SUCCESS.CONFIRMED' | translate }}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          <div class="bg-gray-50 rounded-2xl p-4">
+            <p class="text-gray-500">{{ 'BOOKING_SUCCESS.PASSENGER' | translate }}</p>
+            <p class="font-bold text-gray-900 mt-1">{{ passengerName }}</p>
+            <p class="text-gray-600 mt-1">{{ age }} yrs • {{ gender }}</p>
+          </div>
+
+          <div class="bg-gray-50 rounded-2xl p-4">
+            <p class="text-gray-500">{{ 'BOOKING_SUCCESS.MOBILE' | translate }}</p>
+            <p class="font-bold text-gray-900 mt-1">{{ mobile }}</p>
+          </div>
+
+          <div class="bg-gray-50 rounded-2xl p-4">
+            <p class="text-gray-500">{{ 'BOOKING_SUCCESS.BUS' | translate }}</p>
+            <p class="font-bold text-gray-900 mt-1">{{ selectedBus?.busName }}</p>
+          </div>
+
+          <div class="bg-gray-50 rounded-2xl p-4">
+            <p class="text-gray-500">{{ 'BOOKING_SUCCESS.SEAT' | translate }}</p>
+            <p class="font-bold text-red-600 mt-1 text-lg">{{ selectedSeat }}</p>
+          </div>
+
+          <div class="bg-gray-50 rounded-2xl p-4 sm:col-span-2">
+            <p class="text-gray-500">{{ 'BOOKING_SUCCESS.ROUTE' | translate }}</p>
+            <p class="font-bold text-gray-900 mt-1">
+              {{ selectedBus?.source }} → {{ selectedBus?.destination }}
+            </p>
+            <p class="text-gray-600 mt-1">
+              {{ selectedBus?.departureTime }} → {{ selectedBus?.arrivalTime }}
+            </p>
+            <p class="text-gray-600 mt-1">
+              {{ 'BOOKING_SUCCESS.DATE' | translate }}: {{ journeyDate }}
+            </p>
+          </div>
+
+          <div class="bg-red-50 rounded-2xl p-4 sm:col-span-2 flex items-center justify-between">
+            <span class="font-semibold text-gray-700">{{ 'BOOKING_SUCCESS.TOTAL_PAID' | translate }}</span>
+            <span class="text-3xl font-extrabold text-red-600">₹{{ totalPrice }}</span>
+          </div>
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <button (click)="goMyBookings()"
+            class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-2xl font-semibold transition">
+            {{ 'BOOKING_SUCCESS.VIEW_BOOKINGS' | translate }}
+          </button>
+
+          <button (click)="writeReview()"
+            class="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 rounded-2xl font-semibold transition">
+            {{ 'BOOKING_SUCCESS.WRITE_REVIEW' | translate }}
+          </button>
+
+          <button (click)="goHome()"
+            class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-2xl font-semibold transition">
+            {{ 'BOOKING_SUCCESS.BACK_HOME' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

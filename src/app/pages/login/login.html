@@ -1,0 +1,162 @@
+<div class="min-h-[calc(100vh-80px)] flex items-center justify-center bg-red-50 dark:bg-gray-950 px-4 py-12">
+
+  <div class="w-full max-w-md">
+
+    <!-- Brand top -->
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-600 text-white text-4xl shadow-lg shadow-red-200 dark:shadow-red-950/40 mb-4">
+        🚌
+      </div>
+
+      <h1 class="text-4xl font-black tracking-tight text-red-600 dark:text-white">
+        TED BUS
+      </h1>
+
+      <p class="mt-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+        {{ 'AUTH.LOGIN_SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl shadow-2xl dark:shadow-black/40 p-8 sm:p-10">
+
+      <!-- Header -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-black text-gray-900 dark:text-gray-100">
+          {{ 'AUTH.LOGIN_TITLE' | translate }}
+        </h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          {{ 'AUTH.EMAIL' | translate }} & {{ 'AUTH.PASSWORD' | translate }}
+        </p>
+      </div>
+
+      <!-- Error -->
+      @if (errorMessage()) {
+        <div class="mb-6 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 px-4 py-3 rounded-2xl text-sm flex gap-2">
+          <span>⚠️</span>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <form (ngSubmit)="login()" class="space-y-5">
+
+        <!-- Email -->
+        <div>
+          <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+            {{ 'AUTH.EMAIL' | translate }}
+          </label>
+
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+              ✉️
+            </span>
+
+            <input
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate"
+              autocomplete="email"
+              class="w-full pl-11 pr-4 py-4 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-950/50 transition"
+            />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+            {{ 'AUTH.PASSWORD' | translate }}
+          </label>
+
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+              🔑
+            </span>
+
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              [(ngModel)]="password"
+              name="password"
+              [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate"
+              autocomplete="current-password"
+              class="w-full pl-11 pr-12 py-4 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-950/50 transition"
+            />
+
+            <button
+              type="button"
+              (click)="togglePasswordVisibility()"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition text-xl">
+              {{ showPassword() ? '🙈' : '👁️' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember + Forgot -->
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" class="w-4 h-4 accent-red-600">
+            <span class="text-gray-600 dark:text-gray-400">
+              Remember me
+            </span>
+          </label>
+
+          <a class="font-semibold text-red-600 dark:text-red-400 hover:underline cursor-pointer">
+            {{ 'AUTH.FORGOT_PASSWORD' | translate }}
+          </a>
+        </div>
+
+        <!-- Button -->
+        <button
+          type="submit"
+          [disabled]="loading()"
+          class="w-full h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-black text-lg shadow-lg shadow-red-200 dark:shadow-red-950/40 disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98] transition flex items-center justify-center gap-3">
+
+          @if (loading()) {
+            <span class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            <span>{{ 'AUTH.LOGGING_IN' | translate }}</span>
+          } @else {
+            <span>{{ 'AUTH.LOGIN_BUTTON' | translate }}</span>
+          }
+
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-4 my-8">
+        <div class="flex-1 h-px bg-gray-200 dark:bg-gray-800"></div>
+        <span class="text-xs font-bold text-gray-400 dark:text-gray-600">
+          {{ 'COMMON.OR' | translate }}
+        </span>
+        <div class="flex-1 h-px bg-gray-200 dark:bg-gray-800"></div>
+      </div>
+
+      <!-- Social buttons -->
+      <div class="grid grid-cols-2 gap-3 mb-7">
+        <button
+          type="button"
+          class="py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+          G Google
+        </button>
+
+        <button
+          type="button"
+          class="py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+           Apple
+        </button>
+      </div>
+
+      <!-- Register link -->
+      <p class="text-center text-sm text-gray-600 dark:text-gray-400">
+        {{ 'AUTH.NO_ACCOUNT' | translate }}
+        <a
+          routerLink="/register"
+          class="font-bold text-red-600 dark:text-red-400 hover:underline">
+          {{ 'AUTH.REGISTER_LINK' | translate }}
+        </a>
+      </p>
+
+    </div>
+
+  </div>
+</div>

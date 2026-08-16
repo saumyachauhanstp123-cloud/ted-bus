@@ -1,0 +1,464 @@
+<section class="rp-page min-h-screen bg-gray-50 py-8 px-4">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <div class="mb-6">
+      <h1 class="rp-title text-3xl font-extrabold text-gray-900">
+        {{ 'ROUTE_PLANNER_PAGE.TITLE' | translate }}
+      </h1>
+
+      <p class="rp-muted text-gray-500 mt-1">
+        {{ 'ROUTE_PLANNER_PAGE.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <!-- Alerts -->
+    @if (errorMessage()) {
+      <div class="rp-error mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-2xl">
+        ⚠️ {{ errorMessage() }}
+      </div>
+    }
+
+    @if (successMessage()) {
+      <div class="rp-success mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-2xl">
+        ✅ {{ successMessage() }}
+      </div>
+    }
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- ========================= -->
+      <!-- LEFT PANEL -->
+      <!-- ========================= -->
+      <div class="space-y-5">
+
+        <!-- Search Card -->
+        <div class="rp-card bg-white rounded-3xl border border-gray-100 shadow-sm p-5">
+
+          <h2 class="rp-title text-xl font-bold mb-4">
+            {{ 'ROUTE_PLANNER_PAGE.PLAN_ROUTE' | translate }}
+          </h2>
+
+          <!-- Start Location -->
+          <div class="mb-4 relative">
+            <label class="rp-label block text-sm font-semibold text-gray-700 mb-2">
+              {{ 'ROUTE_PLANNER_PAGE.START_LOCATION' | translate }}
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="startQuery"
+              (input)="onStartInput()"
+              [placeholder]="'SEARCH.FROM_PLACEHOLDER' | translate"
+              class="rp-input w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+
+            @if (startSuggestions().length) {
+              <div
+                class="rp-suggestions absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-2xl shadow-lg max-h-52 overflow-auto">
+
+                @for (s of startSuggestions(); track s.place_id) {
+                  <button
+                    type="button"
+                    (click)="selectStart(s)"
+                    class="rp-suggestion-item w-full text-left px-4 py-3 text-sm hover:bg-red-50 border-b border-gray-100 last:border-0">
+                    📍 {{ s.display_name }}
+                  </button>
+                }
+
+              </div>
+            }
+          </div>
+
+          <!-- Destination -->
+          <div class="mb-4 relative">
+            <label class="rp-label block text-sm font-semibold text-gray-700 mb-2">
+              {{ 'ROUTE_PLANNER_PAGE.DESTINATION' | translate }}
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="destQuery"
+              (input)="onDestInput()"
+              [placeholder]="'SEARCH.TO_PLACEHOLDER' | translate"
+              class="rp-input w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+
+            @if (destSuggestions().length) {
+              <div
+                class="rp-suggestions absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-2xl shadow-lg max-h-52 overflow-auto">
+
+                @for (s of destSuggestions(); track s.place_id) {
+                  <button
+                    type="button"
+                    (click)="selectDest(s)"
+                    class="rp-suggestion-item w-full text-left px-4 py-3 text-sm hover:bg-red-50 border-b border-gray-100 last:border-0">
+                    📍 {{ s.display_name }}
+                  </button>
+                }
+
+              </div>
+            }
+          </div>
+
+          <!-- Waypoints -->
+          <div class="mb-4">
+
+            <div class="flex items-center justify-between mb-2">
+              <label class="rp-label text-sm font-semibold text-gray-700">
+                {{ 'ROUTE_PLANNER_PAGE.WAYPOINTS' | translate }}
+              </label>
+
+              <button
+                type="button"
+                (click)="addWaypoint()"
+                class="text-xs font-semibold text-blue-600 hover:underline">
+                {{ 'ROUTE_PLANNER_PAGE.ADD_STOP' | translate }}
+              </button>
+            </div>
+
+            @for (wp of waypointQueries; track $index; let i = $index) {
+              <div class="relative mb-2">
+
+                <div class="flex gap-2">
+                  <input
+                    type="text"
+                    [(ngModel)]="waypointQueries[i]"
+                    (input)="onWaypointInput(i)"
+                    [placeholder]="('COMMON.SEARCH' | translate) + '...'"
+                    class="rp-input flex-1 border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                  >
+
+                  <button
+                    type="button"
+                    (click)="removeWaypoint(i)"
+                    class="rp-remove-button px-3 rounded-xl bg-red-100 text-red-600 font-semibold hover:bg-red-200">
+                    ✕
+                  </button>
+                </div>
+
+                @if (waypointSuggestions()[i]?.length) {
+                  <div
+                    class="rp-suggestions absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-40 overflow-auto">
+
+                    @for (s of waypointSuggestions()[i]; track s.place_id) {
+                      <button
+                        type="button"
+                        (click)="selectWaypoint(i, s)"
+                        class="rp-suggestion-item w-full text-left px-3 py-2 text-xs hover:bg-red-50 border-b border-gray-100 last:border-0">
+                        📍 {{ s.display_name }}
+                      </button>
+                    }
+
+                  </div>
+                }
+
+              </div>
+            }
+
+          </div>
+
+          <!-- Sort -->
+          <div class="mb-4">
+            <label class="rp-label block text-sm font-semibold text-gray-700 mb-2">
+              {{ 'ROUTE_PLANNER_PAGE.COMPARE_SORT' | translate }}
+            </label>
+
+            <div class="grid grid-cols-3 gap-2">
+
+              <button
+                type="button"
+                (click)="sortRoutes('distance')"
+                [class]="selectedSort() === 'distance'
+                  ? 'bg-red-600 text-white border-red-600'
+                  : 'rp-secondary-button bg-white border-gray-200 text-gray-700'"
+                class="border py-2 rounded-xl text-xs font-semibold transition">
+                {{ 'ROUTE_PLANNER_PAGE.DISTANCE' | translate }}
+              </button>
+
+              <button
+                type="button"
+                (click)="sortRoutes('time')"
+                [class]="selectedSort() === 'time'
+                  ? 'bg-red-600 text-white border-red-600'
+                  : 'rp-secondary-button bg-white border-gray-200 text-gray-700'"
+                class="border py-2 rounded-xl text-xs font-semibold transition">
+                {{ 'ROUTE_PLANNER_PAGE.TIME' | translate }}
+              </button>
+
+              <button
+                type="button"
+                (click)="sortRoutes('traffic')"
+                [class]="selectedSort() === 'traffic'
+                  ? 'bg-red-600 text-white border-red-600'
+                  : 'rp-secondary-button bg-white border-gray-200 text-gray-700'"
+                class="border py-2 rounded-xl text-xs font-semibold transition">
+                {{ 'ROUTE_PLANNER_PAGE.TRAFFIC' | translate }}
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Search -->
+          <button
+            type="button"
+            (click)="searchRoutes()"
+            [disabled]="loading()"
+            class="w-full bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition">
+
+            @if (loading()) {
+              <span class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              {{ 'ROUTE_PLANNER_PAGE.FINDING' | translate }}
+            } @else {
+              🔍 {{ 'ROUTE_PLANNER_PAGE.FIND_ROUTES' | translate }}
+            }
+
+          </button>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- SUGGESTED ROUTES -->
+        <!-- ========================= -->
+        @if (routes().length) {
+          <div class="rp-card bg-white rounded-3xl border border-gray-100 shadow-sm p-5 animate-fade-in">
+
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="rp-title text-xl font-bold">
+                {{ 'ROUTE_PLANNER_PAGE.SUGGESTED_ROUTES' | translate }}
+              </h2>
+
+              <span class="rp-muted text-[11px] text-gray-400">
+                {{ 'ROUTE_PLANNER_PAGE.LIVE_TRAFFIC' | translate }}
+              </span>
+            </div>
+
+            <div class="space-y-3">
+
+              @for (route of routes(); track route.name; let i = $index) {
+                <button
+                  type="button"
+                  (click)="selectRoute(route, i)"
+                  class="rp-route-option w-full text-left border-2 rounded-2xl p-4 transition"
+                  [class]="selectedRouteIndex() === i
+                    ? 'border-red-500 bg-red-50 rp-route-selected'
+                    : 'border-gray-100 hover:border-gray-300'">
+
+                  <div class="flex items-center justify-between mb-2">
+
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="w-3 h-3 rounded-full"
+                        [style.background]="route.color">
+                      </span>
+
+                      <span class="rp-title font-bold text-sm">
+                        {{ route.name }}
+                      </span>
+                    </div>
+
+                    @if (route.recommended) {
+                      <span class="rp-best-badge text-[10px] font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                        {{ 'ROUTE_PLANNER_PAGE.BEST' | translate }}
+                      </span>
+                    }
+
+                  </div>
+
+                  <div class="grid grid-cols-3 gap-2 text-xs">
+
+                    <div class="rp-mini-card bg-white rounded-xl p-2 text-center border border-gray-100">
+                      <div class="rp-title font-bold text-gray-900">
+                        {{ route.distance }}
+                      </div>
+
+                      <div class="rp-muted text-gray-500">
+                        {{ 'ROUTE_PLANNER_PAGE.DISTANCE' | translate }}
+                      </div>
+                    </div>
+
+                    <div class="rp-mini-card bg-white rounded-xl p-2 text-center border border-gray-100">
+                      <div class="rp-title font-bold text-gray-900">
+                        {{ route.duration }}
+                      </div>
+
+                      <div class="rp-muted text-gray-500">
+                        {{ 'ROUTE_PLANNER_PAGE.TIME' | translate }}
+                      </div>
+                    </div>
+
+                    <div
+                      class="rounded-xl p-2 text-center"
+                      [class]="getTrafficClass(route.traffic)">
+
+                      <div class="font-bold">
+                        {{ getTrafficIcon(route.traffic) }}
+                      </div>
+
+                      <div class="text-[10px]">
+                        {{ route.traffic }}
+                      </div>
+                    </div>
+
+                  </div>
+
+                  @if (route.trafficDelay > 0) {
+                    <p class="text-[11px] text-orange-600 font-semibold mt-2">
+                      ⚠️ +{{ route.trafficDelay }}
+                      {{ 'ROUTE_PLANNER_PAGE.DELAY' | translate }}
+                    </p>
+                  }
+
+                </button>
+              }
+
+            </div>
+
+            <button
+              type="button"
+              (click)="saveRoute()"
+              class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white py-3 rounded-2xl font-bold transition">
+              💾 {{ 'ROUTE_PLANNER_PAGE.SAVE_ROUTE' | translate }}
+            </button>
+
+          </div>
+        }
+
+        <!-- ========================= -->
+        <!-- SAVED ROUTES -->
+        <!-- ========================= -->
+        @if (authService.isLoggedIn()) {
+          <div class="rp-card bg-white rounded-3xl border border-gray-100 shadow-sm p-5">
+
+            <h2 class="rp-title text-xl font-bold mb-4">
+              {{ 'ROUTE_PLANNER_PAGE.SAVED_ROUTES' | translate }}
+            </h2>
+
+            @if (savedLoading()) {
+              <div class="py-8 text-center">
+                <div class="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+              </div>
+            } @else if (!savedRoutes().length) {
+              <div class="rp-muted py-6 text-center text-gray-500 text-sm">
+                {{ 'ROUTE_PLANNER_PAGE.NO_SAVED' | translate }}
+              </div>
+            } @else {
+              <div class="space-y-3">
+
+                @for (route of savedRoutes(); track route._id) {
+                  <div class="rp-saved-route border border-gray-100 rounded-2xl p-4 flex flex-col gap-2">
+
+                    <p class="rp-title font-bold text-sm text-gray-900">
+                      {{ route.name }}
+                    </p>
+
+                    <p class="rp-muted text-xs text-gray-500">
+                      {{ route.start.name.split(',')[0] }}
+                      →
+                      {{ route.destination.name.split(',')[0] }}
+                    </p>
+
+                    @if (route.distance || route.duration) {
+                      <p class="rp-muted text-xs text-gray-400">
+                        {{ route.distance }} • {{ route.duration }}
+                      </p>
+                    }
+
+                    <div class="flex gap-2 mt-1">
+                      <button
+                        type="button"
+                        (click)="loadSavedRoute(route)"
+                        class="bg-blue-600 text-white text-[10px] px-3 py-1.5 rounded-lg font-bold transition hover:bg-blue-700">
+                        {{ 'ROUTE_PLANNER_PAGE.LOAD' | translate }}
+                      </button>
+
+                      <button
+                        type="button"
+                        (click)="deleteSavedRoute(route._id!)"
+                        class="rp-delete-button bg-red-100 text-red-600 text-[10px] px-3 py-1.5 rounded-lg font-bold transition hover:bg-red-200">
+                        {{ 'ROUTE_PLANNER_PAGE.DELETE' | translate }}
+                      </button>
+                    </div>
+
+                  </div>
+                }
+
+              </div>
+            }
+
+          </div>
+        }
+
+      </div>
+
+      <!-- ========================= -->
+      <!-- RIGHT MAP -->
+      <!-- ========================= -->
+      <div class="lg:col-span-2">
+
+        <div class="rp-map-card bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden sticky top-24">
+
+          <!-- Map Header -->
+          <div class="rp-map-header px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-white z-10 relative">
+
+            <div>
+              <h2 class="rp-title text-xl font-bold">
+                {{ 'ROUTE_PLANNER_PAGE.INTERACTIVE_MAP' | translate }}
+              </h2>
+
+              <p class="rp-muted text-xs text-gray-500">
+                {{ 'ROUTE_PLANNER_PAGE.MAP_CREDIT' | translate }}
+              </p>
+            </div>
+
+            @if (selectedRoute()) {
+              <span
+                class="text-xs font-semibold px-3 py-1 rounded-full"
+                [class]="getTrafficClass(selectedRoute()!.traffic)">
+                {{ getTrafficIcon(selectedRoute()!.traffic) }}
+                {{ selectedRoute()!.traffic }}
+              </span>
+            }
+
+          </div>
+
+          <!-- Map -->
+          <div
+            #mapContainer
+            class="route-map w-full h-[620px] z-0">
+          </div>
+
+          <!-- Selected Route Summary -->
+          @if (selectedRoute()) {
+            <div class="rp-map-footer px-5 py-4 border-t border-gray-100 bg-gray-50 animate-slide-up">
+
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p class="rp-title font-bold text-gray-900">
+                    {{ selectedRoute()!.name }}
+                  </p>
+
+                  <p class="rp-muted text-sm text-gray-600 mt-1">
+                    {{ selectedRoute()!.distance }}
+                    •
+                    {{ selectedRoute()!.duration }}
+
+                    @if (selectedRoute()!.trafficDelay > 0) {
+                      <span class="text-orange-600">
+                        (+{{ selectedRoute()!.trafficDelay }}m
+                        {{ 'ROUTE_PLANNER_PAGE.DELAY' | translate }})
+                      </span>
+                    }
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          }
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

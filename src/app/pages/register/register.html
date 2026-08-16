@@ -1,0 +1,483 @@
+<section class="relative min-h-[calc(100vh-80px)] overflow-hidden bg-gray-50 dark:bg-gray-950 px-4 py-12 transition-colors duration-300">
+
+  <!-- Decorative blobs -->
+  <div class="absolute -top-24 -left-24 w-80 h-80 bg-red-200/50 dark:bg-red-900/20 rounded-full blur-3xl"></div>
+  <div class="absolute -bottom-32 -right-20 w-96 h-96 bg-orange-100/70 dark:bg-amber-900/10 rounded-full blur-3xl"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto">
+
+    <!-- Progress -->
+    <div class="max-w-md mx-auto mb-7 flex items-center">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
+          [class]="step() === 1
+            ? 'bg-red-600 text-white shadow-lg'
+            : 'bg-green-600 text-white'">
+          @if (step() === 2) {
+            ✓
+          } @else {
+            1
+          }
+        </div>
+
+        <span
+          class="text-sm font-semibold"
+          [class]="step() === 1
+            ? 'text-red-600 dark:text-red-400'
+            : 'text-gray-500 dark:text-gray-400'">
+          {{ 'AUTH.REGISTER_PROGRESS_ACCOUNT' | translate }}
+        </span>
+      </div>
+
+      <div class="flex-1 h-1 mx-4 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
+        <div
+          class="h-full bg-gradient-to-r from-red-500 to-green-500 transition-all duration-500"
+          [style.width.%]="step() === 1 ? 40 : 100">
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div
+          class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
+          [class]="step() === 2
+            ? 'bg-red-600 text-white shadow-lg'
+            : 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400'">
+          2
+        </div>
+
+        <span
+          class="text-sm font-semibold"
+          [class]="step() === 2
+            ? 'text-red-600 dark:text-red-400'
+            : 'text-gray-400 dark:text-gray-500'">
+          {{ 'AUTH.REGISTER_PROGRESS_VERIFY' | translate }}
+        </span>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-900 rounded-[2rem] shadow-2xl dark:shadow-black/50 border border-gray-100 dark:border-gray-800 overflow-hidden grid grid-cols-1 lg:grid-cols-5 transition-colors duration-300">
+
+      <!-- Left visual panel -->
+      <aside class="hidden lg:flex lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-red-700 via-red-600 to-rose-800 dark:from-red-950 dark:via-gray-900 dark:to-black text-white p-10 flex-col justify-between">
+
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-yellow-300/20 dark:bg-red-700/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 -left-24 w-72 h-72 bg-white/10 dark:bg-white/5 rounded-full blur-3xl"></div>
+
+        <div class="relative z-10">
+          <div class="inline-flex w-14 h-14 bg-white/20 dark:bg-white/10 border border-white/20 dark:border-white/10 rounded-2xl items-center justify-center text-3xl backdrop-blur-md">
+            🚌
+          </div>
+
+          <h2 class="text-4xl font-black mt-7 leading-tight text-white">
+            {{ 'AUTH.REGISTER_TITLE' | translate }}
+          </h2>
+
+          <p class="mt-4 text-red-100 dark:text-gray-300 leading-relaxed">
+            {{ 'AUTH.REGISTER_SUBTITLE' | translate }}
+          </p>
+        </div>
+
+        <div class="relative z-10 space-y-4">
+          <div class="flex items-center gap-3 bg-white/10 dark:bg-white/5 border border-white/15 dark:border-white/10 rounded-2xl p-4 backdrop-blur-md">
+            <span class="text-2xl">🎫</span>
+            <span class="font-semibold">
+              {{ 'AUTH.REGISTER_BENEFIT_BOOKING' | translate }}
+            </span>
+          </div>
+
+          <div class="flex items-center gap-3 bg-white/10 dark:bg-white/5 border border-white/15 dark:border-white/10 rounded-2xl p-4 backdrop-blur-md">
+            <span class="text-2xl">🗺️</span>
+            <span class="font-semibold">
+              {{ 'AUTH.REGISTER_BENEFIT_ROUTE' | translate }}
+            </span>
+          </div>
+
+          <div class="flex items-center gap-3 bg-white/10 dark:bg-white/5 border border-white/15 dark:border-white/10 rounded-2xl p-4 backdrop-blur-md">
+            <span class="text-2xl">🎁</span>
+            <span class="font-semibold">
+              {{ 'AUTH.REGISTER_BENEFIT_OFFERS' | translate }}
+            </span>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Right form panel -->
+      <div class="lg:col-span-3 p-7 sm:p-10 lg:p-12">
+
+        <!-- STEP 1 -->
+        @if (step() === 1) {
+
+          <div class="mb-8">
+            <div class="lg:hidden w-14 h-14 bg-gradient-to-br from-red-500 to-red-700 text-white rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-5">
+              🚌
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white tracking-tight">
+              {{ 'AUTH.REGISTER_TITLE' | translate }}
+            </h1>
+
+            <p class="text-gray-500 dark:text-gray-400 mt-2">
+              {{ 'AUTH.REGISTER_SUBTITLE' | translate }}
+            </p>
+          </div>
+
+          <form (ngSubmit)="register()" class="space-y-5">
+
+            <!-- Name + Phone -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              <div>
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                  {{ 'AUTH.NAME' | translate }} *
+                </label>
+
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                    👤
+                  </span>
+
+                  <input
+                    type="text"
+                    [(ngModel)]="name"
+                    name="name"
+                    autocomplete="name"
+                    [placeholder]="'AUTH.NAME_PLACEHOLDER' | translate"
+                    class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 rounded-2xl pl-11 pr-4 py-3.5 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 transition"
+                  >
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                  {{ 'AUTH.PHONE' | translate }}
+                  <span class="normal-case tracking-normal font-normal">
+                    ({{ 'AUTH.PHONE_OPTIONAL' | translate }})
+                  </span>
+                </label>
+
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                    📱
+                  </span>
+
+                  <input
+                    type="tel"
+                    [(ngModel)]="phone"
+                    name="phone"
+                    maxlength="10"
+                    autocomplete="tel"
+                    [placeholder]="'AUTH.PHONE_PLACEHOLDER' | translate"
+                    class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 rounded-2xl pl-11 pr-4 py-3.5 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 transition"
+                  >
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                {{ 'AUTH.EMAIL' | translate }} *
+              </label>
+
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                  ✉️
+                </span>
+
+                <input
+                  type="email"
+                  [(ngModel)]="email"
+                  name="email"
+                  autocomplete="email"
+                  [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate"
+                  class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 rounded-2xl pl-11 pr-4 py-3.5 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 transition"
+                >
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div>
+              <label class="flex items-center justify-between text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                <span>{{ 'AUTH.PASSWORD' | translate }} *</span>
+                <span class="normal-case tracking-normal font-normal text-gray-400 dark:text-gray-500">
+                  {{ 'AUTH.PASSWORD_HINT' | translate }}
+                </span>
+              </label>
+
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                  🔐
+                </span>
+
+                <input
+                  [type]="showPassword() ? 'text' : 'password'"
+                  [(ngModel)]="password"
+                  (input)="validatePassword()"
+                  name="password"
+                  autocomplete="new-password"
+                  [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate"
+                  class="w-full border-2 rounded-2xl pl-11 pr-12 py-3.5 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-950 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-4 transition"
+                  [class.border-red-400]="passwordErrorKey()"
+                  [class.focus:border-red-500]="passwordErrorKey()"
+                  [class.focus:ring-red-50]="passwordErrorKey()"
+                  [class.dark:focus:ring-red-900/20]="passwordErrorKey()"
+                  [class.border-gray-200]="!passwordErrorKey()"
+                  [class.dark:border-gray-700]="!passwordErrorKey()"
+                >
+
+                <button
+                  type="button"
+                  (click)="showPassword.set(!showPassword())"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition text-lg">
+                  {{ showPassword() ? '🙈' : '👁️' }}
+                </button>
+              </div>
+
+              @if (passwordErrorKey()) {
+                <p class="mt-2 text-xs font-semibold text-red-600 dark:text-red-400 flex items-center gap-2">
+                  <span>⚠️</span>
+                  <span>{{ passwordErrorKey() | translate }}</span>
+                </p>
+              }
+
+              @if (password) {
+                <div class="mt-3">
+                  <div class="flex gap-1.5">
+                    <span class="h-1.5 flex-1 rounded-full transition-colors" [class]="passwordStrength() >= 1 ? 'bg-red-500' : 'bg-gray-200 dark:bg-gray-700'"></span>
+                    <span class="h-1.5 flex-1 rounded-full transition-colors" [class]="passwordStrength() >= 2 ? 'bg-yellow-500' : 'bg-gray-200 dark:bg-gray-700'"></span>
+                    <span class="h-1.5 flex-1 rounded-full transition-colors" [class]="passwordStrength() >= 3 ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'"></span>
+                  </div>
+
+                  @if (passwordStrengthKey()) {
+                    <p
+                      class="mt-2 text-xs font-semibold"
+                      [class.text-red-600]="passwordStrength() === 1"
+                      [class.dark:text-red-400]="passwordStrength() === 1"
+                      [class.text-yellow-600]="passwordStrength() === 2"
+                      [class.dark:text-yellow-400]="passwordStrength() === 2"
+                      [class.text-green-600]="passwordStrength() === 3"
+                      [class.dark:text-green-400]="passwordStrength() === 3">
+                      {{ passwordStrengthKey() | translate }}
+                    </p>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Confirm password -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                {{ 'AUTH.CONFIRM_PASSWORD' | translate }} *
+              </label>
+
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                  🔒
+                </span>
+
+                <input
+                  [type]="showConfirmPassword() ? 'text' : 'password'"
+                  [(ngModel)]="confirmPassword"
+                  name="confirmPassword"
+                  autocomplete="new-password"
+                  [placeholder]="'AUTH.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
+                  class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 rounded-2xl pl-11 pr-12 py-3.5 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 transition"
+                >
+
+                <button
+                  type="button"
+                  (click)="showConfirmPassword.set(!showConfirmPassword())"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition text-lg">
+                  {{ showConfirmPassword() ? '🙈' : '👁️' }}
+                </button>
+              </div>
+
+              @if (confirmPassword && confirmPassword !== password) {
+                <p class="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+                  {{ 'AUTH.ERRORS.PASSWORD_MISMATCH' | translate }}
+                </p>
+              }
+            </div>
+
+            <!-- Terms -->
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                [(ngModel)]="acceptTerms"
+                name="acceptTerms"
+                class="mt-1 w-4 h-4 accent-red-600"
+              >
+
+              <span class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                {{ 'AUTH.TERMS_PREFIX' | translate }}
+                <a href="#" class="font-semibold text-red-600 dark:text-red-400 hover:underline">
+                  {{ 'AUTH.TERMS_LINK' | translate }}
+                </a>
+                {{ 'COMMON.AND' | translate }}
+                <a href="#" class="font-semibold text-red-600 dark:text-red-400 hover:underline">
+                  {{ 'AUTH.PRIVACY_LINK' | translate }}
+                </a>
+              </span>
+            </label>
+
+            <!-- Submit -->
+            <button
+              type="submit"
+              [disabled]="loading()"
+              class="w-full h-14 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-2xl font-extrabold text-lg shadow-xl hover:shadow-red-200 dark:hover:shadow-red-900/20 disabled:opacity-60 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3">
+              @if (loading()) {
+                <span class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <span>{{ 'AUTH.REGISTERING' | translate }}</span>
+              } @else {
+                <span>{{ 'AUTH.REGISTER_BUTTON' | translate }}</span>
+                <span>→</span>
+              }
+            </button>
+
+          </form>
+
+          <p class="text-center text-gray-600 dark:text-gray-400 text-sm mt-7">
+            {{ 'AUTH.HAVE_ACCOUNT' | translate }}
+            <a routerLink="/login" class="text-red-600 dark:text-red-400 font-bold hover:underline ml-1">
+              {{ 'AUTH.LOGIN_LINK' | translate }}
+            </a>
+          </p>
+        }
+
+        <!-- STEP 2: OTP -->
+        @if (step() === 2) {
+
+          <div class="text-center">
+            <div class="inline-flex w-20 h-20 bg-gradient-to-br from-red-500 to-red-700 text-white rounded-3xl items-center justify-center text-5xl shadow-xl">
+              📩
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-gray-100 mt-6">
+              {{ 'AUTH.OTP_TITLE' | translate }}
+            </h1>
+
+            <p class="text-gray-500 dark:text-gray-400 mt-3">
+              {{ 'AUTH.OTP_SUBTITLE' | translate }}
+            </p>
+
+            <div class="inline-flex mt-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-full font-bold text-gray-800 dark:text-gray-200 text-sm">
+              {{ email }}
+            </div>
+          </div>
+
+          <!-- OTP timer card -->
+          <div class="mt-7 bg-gray-50 dark:bg-gray-800/70 border border-gray-100 dark:border-gray-700 rounded-2xl p-4">
+
+            <div class="flex items-center justify-between gap-4">
+              <span
+                class="text-sm font-semibold"
+                [class]="otpExpiryTime() > 0 ? 'text-blue-700 dark:text-blue-400' : 'text-red-600 dark:text-red-400'">
+                @if (otpExpiryTime() > 0) {
+                  ⏰ {{ 'AUTH.OTP_EXPIRES_IN' | translate }}
+                } @else {
+                  ⌛ {{ 'AUTH.OTP_EXPIRED' | translate }}
+                }
+              </span>
+
+              <span
+                class="font-mono font-black text-lg"
+                [class]="otpExpiryTime() > 60 ? 'text-blue-700 dark:text-blue-400' : 'text-red-600 dark:text-red-400'">
+                {{ formatTime(otpExpiryTime()) }}
+              </span>
+            </div>
+
+            <div class="mt-3 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div
+                class="h-full rounded-full transition-all duration-1000"
+                [class]="otpExpiryTime() > 60 ? 'bg-blue-600' : 'bg-red-600'"
+                [style.width.%]="otpProgressPercent()">
+              </div>
+            </div>
+          </div>
+
+          <!-- OTP Inputs -->
+          <div class="mt-7">
+            <label class="block text-center text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em] mb-4">
+              {{ 'AUTH.OTP_LABEL' | translate }}
+            </label>
+
+            <div class="grid grid-cols-6 gap-2 sm:gap-3" (paste)="onOtpPaste($event)">
+              @for (digit of otpDigits; track $index; let i = $index) {
+                <input
+                  [id]="'otp-input-' + i"
+                  type="text"
+                  inputmode="numeric"
+                  maxlength="1"
+                  [value]="otpDigits[i]"
+                  (input)="onOtpInput($event, i)"
+                  (keydown)="onOtpKeydown($event, i)"
+                  [disabled]="otpExpiryTime() <= 0"
+                  class="w-full aspect-square min-h-12 text-center text-xl sm:text-2xl font-black border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 rounded-xl sm:rounded-2xl focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-400 dark:disabled:text-gray-600 transition"
+                  autocomplete="one-time-code"
+                >
+              }
+            </div>
+          </div>
+
+          <!-- Verify button -->
+          <button
+            type="button"
+            (click)="verifyOtp()"
+            [disabled]="loading() || otpCode().length !== 6 || otpExpiryTime() <= 0"
+            class="mt-7 w-full h-14 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white rounded-2xl font-extrabold text-lg shadow-xl hover:shadow-green-200 dark:hover:shadow-green-900/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3">
+
+            @if (loading()) {
+              <span class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              <span>{{ 'AUTH.VERIFYING' | translate }}</span>
+            } @else {
+              <span>{{ 'AUTH.VERIFY_CONTINUE' | translate }}</span>
+              <span>→</span>
+            }
+          </button>
+
+          <!-- Resend -->
+          <div class="text-center mt-7">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              {{ 'AUTH.OTP_NOT_RECEIVED' | translate }}
+            </p>
+
+            @if (resendCooldown() > 0) {
+              <p class="mt-2 text-sm font-semibold text-gray-400 dark:text-gray-500">
+                {{ 'AUTH.RESEND_IN' | translate }}
+                <span class="font-mono">{{ resendCooldown() }}s</span>
+              </p>
+            } @else {
+              <button
+                type="button"
+                (click)="resendOtp()"
+                [disabled]="loading()"
+                class="mt-2 text-red-600 dark:text-red-400 font-extrabold hover:text-red-700 dark:hover:text-red-300 hover:underline disabled:opacity-50 transition">
+                🔄 {{ 'AUTH.RESEND_OTP' | translate }}
+              </button>
+            }
+          </div>
+
+          <!-- Security note -->
+          <div class="mt-7 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-2xl p-4 text-sm flex items-start gap-3">
+            <span class="text-xl">🔐</span>
+            <p>{{ 'AUTH.OTP_SECURITY_NOTE' | translate }}</p>
+          </div>
+
+          <!-- Back -->
+          <button
+            type="button"
+            (click)="goBackToRegister()"
+            class="mt-6 w-full text-gray-500 dark:text-gray-400 text-sm font-semibold hover:text-red-600 dark:hover:text-red-400 transition flex items-center justify-center gap-2">
+            <span>←</span>
+            <span>{{ 'AUTH.BACK_TO_REGISTER' | translate }}</span>
+          </button>
+        }
+
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,129 @@
+<section id="offers" class="py-20 bg-gray-50 dark:bg-gray-900 relative overflow-hidden">
+  <!-- Decorative background shapes -->
+  <div class="absolute -top-24 -left-24 w-72 h-72 bg-red-100 dark:bg-red-900/10 rounded-full blur-3xl opacity-50"></div>
+  <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-100 dark:bg-blue-900/10 rounded-full blur-3xl opacity-50"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <span class="inline-block bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-bold px-5 py-2.5 rounded-full uppercase tracking-widest shadow-sm">
+        {{ 'OFFERS_PAGE.BADGE' | translate }}
+      </span>
+      <h2 class="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white mt-5 tracking-tight">
+        {{ 'OFFERS_PAGE.TITLE' | translate }}
+      </h2>
+      <p class="text-gray-500 dark:text-gray-400 mt-3 text-lg">
+        {{ 'OFFERS_PAGE.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <!-- Loading Skeleton -->
+    @if (offerService.loading()) {
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        @for (item of [1,2,3]; track item) {
+          <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 animate-pulse h-56 shadow-md">
+            <div class="h-6 w-2/3 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4"></div>
+            <div class="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded-lg mb-2"></div>
+            <div class="h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Offers Grid -->
+    @if (!offerService.loading() && offerService.activeOffers().length > 0) {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        @for (offer of offerService.activeOffers(); track offer._id; let i = $index) {
+          @let theme = offerCardThemes[i % offerCardThemes.length];
+
+          <div class="group relative bg-white dark:bg-gray-800 rounded-[28px] shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+
+            <!-- Top gradient accent line -->
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r {{ theme.gradient }}"></div>
+
+            <!-- Card Header -->
+            <div class="bg-gradient-to-r {{ theme.gradient }} px-6 py-5 flex items-center justify-between relative overflow-hidden">
+              <!-- Decorative circles -->
+              <div class="absolute -right-6 -top-6 w-20 h-20 bg-white/10 rounded-full"></div>
+              <div class="absolute -right-2 -bottom-8 w-16 h-16 bg-white/10 rounded-full"></div>
+
+              <div class="relative flex items-center gap-3">
+                <span class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-xl shadow-inner">
+                  🎟️
+                </span>
+                <span class="text-white font-black text-2xl sm:text-3xl tracking-tight">
+                  {{ offer.discountPercentage }}% <span class="text-sm font-bold opacity-80">OFF</span>
+                </span>
+              </div>
+
+              <span class="relative bg-white/25 backdrop-blur-sm text-white text-xs font-bold px-4 py-1.5 rounded-full border border-white/30 shadow-sm">
+                {{ 'OFFERS_PAGE.MAX_DISCOUNT' | translate }} ₹{{ offer.maxDiscountAmount }}
+              </span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-6">
+              <h3 class="text-xl font-extrabold text-gray-900 dark:text-white group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors">
+                {{ offer.title }}
+              </h3>
+              <p class="text-gray-500 dark:text-gray-400 text-sm mt-2 leading-relaxed">
+                {{ offer.description }}
+              </p>
+
+              <!-- Expiry Badge / Date -->
+              @if (getDaysLeft(offer.validTill) <= 3) {
+                <div class="mt-4 inline-flex items-center gap-2 {{ theme.badgeBg }} text-xs font-bold px-4 py-2 rounded-xl">
+                  <span class="animate-pulse">⏳</span>
+                  {{ 'OFFERS_PAGE.EXPIRES_IN' | translate }} {{ getDaysLeft(offer.validTill) }} {{ 'OFFERS_PAGE.DAYS' | translate }}
+                </div>
+              } @else {
+                <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500">
+                  <span class="w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">📅</span>
+                  {{ 'OFFERS_PAGE.VALID_TILL' | translate }} {{ offer.validTill | date: 'dd MMM yyyy' }}
+                </div>
+              }
+
+              <!-- Coupon Code Area -->
+              <div class="mt-6 flex items-center justify-between gap-3 {{ theme.codeBg }} border-2 border-dashed rounded-2xl px-4 py-3.5 transition-all duration-300 group-hover:scale-[1.02]">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+                    🎫
+                  </span>
+                  <div class="min-w-0">
+                    <p class="text-[10px] font-bold uppercase tracking-widest opacity-70">Coupon Code</p>
+                    <p class="font-mono font-extrabold text-lg tracking-[0.2em] truncate">
+                      {{ offer.code }}
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  (click)="copyCode(offer.code)"
+                  class="group/btn shrink-0 flex items-center gap-2 {{ theme.button }} text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 whitespace-nowrap">
+                  <span>📋</span>
+                  <span>{{ 'OFFERS_PAGE.COPY' | translate }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!offerService.loading() && offerService.activeOffers().length === 0) {
+      <div class="text-center py-20 bg-white dark:bg-gray-800 rounded-[28px] shadow-md border border-dashed border-gray-200 dark:border-gray-700">
+        <div class="text-7xl mb-5 animate-bounce">🎫</div>
+        <h3 class="text-2xl font-extrabold text-gray-800 dark:text-gray-100">
+          {{ 'OFFERS_PAGE.NO_OFFERS_TITLE' | translate }}
+        </h3>
+        <p class="text-gray-400 dark:text-gray-500 mt-3 text-lg">
+          {{ 'OFFERS_PAGE.NO_OFFERS_SUB' | translate }}
+        </p>
+      </div>
+    }
+
+  </div>
+</section>

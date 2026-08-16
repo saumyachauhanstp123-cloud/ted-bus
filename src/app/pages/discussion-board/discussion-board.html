@@ -1,0 +1,143 @@
+<section class="min-h-screen bg-gray-50 py-10 px-4">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-900">
+        {{ 'DISCUSSION_PAGE.TITLE' | translate }}
+      </h1>
+      <p class="text-gray-500 mt-1">
+        {{ 'DISCUSSION_PAGE.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <!-- Topic Filters -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button (click)="filterByTopic('')"
+        [class]="selectedTopic() === '' ? 'bg-red-600 text-white' : 'bg-white text-gray-700 border border-gray-200'"
+        class="px-4 py-2 rounded-full text-sm font-semibold transition">
+        {{ 'DISCUSSION_PAGE.ALL_TOPICS' | translate }}
+      </button>
+      @for (t of topics; track t) {
+        <button (click)="filterByTopic(t)"
+          [class]="selectedTopic() === t ? 'bg-red-600 text-white' : 'bg-white text-gray-700 border border-gray-200'"
+          class="px-4 py-2 rounded-full text-sm font-semibold transition">
+          {{ t }}
+        </button>
+      }
+    </div>
+
+    <!-- Create Discussion -->
+    @if (authService.isLoggedIn()) {
+      <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-8">
+        <h2 class="text-xl font-bold mb-4">{{ 'DISCUSSION_PAGE.START_DISCUSSION' | translate }}</h2>
+
+        <select [(ngModel)]="topic"
+          class="w-full border border-gray-300 rounded-2xl px-4 py-3 mb-4 outline-none focus:ring-2 focus:ring-red-500">
+          <option value="">{{ 'DISCUSSION_PAGE.SELECT_TOPIC' | translate }}</option>
+          @for (t of topics; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+
+        <input type="text" [(ngModel)]="title" 
+          [placeholder]="'DISCUSSION_PAGE.TITLE_PLACEHOLDER' | translate"
+          class="w-full border border-gray-300 rounded-2xl px-4 py-3 mb-4 outline-none focus:ring-2 focus:ring-red-500" />
+
+        <textarea [(ngModel)]="message" rows="3" 
+          [placeholder]="'DISCUSSION_PAGE.MESSAGE_PLACEHOLDER' | translate"
+          class="w-full border border-gray-300 rounded-2xl px-4 py-3 mb-4 outline-none focus:ring-2 focus:ring-red-500"></textarea>
+
+        <button (click)="createDiscussion()" [disabled]="creating()"
+          class="bg-red-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-red-700 disabled:opacity-60 transition">
+          @if (creating()) { 
+            {{ 'DISCUSSION_PAGE.CREATING' | translate }} 
+          } @else { 
+            {{ 'DISCUSSION_PAGE.CREATE_BUTTON' | translate }} 
+          }
+        </button>
+      </div>
+    }
+
+    <!-- Loading -->
+    @if (communityService.loading()) {
+      <div class="bg-white rounded-3xl p-12 text-center shadow-sm">
+        <div class="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p class="mt-4 text-gray-600">{{ 'COMMON.LOADING' | translate }}</p>
+      </div>
+    }
+
+    <!-- Empty -->
+    @if (!communityService.loading() && communityService.discussions().length === 0) {
+      <div class="bg-white rounded-3xl p-12 text-center shadow-sm border border-gray-100">
+        <div class="text-6xl mb-4">💬</div>
+        <h3 class="text-2xl font-bold text-gray-800">{{ 'DISCUSSION_PAGE.NO_DISCUSSIONS' | translate }}</h3>
+        <p class="text-gray-500 mt-2">{{ 'DISCUSSION_PAGE.NO_DISCUSSIONS_SUBTITLE' | translate }}</p>
+      </div>
+    }
+
+    <!-- Discussions List -->
+    <div class="space-y-4">
+      @for (disc of communityService.discussions(); track disc._id) {
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-5">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[10px] uppercase font-bold bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+                  {{ disc.topic }}
+                </span>
+                <h3 class="text-lg font-bold mt-2">{{ disc.title }}</h3>
+                <p class="text-gray-600 mt-1 text-sm">{{ disc.message }}</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-4 text-sm text-gray-500">
+              <span>
+                {{ 'DISCUSSION_PAGE.BY' | translate }} {{ disc.author?.name }} • {{ getTimeAgo(disc.createdAt) }}
+              </span>
+              <button (click)="toggleReplies(disc._id)"
+                class="text-blue-600 font-semibold hover:underline">
+                💬 {{ disc.replies?.length || 0 }} {{ 'DISCUSSION_PAGE.REPLIES' | translate }}
+              </button>
+            </div>
+          </div>
+
+          @if (expandedDiscussion() === disc._id) {
+            <div class="border-t border-gray-100 bg-gray-50 p-5">
+
+              @if (authService.isLoggedIn()) {
+                <div class="flex gap-3 mb-4">
+                  <input type="text" [(ngModel)]="replyTexts[disc._id]"
+                    [placeholder]="'DISCUSSION_PAGE.REPLY_PLACEHOLDER' | translate"
+                    class="flex-1 border border-gray-300 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-red-500" />
+                  <button (click)="addReply(disc._id)"
+                    class="bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-700">
+                    {{ 'DISCUSSION_PAGE.REPLY_BUTTON' | translate }}
+                  </button>
+                </div>
+              }
+
+              @for (reply of disc.replies; track reply.createdAt) {
+                <div class="flex gap-3 mb-3">
+                  <div class="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    {{ reply.author?.name?.[0] || '?' }}
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold">{{ reply.author?.name }}
+                      <span class="text-gray-400 font-normal text-xs ml-1">{{ getTimeAgo(reply.createdAt) }}</span>
+                    </p>
+                    <p class="text-sm text-gray-700">{{ reply.message }}</p>
+                  </div>
+                </div>
+              }
+
+              @if (!disc.replies?.length) {
+                <p class="text-sm text-gray-400 text-center">{{ 'DISCUSSION_PAGE.NO_DISCUSSIONS' | translate }}</p>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

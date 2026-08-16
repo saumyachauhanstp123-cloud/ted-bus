@@ -1,0 +1,794 @@
+<section class="min-h-screen bg-gray-50 dark:bg-gray-950 py-10 px-4">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex items-center gap-3">
+        <span class="text-4xl">🛡️</span>
+        <div>
+          <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">
+            {{ 'ADMIN_PAGE.TITLE' | translate }}
+          </h1>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">
+            {{ 'ADMIN_PAGE.SUBTITLE' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-2 mb-8 flex gap-2 flex-wrap">
+      <button
+        type="button"
+        (click)="setTab('dashboard')"
+        [class]="activeTab() === 'dashboard' ? 'bg-red-600 text-white' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+        class="flex-1 min-w-[120px] py-2.5 rounded-xl font-semibold transition">
+        📊 {{ 'ADMIN_PAGE.DASHBOARD' | translate }}
+      </button>
+
+      <button
+        type="button"
+        (click)="setTab('reports')"
+        [class]="activeTab() === 'reports' ? 'bg-red-600 text-white' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+        class="flex-1 min-w-[120px] py-2.5 rounded-xl font-semibold transition">
+        🚩 {{ 'ADMIN_PAGE.REPORTS' | translate }}
+        @if (adminService.stats().pendingReports > 0) {
+          <span class="ml-2 bg-yellow-400 text-yellow-900 text-xs px-2 py-0.5 rounded-full">
+            {{ adminService.stats().pendingReports }}
+          </span>
+        }
+      </button>
+
+      <button
+        type="button"
+        (click)="setTab('users')"
+        [class]="activeTab() === 'users' ? 'bg-red-600 text-white' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+        class="flex-1 min-w-[120px] py-2.5 rounded-xl font-semibold transition">
+        👥 {{ 'ADMIN_PAGE.USERS' | translate }}
+      </button>
+
+      <button
+        type="button"
+        (click)="setTab('offers')"
+        [class]="activeTab() === 'offers' ? 'bg-red-600 text-white' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+        class="flex-1 min-w-[120px] py-2.5 rounded-xl font-semibold transition">
+        🎁 {{ 'ADMIN_PAGE.OFFERS' | translate }}
+      </button>
+
+      <button
+        type="button"
+        (click)="setTab('buses')"
+        [class]="activeTab() === 'buses' ? 'bg-red-600 text-white' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+        class="flex-1 min-w-[120px] py-2.5 rounded-xl font-semibold transition">
+        🚌 {{ 'ADMIN_PAGE.BUSES' | translate }}
+      </button>
+    </div>
+
+    <!-- ========================= -->
+    <!-- DASHBOARD TAB -->
+    <!-- ========================= -->
+    @if (activeTab() === 'dashboard') {
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">
+            {{ adminService.stats().totalUsers || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.TOTAL_USERS' | translate }}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-green-600 dark:text-green-400">
+            {{ adminService.stats().verifiedUsers || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.VERIFIED' | translate }}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-red-600 dark:text-red-400">
+            {{ adminService.stats().bannedUsers || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.BANNED' | translate }}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
+            {{ adminService.stats().pendingReports || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.PENDING_REPORTS' | translate }}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-purple-600 dark:text-purple-400">
+            {{ adminService.stats().totalPosts || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.TOTAL_POSTS' | translate }}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-pink-600 dark:text-pink-400">
+            {{ adminService.stats().totalComments || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.COMMENTS' | translate }}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+            {{ adminService.stats().totalBookings || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.TOTAL_BOOKINGS' | translate }}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <div class="text-3xl font-bold text-teal-600 dark:text-teal-400">
+            {{ adminService.stats().activePosts || 0 }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase font-semibold">
+            {{ 'ADMIN_PAGE.STATS.ACTIVE_POSTS' | translate }}
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ========================= -->
+    <!-- REPORTS TAB -->
+    <!-- ========================= -->
+    @if (activeTab() === 'reports') {
+      <div class="mb-4 flex gap-2 flex-wrap">
+        @for (f of ['pending', 'actioned', 'dismissed', 'all']; track f) {
+          <button
+            type="button"
+            (click)="setReportFilter(f)"
+            [class]="reportFilter() === f ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'"
+            class="px-4 py-2 rounded-full text-sm font-semibold capitalize transition">
+            {{ ('ADMIN_PAGE.REPORTS_TAB.' + f.toUpperCase()) | translate }}
+          </button>
+        }
+      </div>
+
+      @if (adminService.loading()) {
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-12 text-center shadow-sm">
+          <div class="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </div>
+      }
+
+      @if (!adminService.loading() && adminService.reports().length === 0) {
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-12 text-center shadow-sm border border-gray-100 dark:border-gray-700">
+          <div class="text-6xl mb-4">✨</div>
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
+            {{ 'ADMIN_PAGE.REPORTS_TAB.NO_REPORTS' | translate }}
+          </h3>
+          <p class="text-gray-500 dark:text-gray-400 mt-2">
+            {{ 'ADMIN_PAGE.REPORTS_TAB.NO_REPORTS_SUBTITLE' | translate }}
+          </p>
+        </div>
+      }
+
+      <div class="space-y-4">
+        @for (report of adminService.reports(); track report._id) {
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <span class="text-[10px] uppercase font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 px-2 py-0.5 rounded-full">
+                  {{ report.reason }}
+                </span>
+                <span class="ml-2 text-[10px] uppercase font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-full">
+                  {{ report.contentType }}
+                </span>
+              </div>
+
+              <span
+                [class]="report.status === 'pending'
+                  ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400'
+                  : report.status === 'actioned'
+                    ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'"
+                class="text-xs font-bold px-3 py-1 rounded-full">
+                {{ report.status }}
+              </span>
+            </div>
+
+            @if (report.content) {
+              <div class="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 mb-4">
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  {{ 'ADMIN_PAGE.REPORTS_TAB.REPORTED_CONTENT' | translate }}:
+                </p>
+
+                @if (report.contentType === 'post') {
+                  <h4 class="font-bold text-gray-900 dark:text-white">
+                    {{ report.content.title }}
+                  </h4>
+                }
+
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">
+                  {{ report.content.content || report.content.message }}
+                </p>
+
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                  By {{ report.content.author?.name }} ({{ report.content.author?.email }})
+                </p>
+              </div>
+            }
+
+            <div class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+              <p>
+                <strong class="text-gray-800 dark:text-gray-200">{{ 'ADMIN_PAGE.REPORTS_TAB.REPORTER' | translate }}:</strong>
+                {{ report.reporter?.name }} ({{ report.reporter?.email }})
+              </p>
+              <p>
+                <strong class="text-gray-800 dark:text-gray-200">{{ 'ADMIN_PAGE.REPORTS_TAB.REASON' | translate }}:</strong>
+                {{ report.reason }}
+              </p>
+
+              @if (report.description) {
+                <p>
+                  <strong class="text-gray-800 dark:text-gray-200">{{ 'ADMIN_PAGE.REPORTS_TAB.DESCRIPTION' | translate }}:</strong>
+                  {{ report.description }}
+                </p>
+              }
+
+              <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                {{ formatDate(report.createdAt) }}
+              </p>
+            </div>
+
+            @if (report.status === 'pending') {
+              <div class="flex gap-2 flex-wrap">
+                <button
+                  type="button"
+                  (click)="reviewReport(report._id, 'remove')"
+                  class="bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-700 transition">
+                  {{ 'ADMIN_PAGE.REPORTS_TAB.REMOVE' | translate }}
+                </button>
+
+                <button
+                  type="button"
+                  (click)="reviewReport(report._id, 'ban')"
+                  class="bg-black dark:bg-gray-950 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-gray-800 dark:hover:bg-black transition">
+                  {{ 'ADMIN_PAGE.REPORTS_TAB.BAN' | translate }}
+                </button>
+
+                <button
+                  type="button"
+                  (click)="reviewReport(report._id, 'dismiss')"
+                  class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                  {{ 'ADMIN_PAGE.REPORTS_TAB.DISMISS' | translate }}
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ========================= -->
+    <!-- USERS TAB -->
+    <!-- ========================= -->
+    @if (activeTab() === 'users') {
+      <div class="flex gap-3 mb-4">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="searchUsers()"
+          [placeholder]="'ADMIN_PAGE.USERS_TAB.SEARCH_PLACEHOLDER' | translate"
+          class="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-red-500" />
+
+        <button
+          type="button"
+          (click)="searchUsers()"
+          class="bg-red-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-red-700 transition">
+          {{ 'ADMIN_PAGE.USERS_TAB.SEARCH_BUTTON' | translate }}
+        </button>
+      </div>
+
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button
+          type="button"
+          (click)="setUserFilter('')"
+          [class]="userFilter() === '' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'"
+          class="px-4 py-2 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-600 transition">
+          {{ 'ADMIN_PAGE.USERS_TAB.ALL' | translate }}
+        </button>
+
+        <button
+          type="button"
+          (click)="setUserFilter('verified')"
+          [class]="userFilter() === 'verified' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'"
+          class="px-4 py-2 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-600 transition">
+          {{ 'ADMIN_PAGE.USERS_TAB.VERIFIED' | translate }}
+        </button>
+
+        <button
+          type="button"
+          (click)="setUserFilter('unverified')"
+          [class]="userFilter() === 'unverified' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'"
+          class="px-4 py-2 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-600 transition">
+          {{ 'ADMIN_PAGE.USERS_TAB.UNVERIFIED' | translate }}
+        </button>
+
+        <button
+          type="button"
+          (click)="setUserFilter('banned')"
+          [class]="userFilter() === 'banned' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'"
+          class="px-4 py-2 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-600 transition">
+          {{ 'ADMIN_PAGE.USERS_TAB.BANNED' | translate }}
+        </button>
+
+        <button
+          type="button"
+          (click)="setUserFilter('admin')"
+          [class]="userFilter() === 'admin' ? 'bg-red-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'"
+          class="px-4 py-2 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-600 transition">
+          {{ 'ADMIN_PAGE.USERS_TAB.ADMINS' | translate }}
+        </button>
+      </div>
+
+      @if (adminService.loading()) {
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-12 text-center shadow-sm">
+          <div class="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </div>
+      }
+
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden overflow-x-auto">
+        <table class="w-full min-w-[700px]">
+          <thead class="bg-gray-50 dark:bg-gray-900 border-b dark:border-gray-700">
+            <tr>
+              <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase">
+                {{ 'ADMIN_PAGE.USERS_TAB.USER_COL' | translate }}
+              </th>
+              <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase">
+                {{ 'ADMIN_PAGE.USERS_TAB.ROLE_COL' | translate }}
+              </th>
+              <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase">
+                {{ 'ADMIN_PAGE.USERS_TAB.STATUS_COL' | translate }}
+              </th>
+              <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase">
+                {{ 'ADMIN_PAGE.USERS_TAB.ACTIONS_COL' | translate }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (user of adminService.users(); track user._id) {
+              <tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                <td class="px-4 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 flex items-center justify-center font-bold text-sm">
+                      {{ user.name.charAt(0).toUpperCase() }}
+                    </div>
+                    <div>
+                      <p class="font-bold text-sm text-gray-900 dark:text-white">{{ user.name }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">{{ user.email }}</p>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="px-4 py-4">
+                  <select
+                    (change)="changeRole(user._id, $event)"
+                    [value]="user.role"
+                    class="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-lg px-2 py-1 text-xs font-semibold outline-none">
+                    <option value="user">User</option>
+                    <option value="moderator">Moderator</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </td>
+
+                <td class="px-4 py-4">
+                  <div class="flex flex-col gap-1">
+                    @if (user.isVerified) {
+                      <span class="text-[10px] font-bold bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-full inline-block w-fit">
+                        ✓ {{ 'PROFILE_PAGE.VERIFIED' | translate }}
+                      </span>
+                    }
+                    @if (user.isBanned) {
+                      <span class="text-[10px] font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 px-2 py-0.5 rounded-full inline-block w-fit">
+                        ⛔ {{ 'ADMIN_PAGE.STATS.BANNED' | translate }}
+                      </span>
+                    }
+                  </div>
+                </td>
+
+                <td class="px-4 py-4">
+                  <div class="flex gap-2">
+                    <button
+                      type="button"
+                      (click)="toggleVerification(user._id)"
+                      class="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                      {{ (user.isVerified ? 'ADMIN_PAGE.USERS_TAB.UNVERIFY' : 'ADMIN_PAGE.USERS_TAB.VERIFY') | translate }}
+                    </button>
+
+                    <button
+                      type="button"
+                      (click)="toggleBan(user._id)"
+                      class="text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-red-700 transition">
+                      {{ (user.isBanned ? 'ADMIN_PAGE.USERS_TAB.UNBAN' : 'ADMIN_PAGE.USERS_TAB.BAN') | translate }}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (!adminService.loading() && adminService.users().length === 0) {
+          <div class="p-8 text-center text-gray-500 dark:text-gray-400">
+            {{ 'ADMIN_PAGE.USERS_TAB.NO_USERS' | translate }}
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ========================= -->
+    <!-- OFFERS TAB -->
+    <!-- ========================= -->
+    @if (activeTab() === 'offers') {
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+          {{ 'ADMIN_PAGE.OFFERS_TAB.CREATE_NEW' | translate }}
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.OFFERS_TAB.PROMO_CODE' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newOffer.code"
+              placeholder="e.g. SAVE20"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-2.5 uppercase focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.OFFERS_TAB.TITLE' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newOffer.title"
+              placeholder="e.g. Flat 20% Off"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.OFFERS_TAB.DESCRIPTION' | translate }} *
+            </label>
+            <textarea
+              [(ngModel)]="newOffer.description"
+              rows="2"
+              placeholder="Short description for homepage card"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.OFFERS_TAB.DISCOUNT' | translate }}
+            </label>
+            <input
+              type="number"
+              [(ngModel)]="newOffer.discountPercentage"
+              min="1"
+              max="100"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.OFFERS_TAB.MAX_DISCOUNT' | translate }}
+            </label>
+            <input
+              type="number"
+              [(ngModel)]="newOffer.maxDiscountAmount"
+              min="1"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.OFFERS_TAB.VALID_TILL' | translate }} *
+            </label>
+            <input
+              type="date"
+              [(ngModel)]="newOffer.validTill"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="createOffer()"
+          [disabled]="creatingOffer()"
+          class="mt-4 bg-red-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-red-700 disabled:opacity-60 transition">
+          @if (creatingOffer()) {
+            {{ 'ADMIN_PAGE.OFFERS_TAB.CREATING' | translate }}
+          } @else {
+            + {{ 'ADMIN_PAGE.OFFERS_TAB.CREATE_BTN' | translate }}
+          }
+        </button>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+          {{ 'ADMIN_PAGE.OFFERS_TAB.ALL_OFFERS' | translate }}
+        </h2>
+
+        @if (offerService.loading()) {
+          <div class="text-center py-8">
+            <div class="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          </div>
+        }
+
+        <div class="space-y-3">
+          @for (offer of offerService.allOffers(); track offer._id) {
+            <div class="border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 rounded-2xl p-4 flex items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-red-600 dark:text-red-400">{{ offer.code }}</span>
+
+                  @if (offer.isActive) {
+                    <span class="text-[10px] font-bold bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">
+                      {{ 'ADMIN_PAGE.OFFERS_TAB.ACTIVE' | translate }}
+                    </span>
+                  } @else {
+                    <span class="text-[10px] font-bold bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">
+                      {{ 'ADMIN_PAGE.OFFERS_TAB.INACTIVE' | translate }}
+                    </span>
+                  }
+                </div>
+
+                <p class="text-sm font-semibold text-gray-800 dark:text-gray-200 mt-1">
+                  {{ offer.title }}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  {{ offer.description }}
+                </p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                  {{ offer.discountPercentage }}% {{ 'ADMIN_PAGE.OFFERS_TAB.OFF' | translate }}
+                  ({{ 'ADMIN_PAGE.OFFERS_TAB.MAX' | translate }} ₹{{ offer.maxDiscountAmount }})
+                  • {{ 'ADMIN_PAGE.OFFERS_TAB.VALID_TXT' | translate }} {{ offer.validTill | date }}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                (click)="deleteOffer(offer._id)"
+                class="bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-red-200 dark:hover:bg-red-900/60 transition">
+                {{ 'ADMIN_PAGE.OFFERS_TAB.DELETE' | translate }}
+              </button>
+            </div>
+          }
+
+          @if (!offerService.loading() && offerService.allOffers().length === 0) {
+            <p class="text-center text-gray-500 dark:text-gray-400 py-6">
+              {{ 'ADMIN_PAGE.OFFERS_TAB.NO_OFFERS' | translate }}
+            </p>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- ========================= -->
+    <!-- BUSES TAB -->
+    <!-- ========================= -->
+    @if (activeTab() === 'buses') {
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-8">
+        <h2 class="text-xl font-bold mb-5 text-gray-900 dark:text-white">
+          {{ 'ADMIN_PAGE.BUSES_TAB.ADD_NEW' | translate }}
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.BUS_NAME' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newBus.busName"
+              placeholder="e.g. TED Express"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.BUS_NUMBER' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newBus.busNumber"
+              placeholder="e.g. TED001"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 uppercase focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.SOURCE' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newBus.source"
+              placeholder="e.g. Delhi"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.DESTINATION' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newBus.destination"
+              placeholder="e.g. Lucknow"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.DEPARTURE_TIME' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newBus.departureTime"
+              placeholder="06:00 AM"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.ARRIVAL_TIME' | translate }} *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newBus.arrivalTime"
+              placeholder="02:00 PM"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.PRICE' | translate }} *
+            </label>
+            <input
+              type="number"
+              [(ngModel)]="newBus.price"
+              placeholder="799"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.TOTAL_SEATS' | translate }} *
+            </label>
+            <input
+              type="number"
+              [(ngModel)]="newBus.totalSeats"
+              placeholder="40"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              {{ 'ADMIN_PAGE.BUSES_TAB.BUS_TYPE' | translate }}
+            </label>
+            <select
+              [(ngModel)]="newBus.busType"
+              class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <option value="AC Seater">AC Seater</option>
+              <option value="AC Sleeper">AC Sleeper</option>
+              <option value="Non-AC Seater">Non-AC Seater</option>
+              <option value="Non-AC Sleeper">Non-AC Sleeper</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="createBus()"
+          [disabled]="creatingBus()"
+          class="mt-6 w-full bg-red-600 text-white py-3 rounded-2xl font-bold hover:bg-red-700 disabled:opacity-60 transition">
+          @if (creatingBus()) {
+            {{ 'ADMIN_PAGE.BUSES_TAB.ADDING' | translate }}
+          } @else {
+            + {{ 'ADMIN_PAGE.BUSES_TAB.ADD_BTN' | translate }}
+          }
+        </button>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+          {{ 'ADMIN_PAGE.BUSES_TAB.ALL_BUSES' | translate }}
+        </h2>
+
+        @if (busService.loading()) {
+          <div class="py-10 text-center">
+            <div class="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
+              {{ 'ADMIN_PAGE.BUSES_TAB.LOADING' | translate }}
+            </p>
+          </div>
+        } @else {
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[900px]">
+              <thead class="bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700">
+                <tr>
+                  <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400">
+                    {{ 'ADMIN_PAGE.BUSES_TAB.NAME_COL' | translate }}
+                  </th>
+                  <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400">
+                    {{ 'ADMIN_PAGE.BUSES_TAB.NUMBER_COL' | translate }}
+                  </th>
+                  <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400">
+                    {{ 'ADMIN_PAGE.BUSES_TAB.ROUTE_COL' | translate }}
+                  </th>
+                  <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400">
+                    {{ 'ADMIN_PAGE.BUSES_TAB.TIME_COL' | translate }}
+                  </th>
+                  <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400">
+                    {{ 'ADMIN_PAGE.BUSES_TAB.PRICE_COL' | translate }}
+                  </th>
+                  <th class="text-left px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400">
+                    {{ 'ADMIN_PAGE.BUSES_TAB.SEATS_COL' | translate }}
+                  </th>
+                  <th class="text-center px-4 py-3 text-xs font-bold text-gray-600 dark:text-gray-400">
+                    {{ 'ADMIN_PAGE.BUSES_TAB.ACTION_COL' | translate }}
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                @for (bus of busService.buses(); track bus._id) {
+                  <tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <td class="px-4 py-4">
+                      <p class="font-bold text-gray-900 dark:text-white">{{ bus.busName }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ bus.busType }}</p>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">{{ bus.busNumber }}</td>
+                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">
+                      {{ bus.source }} → {{ bus.destination }}
+                    </td>
+                    <td class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
+                      {{ bus.departureTime }} → {{ bus.arrivalTime }}
+                    </td>
+                    <td class="px-4 py-4 font-bold text-red-600 dark:text-red-400">₹{{ bus.price }}</td>
+                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">
+                      {{ bus.availableSeats }}/{{ bus.totalSeats }}
+                    </td>
+                    <td class="px-4 py-4 text-center">
+                      <button
+                        type="button"
+                        (click)="deleteBus(bus._id)"
+                        class="bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 px-3 py-2 rounded-lg text-xs font-semibold hover:bg-red-200 dark:hover:bg-red-900/60 transition">
+                        {{ 'ADMIN_PAGE.BUSES_TAB.DELETE' | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="7" class="px-4 py-10 text-center text-gray-500 dark:text-gray-400">
+                      {{ 'ADMIN_PAGE.BUSES_TAB.NO_BUSES' | translate }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</section>

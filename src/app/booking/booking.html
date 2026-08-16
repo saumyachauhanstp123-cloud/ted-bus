@@ -1,0 +1,302 @@
+<section class="min-h-screen bg-gray-50 dark:bg-gray-950 py-10 px-4 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto animate-fade-in">
+
+    <!-- Error Toast Fallback -->
+    @if (errorMessage()) {
+      <div class="mb-6 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-700 dark:text-red-300 px-5 py-4 rounded-2xl flex items-center gap-3 shadow-sm">
+        <span class="text-xl">⚠️</span>
+        <span class="font-semibold">{{ errorMessage() }}</span>
+      </div>
+    }
+
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-16 text-center">
+        <div class="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p class="mt-4 text-gray-500 dark:text-gray-400 font-semibold">{{ 'BOOKING.ERRORS.LOAD_FAILED' | translate }}</p>
+      </div>
+    }
+
+    @if (!loading() && selectedBus) {
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- LEFT CONTENT -->
+        <div class="lg:col-span-2 space-y-6">
+
+          <!-- Trip Summary Banner -->
+          <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sm:p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-red-50 dark:bg-red-900/20 rounded-bl-full -z-10"></div>
+            
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 relative z-10">
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    {{ selectedBus?.busType || 'AC Bus' }}
+                  </span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-gray-100 tracking-tight">
+                  {{ selectedBus?.busName }}
+                </h1>
+
+                <div class="flex items-center gap-4 mt-4 text-gray-700 dark:text-gray-300 font-semibold">
+                  <div class="flex flex-col items-center">
+                    <span class="text-lg">{{ selectedBus?.departureTime }}</span>
+                    <span class="text-xs text-gray-400 dark:text-gray-500">{{ selectedBus?.source }}</span>
+                  </div>
+                  <div class="flex-1 h-px bg-gray-300 dark:bg-gray-700 relative border-dashed border-t-2">
+                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 px-2 text-xs text-gray-400 dark:text-gray-500">
+                      {{ journeyDate }}
+                    </span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <span class="text-lg">{{ selectedBus?.arrivalTime }}</span>
+                    <span class="text-xs text-gray-400 dark:text-gray-500">{{ selectedBus?.destination }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-left md:text-right border-t md:border-t-0 border-gray-100 dark:border-gray-800 pt-4 md:pt-0">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{{ 'SEARCH.STARTING_FROM' | translate }}</p>
+                <h2 class="text-4xl font-black text-red-600 dark:text-red-400 mt-1">
+                  ₹{{ selectedBus?.price }}
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seat Selection Interactive Map -->
+          <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sm:p-8">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
+              <div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                  <span>💺</span> {{ 'BOOKING.SELECT_SEAT' | translate }}
+                </h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 font-medium">
+                  {{ 'BOOKING.SEAT_LAYOUT' | translate }}
+                </p>
+              </div>
+
+              <!-- Legend -->
+              <div class="flex gap-4 bg-gray-50 dark:bg-gray-800 px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-gray-700">
+                <div class="flex items-center gap-1.5">
+                  <div class="w-3 h-3 rounded-md bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600"></div>
+                  {{ 'BOOKING.AVAILABLE' | translate }}
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <div class="w-3 h-3 rounded-md bg-red-600"></div>
+                  {{ 'BOOKING.SELECTED' | translate }}
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <div class="w-3 h-3 rounded-md bg-gray-300 dark:bg-gray-600"></div>
+                  {{ 'BOOKING.BOOKED' | translate }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Seat Layout Container -->
+            <div class="bg-gray-100 dark:bg-gray-950 border-4 border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-6 max-w-sm mx-auto relative shadow-inner">
+              
+              <!-- Steering Wheel Indicator -->
+              <div class="flex justify-end mb-8 border-b-2 border-gray-300 dark:border-gray-700 pb-4">
+                <div class="bg-gray-800 dark:bg-gray-700 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full flex items-center gap-2">
+                  <span>🧭</span> {{ 'BOOKING.DRIVER' | translate }}
+                </div>
+              </div>
+
+              <!-- Seats Grid (Realistic Layout) -->
+              <div class="flex gap-6 justify-center">
+                <!-- Left Side (Window & Aisle) -->
+                <div class="grid grid-cols-2 gap-3">
+                  @for (seat of seats(); track seat.label) {
+                    @if (seat.col === 1 || seat.col === 2) {
+                      <button
+                        type="button"
+                        (click)="selectSeat(seat.label)"
+                        [disabled]="isBooked(seat.label)"
+                        [ngClass]="getSeatClass(seat.label)"
+                        class="w-12 h-14 rounded-t-xl rounded-b-md border-2 font-bold text-xs flex items-center justify-center transition-all">
+                        {{ seat.label }}
+                      </button>
+                    }
+                  }
+                </div>
+
+                <!-- Walking Aisle Gap -->
+                <div class="w-4 border-l border-r border-dashed border-gray-300 dark:border-gray-700 opacity-30"></div>
+
+                <!-- Right Side (Aisle & Window) -->
+                <div class="grid grid-cols-2 gap-3">
+                  @for (seat of seats(); track seat.label) {
+                    @if (seat.col === 3 || seat.col === 4) {
+                      <button
+                        type="button"
+                        (click)="selectSeat(seat.label)"
+                        [disabled]="isBooked(seat.label)"
+                        [ngClass]="getSeatClass(seat.label)"
+                        class="w-12 h-14 rounded-t-xl rounded-b-md border-2 font-bold text-xs flex items-center justify-center transition-all">
+                        {{ seat.label }}
+                      </button>
+                    }
+                  }
+                </div>
+              </div>
+            </div>
+
+            @if (selectedSeat()) {
+              <div class="mt-8 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 px-5 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 animate-fade-in shadow-sm">
+                <span class="text-xl">✅</span>
+                {{ 'BOOKING.SELECTED_SEAT' | translate }}: <span class="text-xl text-green-900 dark:text-green-200">{{ selectedSeat() }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Passenger Details -->
+          <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sm:p-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-2">
+              <span>👤</span> {{ 'BOOKING.PASSENGER_DETAILS' | translate }}
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <!-- Name -->
+              <div>
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                  {{ 'BOOKING.FULL_NAME' | translate }}
+                </label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">🧑‍💼</span>
+                  <input type="text" [placeholder]="'BOOKING.NAME_PLACEHOLDER' | translate"
+                    [(ngModel)]="passengerName" name="passengerName"
+                    class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 rounded-2xl pl-11 pr-4 py-3 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 font-medium transition">
+                </div>
+              </div>
+
+              <!-- Age -->
+              <div>
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                  {{ 'BOOKING.AGE' | translate }}
+                </label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">📅</span>
+                  <input type="number" [placeholder]="'BOOKING.AGE_PLACEHOLDER' | translate"
+                    [(ngModel)]="age" name="age" min="1" max="120"
+                    class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 rounded-2xl pl-11 pr-4 py-3 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 font-medium transition">
+                </div>
+              </div>
+
+              <!-- Gender -->
+              <div>
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                  {{ 'BOOKING.GENDER' | translate }}
+                </label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">🚻</span>
+                  <select [(ngModel)]="gender" name="gender"
+                    class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 rounded-2xl pl-11 pr-4 py-3 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 font-medium transition appearance-none">
+                    <option value="" disabled>{{ 'BOOKING.GENDER_PLACEHOLDER' | translate }}</option>
+                    <option value="Male">{{ 'BOOKING.MALE' | translate }}</option>
+                    <option value="Female">{{ 'BOOKING.FEMALE' | translate }}</option>
+                    <option value="Other">{{ 'BOOKING.OTHER' | translate }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Mobile -->
+              <div>
+                <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+                  {{ 'BOOKING.MOBILE' | translate }}
+                </label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">📱</span>
+                  <input type="tel" [placeholder]="'BOOKING.MOBILE_PLACEHOLDER' | translate"
+                    [(ngModel)]="mobile" name="mobile" maxlength="10"
+                    class="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 rounded-2xl pl-11 pr-4 py-3 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 font-medium transition">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT SUMMARY -->
+        <div class="lg:col-span-1">
+          <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-xl dark:shadow-black/40 border border-gray-100 dark:border-gray-800 p-6 sticky top-24">
+            <h2 class="text-xl font-black text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-2">
+              <span>🧾</span> {{ 'BOOKING.BOOKING_SUMMARY' | translate }}
+            </h2>
+
+            <div class="space-y-4 text-sm font-medium">
+              <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-xl">
+                <span class="text-gray-500 dark:text-gray-400">{{ 'BOOKING.BUS' | translate }}</span>
+                <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ selectedBus?.busName }}</span>
+              </div>
+
+              <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-xl">
+                <span class="text-gray-500 dark:text-gray-400">{{ 'BOOKING.ROUTE' | translate }}</span>
+                <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ selectedBus?.source }} → {{ selectedBus?.destination }}</span>
+              </div>
+
+              <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-xl">
+                <span class="text-gray-500 dark:text-gray-400">{{ 'BOOKING.DATE' | translate }}</span>
+                <span class="font-bold text-gray-900 dark:text-gray-100">{{ journeyDate }}</span>
+              </div>
+
+              <div class="flex justify-between items-center bg-red-50 dark:bg-red-900/20 p-3 rounded-xl border border-red-100 dark:border-red-800">
+                <span class="text-red-700 dark:text-red-300 font-bold">{{ 'BOOKING.SEAT' | translate }}</span>
+                <span class="font-black text-red-700 dark:text-red-300 text-lg">
+                  {{ selectedSeat() || ('BOOKING.NOT_SELECTED' | translate) }}
+                </span>
+              </div>
+            </div>
+
+            <div class="border-t-2 border-dashed border-gray-200 dark:border-gray-700 my-6"></div>
+
+            <div class="space-y-3 text-sm font-medium">
+              <div class="flex justify-between">
+                <span class="text-gray-500 dark:text-gray-400">{{ 'BOOKING.BASE_FARE' | translate }}</span>
+                <span class="font-bold text-gray-900 dark:text-gray-100">₹{{ baseFare() }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500 dark:text-gray-400">{{ 'BOOKING.SERVICE_FEE' | translate }}</span>
+                <span class="font-bold text-gray-900 dark:text-gray-100">₹{{ serviceFee }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500 dark:text-gray-400">{{ 'BOOKING.GST' | translate }}</span>
+                <span class="font-bold text-gray-900 dark:text-gray-100">₹{{ gstAmount() }}</span>
+              </div>
+            </div>
+
+            <div class="border-t-2 border-dashed border-gray-200 dark:border-gray-700 my-6"></div>
+
+            <div class="flex justify-between items-end">
+              <span class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{{ 'BOOKING.TOTAL' | translate }}</span>
+              <span class="text-4xl font-black text-red-600 dark:text-red-400">₹{{ totalAmount() }}</span>
+            </div>
+
+            <button
+              type="button"
+              (click)="continueBooking()"
+              class="mt-8 w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-red-200 dark:shadow-red-900/30 active:scale-95 transition-all flex justify-center items-center gap-2">
+              <span>{{ 'BOOKING.CONTINUE' | translate }}</span>
+              <span class="text-xl">→</span>
+            </button>
+
+            <div class="mt-5 flex items-center justify-center gap-2 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+              <span>🔒</span> Secure Booking
+            </div>
+          </div>
+        </div>
+
+      </div>
+    }
+  </div>
+</section>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+</style>

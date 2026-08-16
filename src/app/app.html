@@ -1,0 +1,21 @@
+<app-loading-bar></app-loading-bar>
+
+<app-navbar></app-navbar>
+
+<!--
+  Google Website Translator ka hidden container.
+  Isse default Google dropdown visible nahi hoga.
+  Hum apna existing navbar selector use karenge.
+-->
+<div
+  id="google_translate_element"
+  aria-hidden="true">
+</div>
+
+<main class="page-container min-h-[80vh]">
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer></app-footer>
+
+<app-toast></app-toast>

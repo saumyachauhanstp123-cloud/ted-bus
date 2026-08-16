@@ -1,0 +1,125 @@
+<section class="min-h-screen bg-gray-50 py-10 px-4">
+  <div class="max-w-2xl mx-auto">
+
+    <div class="mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-900">
+        {{ 'PREFERENCES_PAGE.TITLE' | translate }}
+      </h1>
+      <p class="text-gray-500 mt-1">
+        {{ 'PREFERENCES_PAGE.SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <!-- Success Toast -->
+    @if (saved()) {
+      <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl font-semibold flex items-center gap-2">
+        ✅ {{ 'PREFERENCES_PAGE.SAVE_SUCCESS' | translate }}
+      </div>
+    }
+
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+
+      <!-- Booking Updates -->
+      <div class="p-6 flex items-center justify-between border-b border-gray-100">
+        <div>
+          <h3 class="font-bold text-gray-900">
+            {{ 'PREFERENCES_PAGE.BOOKING_UPDATES' | translate }}
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            {{ 'PREFERENCES_PAGE.BOOKING_UPDATES_DESC' | translate }}
+          </p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" [(ngModel)]="bookingUpdates" class="sr-only peer">
+          <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-red-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+        </label>
+      </div>
+
+      <!-- Email -->
+      <div class="p-6 flex items-center justify-between border-b border-gray-100">
+        <div>
+          <h3 class="font-bold text-gray-900">
+            {{ 'PREFERENCES_PAGE.EMAIL_NOTIFICATIONS' | translate }}
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            {{ 'PREFERENCES_PAGE.EMAIL_NOTIFICATIONS_DESC' | translate }}
+          </p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" [(ngModel)]="email" class="sr-only peer">
+          <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-red-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+        </label>
+      </div>
+
+      <!-- Push -->
+      <div class="p-6 flex items-center justify-between border-b border-gray-100">
+        <div>
+          <h3 class="font-bold text-gray-900">
+            {{ 'PREFERENCES_PAGE.PUSH_NOTIFICATIONS' | translate }}
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            {{ 'PREFERENCES_PAGE.PUSH_NOTIFICATIONS_DESC' | translate }}
+          </p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" [(ngModel)]="push" class="sr-only peer">
+          <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-red-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+        </label>
+      </div>
+
+      <!-- Promotional -->
+      <div class="p-6 flex items-center justify-between border-b border-gray-100">
+        <div>
+          <h3 class="font-bold text-gray-900">
+            {{ 'PREFERENCES_PAGE.PROMOTIONAL' | translate }}
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            {{ 'PREFERENCES_PAGE.PROMOTIONAL_DESC' | translate }}
+          </p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" [(ngModel)]="promotional" class="sr-only peer">
+          <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-red-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+        </label>
+      </div>
+
+      <!-- Language Preference -->
+      <div class="p-6 flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-gray-900">
+            {{ 'PREFERENCES_PAGE.NOTIFICATION_LANGUAGE' | translate }}
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            {{ 'PREFERENCES_PAGE.NOTIFICATION_LANGUAGE_DESC' | translate }}
+          </p>
+        </div>
+        <select [(ngModel)]="language"
+          class="border border-gray-300 rounded-xl px-4 py-2 text-sm font-semibold outline-none focus:ring-2 focus:ring-red-500">
+          <option value="en">{{ 'LANGUAGE.ENGLISH' | translate }}</option>
+          <option value="hi">{{ 'LANGUAGE.HINDI' | translate }}</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-6 flex flex-col gap-3">
+
+      <button (click)="savePreferences()"
+        class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-2xl font-bold transition shadow-lg">
+        {{ 'PREFERENCES_PAGE.SAVE' | translate }}
+      </button>
+
+      <button (click)="sendTestPromo()" [disabled]="testing()"
+        class="w-full bg-white border border-gray-300 text-gray-700 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition disabled:opacity-60">
+        @if (testing()) {
+          {{ 'PREFERENCES_PAGE.SENDING' | translate }}
+        } @else {
+          🧪 {{ 'PREFERENCES_PAGE.TEST_NOTIFICATION' | translate }}
+        }
+      </button>
+
+    </div>
+
+  </div>
+</section>

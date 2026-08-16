@@ -1,0 +1,274 @@
+<!-- ========================= -->
+<!-- PREMIUM SEARCH CARD -->
+<!-- ========================= -->
+<div class="relative bg-white dark:bg-gray-900 rounded-[32px] shadow-2xl shadow-gray-300/50 dark:shadow-black/40 border border-gray-100 dark:border-gray-800 overflow-visible">
+
+  <!-- Decorative gradient blobs inside card (top) -->
+  <div class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-red-200 to-orange-200 dark:from-red-900/20 dark:to-orange-900/20 rounded-full blur-2xl opacity-60 pointer-events-none"></div>
+  <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-gradient-to-br from-blue-200 to-cyan-200 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-full blur-2xl opacity-60 pointer-events-none"></div>
+
+  <!-- Card Header -->
+  <div class="relative bg-gradient-to-r from-red-600 to-red-700 dark:from-red-800 dark:to-red-900 px-6 py-5 flex items-center gap-4 overflow-hidden">
+    <!-- Decorative circles -->
+    <div class="absolute -right-6 -top-8 w-24 h-24 bg-white/10 rounded-full"></div>
+    <div class="absolute -left-6 -bottom-8 w-20 h-20 bg-white/10 rounded-full"></div>
+    <span class="relative text-3xl drop-shadow-md">🚌</span>
+    <div class="relative">
+      <h2 class="text-white font-extrabold text-xl tracking-tight">Find Your Bus</h2>
+      <p class="text-red-100 dark:text-red-200 text-xs mt-0.5">Search from 500+ routes across India</p>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="relative p-6 sm:p-8">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+
+      <!-- From -->
+      <div class="md:col-span-3">
+        <label class="flex items-center gap-2 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-sm shadow-green-200"></span>
+          {{ 'SEARCH.FROM' | translate }}
+        </label>
+        <div class="relative group">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg transition-transform group-focus-within:scale-110">📍</span>
+          <input
+            type="text"
+            [(ngModel)]="from"
+            name="from"
+            [placeholder]="'SEARCH.FROM_PLACEHOLDER' | translate"
+            class="w-full border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-2xl pl-10 pr-4 py-4 text-gray-800 font-medium focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-50 dark:focus:ring-green-900/20 transition placeholder:text-gray-400 dark:placeholder:text-gray-500"
+          />
+        </div>
+      </div>
+
+      <!-- Swap Button -->
+      <div class="md:col-span-1 flex justify-center items-end pb-1">
+        <button
+          type="button"
+          (click)="swapCities()"
+          [attr.title]="'SEARCH.SWAP' | translate"
+          class="group w-12 h-12 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:border-purple-500 hover:bg-purple-600 hover:text-white transition-all shadow-sm flex items-center justify-center text-xl font-bold hover:shadow-lg hover:shadow-purple-200 dark:hover:shadow-purple-900/20"
+        >
+          <span class="group-hover:rotate-180 transition-transform duration-300">⇄</span>
+        </button>
+      </div>
+
+      <!-- To -->
+      <div class="md:col-span-3">
+        <label class="flex items-center gap-2 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-sm shadow-red-200"></span>
+          {{ 'SEARCH.TO' | translate }}
+        </label>
+        <div class="relative group">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg transition-transform group-focus-within:scale-110">🏁</span>
+          <input
+            type="text"
+            [(ngModel)]="to"
+            name="to"
+            [placeholder]="'SEARCH.TO_PLACEHOLDER' | translate"
+            class="w-full border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-2xl pl-10 pr-4 py-4 text-gray-800 font-medium focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 transition placeholder:text-gray-400 dark:placeholder:text-gray-500"
+          />
+        </div>
+      </div>
+
+      <!-- Date -->
+      <div class="md:col-span-3">
+        <label class="flex items-center gap-2 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-200"></span>
+          {{ 'SEARCH.DATE' | translate }}
+        </label>
+        <div class="relative group">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg transition-transform group-focus-within:scale-110">📅</span>
+          <input
+            type="date"
+            [(ngModel)]="journeyDate"
+            name="journeyDate"
+            [min]="minDate"
+            class="w-full border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-2xl pl-10 pr-4 py-4 text-gray-800 font-medium focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50 dark:focus:ring-blue-900/20 transition"
+          />
+        </div>
+      </div>
+
+      <!-- Search Button -->
+      <div class="md:col-span-2">
+        <button
+          type="button"
+          (click)="searchBus()"
+          [disabled]="loading()"
+          class="group w-full h-[58px] bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold rounded-2xl transition-all shadow-xl shadow-red-200 dark:shadow-red-900/30 hover:shadow-2xl hover:shadow-red-300 dark:hover:shadow-red-900/40 hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+        >
+          @if (loading()) {
+            <span class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            <span>{{ 'SEARCH.SEARCHING' | translate }}</span>
+          } @else {
+            <span class="transition-transform group-hover:scale-125">🔍</span>
+            <span>{{ 'SEARCH.SEARCH_BUTTON' | translate }}</span>
+          }
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Trust Row -->
+    <div class="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs font-semibold text-gray-500 dark:text-gray-400">
+      <span class="flex items-center gap-2">
+        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-[10px]">✓</span>
+        Secure Booking
+      </span>
+      <span class="flex items-center gap-2">
+        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px]">✓</span>
+        Instant Confirmation
+      </span>
+      <span class="flex items-center gap-2">
+        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-[10px]">✓</span>
+        Easy Cancellation
+      </span>
+      <span class="flex items-center gap-2">
+        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-[10px]">✓</span>
+        24/7 Support
+      </span>
+    </div>
+
+    <!-- Error -->
+    @if (errorMessage()) {
+      <div class="mt-5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-5 py-4 rounded-2xl text-sm flex items-center gap-3 shadow-sm">
+        <span class="text-lg">⚠️</span>
+        <span>{{ errorMessage() }}</span>
+      </div>
+    }
+  </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- RESULTS SECTION -->
+<!-- ========================= -->
+@if (showResults()) {
+  <div class="mt-12">
+
+    <!-- Results Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-gray-100 tracking-tight">
+          {{ 'SEARCH.AVAILABLE_BUSES' | translate }}
+        </h2>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+          {{ buses().length }} buses found for your route
+        </p>
+      </div>
+
+      <span class="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 text-red-600 dark:text-red-400 font-extrabold text-lg px-6 py-2.5 rounded-2xl border border-red-100 dark:border-red-800/50 shadow-sm">
+        {{ buses().length }} found
+      </span>
+    </div>
+
+    <!-- Bus Cards -->
+    <div class="space-y-5">
+      @for (bus of buses(); track bus._id || bus.busName || $index; let i = $index) {
+        @let theme = busCardThemes[i % busCardThemes.length];
+
+        <div
+          class="group relative bg-white dark:bg-gray-900 rounded-[28px] border border-gray-100 dark:border-gray-800 shadow-lg shadow-gray-200/50 dark:shadow-black/30 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden {{ theme.hoverBorder }}">
+
+          <!-- Top Accent Bar (always visible on hover, subtle on rest) -->
+          <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r {{ theme.accentBar }} opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+          <div class="p-5 sm:p-7 pt-6">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+              <!-- Left Info -->
+              <div class="flex-1">
+
+                <!-- Bus Name + Type -->
+                <div class="flex flex-wrap items-center gap-4 mb-4">
+                  <div class="relative w-12 h-12 {{ theme.iconBg }} rounded-2xl flex items-center justify-center text-2xl shadow-md group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                    🚌
+                    <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full {{ theme.iconBg }} border-2 border-white dark:border-gray-900"></span>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-extrabold text-gray-900 dark:text-gray-100 group-hover:{{ theme.iconText }} transition-colors">
+                      {{ bus.busName || bus.name }}
+                    </h3>
+                    @if (bus.busType) {
+                      <span class="inline-block mt-1 text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-3 py-1 rounded-full">
+                        {{ bus.busType }}
+                      </span>
+                    }
+                  </div>
+                </div>
+
+                <!-- Route + Time -->
+                <div class="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
+                  <div class="flex items-center gap-2 font-semibold text-gray-700 dark:text-gray-300">
+                    <span class="text-green-500 font-bold text-lg">●</span>
+                    {{ bus.source || bus.from }}
+                    <span class="text-gray-400 mx-1">→</span>
+                    <span class="text-red-500 font-bold text-lg">●</span>
+                    {{ bus.destination || bus.to }}
+                  </div>
+
+                  <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                    <span class="text-base">🕒</span>
+                    <span class="font-medium">{{ bus.departureTime || bus.time }}</span>
+                    @if (bus.arrivalTime) {
+                      <span class="text-gray-400">→</span>
+                      <span>{{ bus.arrivalTime }}</span>
+                    }
+                  </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="flex flex-wrap gap-3 mt-5">
+                  <span class="flex items-center gap-1.5 text-xs font-bold bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-100 dark:border-yellow-800/50 px-3.5 py-1.5 rounded-full shadow-sm">
+                    ⭐ {{ bus.rating || '4.5' }} {{ 'SEARCH.RATING' | translate }}
+                  </span>
+                  <span class="flex items-center gap-1.5 text-xs font-bold bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-800/50 px-3.5 py-1.5 rounded-full shadow-sm">
+                    💺 {{ bus.availableSeats || bus.seats || '-' }} {{ 'SEARCH.SEATS_LEFT' | translate }}
+                  </span>
+                  @if ((bus.availableSeats || 0) < 10) {
+                    <span class="flex items-center gap-1.5 text-xs font-bold bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-3.5 py-1.5 rounded-full shadow-sm animate-pulse">
+                      🔥 Filling Fast!
+                    </span>
+                  }
+                </div>
+
+              </div>
+
+              <!-- Right Price + CTA -->
+              <div class="lg:text-right min-w-[210px] lg:border-l lg:border-gray-100 dark:lg:border-gray-800 lg:pl-7 flex flex-row lg:flex-col justify-between items-end gap-5">
+                <div>
+                  <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+                    {{ 'SEARCH.STARTING_FROM' | translate }}
+                  </p>
+                  <h3 class="text-4xl font-black mt-1 {{ theme.priceColor }}">
+                    ₹{{ bus.price }}
+                  </h3>
+                  <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Per seat</p>
+                </div>
+
+                <div class="flex flex-col gap-2.5 min-w-[180px]">
+                  <button
+                    type="button"
+                    (click)="viewRouteDetails(bus)"
+                    class="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-2xl font-bold hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-sm shadow-sm hover:shadow-md"
+                  >
+                    {{ 'SEARCH.VIEW_ROUTE' | translate }}
+                  </button>
+
+                  <button
+                    type="button"
+                    (click)="bookSeat(bus)"
+                    class="w-full bg-gradient-to-r {{ theme.buttonGradient }} text-white py-3 rounded-2xl font-extrabold transition-all shadow-lg {{ theme.buttonShadow }} hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 text-sm"
+                  >
+                    {{ 'SEARCH.BOOK_SEAT' | translate }} →
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}
