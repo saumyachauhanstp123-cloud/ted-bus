@@ -1,4 +1,5 @@
-const SavedRoute = require("../models/SavedRoute");
+const SavedRoute = require('../models/SavedRoute.js');
+
 
 // GET all saved routes
 exports.getSavedRoutes = async (req, res) => {

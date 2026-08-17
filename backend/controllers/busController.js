@@ -1,4 +1,4 @@
-const Bus = require("../models/Bus");
+const Bus = require('../models/bus.js');
 
 // =====================
 // ADD NEW BUS (Admin)

@@ -1,6 +1,6 @@
-const Review = require("../models/Review");
-const Booking = require("../models/Booking");
-const Bus = require("../models/Bus");
+const Review = require('../models/Review.js');
+const Booking = require('../models/Booking.js');
+const Bus = require('../models/bus.js');
 
 const MIN_REVIEW_LENGTH = 20;
 const REPORT_HIDE_LIMIT = 3;

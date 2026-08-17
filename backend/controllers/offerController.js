@@ -1,4 +1,4 @@
-const Offer = require("../models/Offer");
+const Offer = require('../models/offer.js');
 
 // =====================
 // GET ALL ACTIVE OFFERS (Public - For Homepage)

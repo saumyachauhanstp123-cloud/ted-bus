@@ -1,6 +1,6 @@
-const Booking = require("../models/Booking");
-const Bus = require("../models/Bus");
-const Notification = require("../models/Notification"); 
+const Booking = require('../models/Booking.js');
+const Bus = require('../models/bus.js');
+const Notification = require('../models/Notification.js'); 
 const { sendNotification } = require("../utils/notificationHelper");
 // =====================
 // BOOK TICKET

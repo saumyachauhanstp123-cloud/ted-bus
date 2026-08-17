@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const Bus = require('../models/Bus');
+const Bus = require('../models/bus.js');
 
 const buses = [
   {

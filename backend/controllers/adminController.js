@@ -1,9 +1,9 @@
 const user = require('../models/user.js');
-const Post = require("../models/Post");
-const Comment = require("../models/Comment");
-const Booking = require("../models/Booking");
-const Report = require("../models/Report");
-const Notification = require("../models/Notification");
+const Post = require('../models/Post.js') ;
+const Comment = require('../models/Comment.js');
+const Booking = require('../models/Booking.js');
+const Report = require('../models/Report.js');
+const Notification = require('../models/Notification.js');
 
 // =====================
 // DASHBOARD STATS

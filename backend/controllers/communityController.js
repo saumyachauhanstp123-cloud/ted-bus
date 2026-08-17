@@ -1,9 +1,9 @@
-const Post = require("../models/Post");
-const Comment = require("../models/Comment");
-const Discussion = require("../models/Discussion");
-const Report = require("../models/Report");
+const Post = require('../models/Post.js');
+const Comment = require('../models/Comment.js');
+const Discussion = require('../models/Discussion.js');
+const Report = require('../models/Report.js');
 const user =require('../models/user.js');
-const Notification = require("../models/Notification");
+const Notification = require('../models/Notification.js');
 
 // =====================
 // POSTS
