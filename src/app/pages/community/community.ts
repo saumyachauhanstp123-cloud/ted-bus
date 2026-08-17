@@ -49,8 +49,7 @@ export class Community implements OnInit {
       this.loadUserStats();
     }
   }
-
- loadUserStats(): void {
+  loadUserStats(): void {
   if (!this.authService.isLoggedIn()) {
     this.stats.set({
       totalPosts: 0,
@@ -61,30 +60,47 @@ export class Community implements OnInit {
     return;
   }
 
-  this.communityService.getUserStats().subscribe({
-    next: (response: any) => {
-      const stats = response?.stats || {};
+  this.communityService
+    .getUserStats()
+    .subscribe({
+      next: (response: any) => {
+        const stats =
+          response?.stats || {};
 
-      this.stats.set({
-        totalPosts: Number(stats.totalPosts || 0),
-        totalLikes: Number(stats.totalLikes || 0),
-        totalComments: Number(
-  stats.commentsWritten ?? stats.totalComments ?? 0
-)
-      });
-    },
+        this.stats.set({
+          totalPosts: Number(
+            stats.totalPosts || 0
+          ),
 
-    error: (error: any) => {
-      console.error("Community stats load error:", error);
+          totalLikes: Number(
+            stats.totalLikes || 0
+          ),
 
-      this.stats.set({
-        totalPosts: 0,
-        totalLikes: 0,
-        totalComments: 0
-      });
-    }
-  });
+          totalComments: Number(
+            stats.totalComments || 0
+          )
+        });
+      },
+
+      error: (error: any) => {
+        console.error(
+          'Community stats load error:',
+          error
+        );
+
+        this.stats.set({
+          totalPosts: 0,
+          totalLikes: 0,
+          totalComments: 0
+        });
+      }
+    });
 }
+
+ 
+      
+
+
 
   loadPosts(): void {
     this.communityService.loadPosts({

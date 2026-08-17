@@ -406,62 +406,72 @@ exports.reportContent = async (req, res) => {
 // GET CURRENT USER COMMUNITY STATS
 // GET /api/community/stats
 // =====================
+// =====================
+// GET CURRENT USER COMMUNITY STATS
+// GET /api/community/stats
+// =====================
 exports.getUserStats = async (req, res) => {
   try {
-    const userId = req.user._id || req.user.id;
+    const userId = req.user._id;
 
-    // User ke active posts.
-    // $exists false purane posts ko bhi include karega.
+    /*
+     * Current user ki posts load hongi.
+     * likes aur commentCount wahi fields hain
+     * jo post cards par dikh rahe hain.
+     */
     const posts = await Post.find({
       author: userId,
       $or: [
-        { status: "active" },
+        { status: 'active' },
         { status: { $exists: false } }
       ]
-    }).select("_id likes");
+    })
+      .select('likes commentCount')
+      .lean();
 
-    const postIds = posts.map((post) => post._id);
+    const totalLikes = posts.reduce(
+      (total, post) => {
+        return total + (
+          Array.isArray(post.likes)
+            ? post.likes.length
+            : 0
+        );
+      },
+      0
+    );
 
-    // User ke posts ko mile total likes
-    const totalLikes = posts.reduce((total, post) => {
-      return total + (Array.isArray(post.likes) ? post.likes.length : 0);
-    }, 0);
+    const totalComments = posts.reduce(
+      (total, post) => {
+        return total +
+          Number(post.commentCount || 0);
+      },
+      0
+    );
 
-    // User ke posts par aaye total comments
-    const totalComments = postIds.length
-      ? await Comment.countDocuments({
-          post: { $in: postIds },
-          $or: [
-            { status: "active" },
-            { status: { $exists: false } }
-          ]
-        })
-      : 0;
-
-    // User ne khud jitne comments likhe
-    const commentsWritten = await Comment.countDocuments({
-      author: userId,
-      $or: [
-        { status: "active" },
-        { status: { $exists: false } }
-      ]
-    });
-
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       stats: {
         totalPosts: posts.length,
         totalLikes,
-        totalComments,
-        commentsWritten
+        totalComments
       }
     });
   } catch (error) {
-    console.error("Community Stats Error:", error);
+    console.error(
+      'Community Stats Error:',
+      error
+    );
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to load community statistics"
+      message:
+        'Failed to load community statistics'
     });
   }
 };
+
+   
+      
+
+
+    
