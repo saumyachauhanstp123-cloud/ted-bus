@@ -1,121 +1,231 @@
 import {
   Component,
-  inject,
-  signal,
+  computed,
   ElementRef,
   HostListener,
+  inject,
   OnInit,
-  computed
+  signal
 } from '@angular/core';
+
+import {
+  CommonModule
+} from '@angular/common';
+
 import {
   RouterLink,
   RouterLinkActive
 } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
-import { AuthService } from '../../services/auth';
-import { NotificationService } from '../../services/notification';
-import { ThemeService } from '../../services/theme.service';
+
+import {
+  TranslatePipe
+} from '@ngx-translate/core';
+
+import {
+  AuthService
+} from '../../services/auth';
+
+import {
+  NotificationService
+} from '../../services/notification';
+
+import {
+  ThemeService
+} from '../../services/theme.service';
+
 import {
   LanguageService
 } from '../../services/language.service';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule, TranslatePipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    TranslatePipe
+  ],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  styleUrl: './navbar.css'
 })
 export class Navbar implements OnInit {
-  private auth = inject(AuthService);
-  private notificationService = inject(NotificationService);
-  private themeService = inject(ThemeService);
-  private el = inject(ElementRef);
+  private readonly auth =
+    inject(AuthService);
+
+  private readonly notificationService =
+    inject(NotificationService);
+
+  private readonly themeService =
+    inject(ThemeService);
+
   private readonly languageService =
-  inject(LanguageService);
+    inject(LanguageService);
 
-selectedLanguage =
-  this.languageService.currentLanguage;
+  private readonly elementRef =
+    inject(ElementRef<HTMLElement>);
 
-  isLoggedIn = this.auth.isLoggedIn;
-  currentUser = this.auth.currentUser;
+  // Authentication state
+  readonly isLoggedIn =
+    this.auth.isLoggedIn;
 
-  mobileMenuOpen = signal(false);
-  showAccountMenu = signal(false);
-  unreadCount = this.notificationService.unreadCount;
-  
+  readonly currentUser =
+    this.auth.currentUser;
 
-  currentTheme = this.themeService.currentTheme;
-  isDark = this.themeService.isDark;
+  // Theme state
+  readonly currentTheme =
+    this.themeService.currentTheme;
 
-  // Premium helper states
-  isAdminOrModerator = computed(() => {
-    const role = this.currentUser()?.role;
-    return role === 'admin' || role === 'moderator';
-  });
+  readonly isDark =
+    this.themeService.isDark;
 
-  userInitial = computed(() => {
-    const name = this.currentUser()?.name || 'U';
-    return name.charAt(0).toUpperCase();
-  });
+  // Language state
+  readonly selectedLanguage =
+    this.languageService.currentLanguage;
 
-  hasAvatar = computed(() => {
-    const avatar = this.currentUser()?.avatar;
-    return !!avatar && avatar.trim() !== '';
-  });
+  // Navbar UI state
+  readonly mobileMenuOpen =
+    signal(false);
+
+  readonly showAccountMenu =
+    signal(false);
+
+  readonly unreadCount =
+    this.notificationService.unreadCount;
+
+  // User role
+  readonly isAdminOrModerator =
+    computed(() => {
+      const role =
+        this.currentUser()?.role;
+
+      return (
+        role === 'admin' ||
+        role === 'moderator'
+      );
+    });
+
+  // User initial
+  readonly userInitial =
+    computed(() => {
+      const name =
+        this.currentUser()?.name || 'U';
+
+      return name
+        .charAt(0)
+        .toUpperCase();
+    });
+
+  // Avatar state
+  readonly hasAvatar =
+    computed(() => {
+      const avatar =
+        this.currentUser()?.avatar;
+
+      return (
+        typeof avatar === 'string' &&
+        avatar.trim() !== ''
+      );
+    });
 
   ngOnInit(): void {
     if (this.isLoggedIn()) {
-      this.notificationService.refreshUnreadCount();
-    }
-    this.selectedLanguage.set(this.languageService.getLanguage());
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    const target = event.target as Node;
-    if (!this.el.nativeElement.contains(target)) {
-      this.showAccountMenu.set(false);
-      this.mobileMenuOpen.set(false);
+      this.notificationService
+        .refreshUnreadCount();
     }
   }
 
-  toggleMobileMenu(event?: MouseEvent): void {
+  /**
+   * Navbar ke bahar click karne par
+   * account aur mobile menu close honge.
+   */
+  @HostListener(
+    'document:click',
+    ['$event']
+  )
+  onDocumentClick(
+    event: MouseEvent
+  ): void {
+    const target =
+      event.target as Node;
+
+    if (
+      !this.elementRef
+        .nativeElement
+        .contains(target)
+    ) {
+      this.closeMenus();
+    }
+  }
+
+  /**
+   * Mobile/tablet navigation open/close.
+   */
+  toggleMobileMenu(
+    event?: MouseEvent
+  ): void {
     event?.stopPropagation();
-    this.mobileMenuOpen.update(v => !v);
+
+    this.mobileMenuOpen.update(
+      open => !open
+    );
+
     this.showAccountMenu.set(false);
   }
 
-  toggleAccountMenu(event?: MouseEvent): void {
+  /**
+   * Desktop account dropdown open/close.
+   */
+  toggleAccountMenu(
+    event?: MouseEvent
+  ): void {
     event?.stopPropagation();
-    this.showAccountMenu.update(v => !v);
+
+    this.showAccountMenu.update(
+      open => !open
+    );
+
     this.mobileMenuOpen.set(false);
   }
 
+  /**
+   * Saare navbar menus close.
+   */
   closeMenus(): void {
     this.mobileMenuOpen.set(false);
     this.showAccountMenu.set(false);
   }
 
+  /**
+   * User logout.
+   */
   logout(): void {
     this.closeMenus();
     this.auth.logout();
   }
 
+  /**
+   * Light/dark theme change.
+   */
   toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 
-  changeLanguage(event: Event): void {
-  const select =
-    event.target as HTMLSelectElement;
+  /**
+   * English/Hindi language change.
+   */
+  changeLanguage(
+    event: Event
+  ): void {
+    const select =
+      event.target as HTMLSelectElement;
 
-  const language =
-    select.value as 'en' | 'hi';
+    const language =
+      select.value as 'en' | 'hi';
 
-  this.languageService.setLanguage(
-    language,
-    true
-  );
-}
+    this.languageService.setLanguage(
+      language,
+      true
+    );
+  }
 }
