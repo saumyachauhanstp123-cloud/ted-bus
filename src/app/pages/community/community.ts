@@ -5,13 +5,13 @@ import {
   signal
 } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import {
-  FormsModule
-} from '@angular/forms';
+  TranslatePipe,
+  TranslateService
+} from '@ngx-translate/core';
 
 import {
   CommunityService
@@ -22,17 +22,12 @@ import {
 } from '../../services/auth';
 
 import {
-  Comment
-} from '../../models/comments';
-
-import {
-  TranslateService,
-  TranslatePipe
-} from '@ngx-translate/core';
-
-import {
   ToastService
 } from '../../services/toast.service';
+
+import {
+  Comment
+} from '../../models/comments';
 
 @Component({
   selector: 'app-community',
@@ -46,57 +41,88 @@ import {
   styleUrl: './community.css'
 })
 export class Community implements OnInit {
-  private translate =
+  private readonly translate =
     inject(TranslateService);
 
-  private toast =
+  private readonly toast =
     inject(ToastService);
 
-  communityService =
+  readonly communityService =
     inject(CommunityService);
 
-  authService =
+  readonly authService =
     inject(AuthService);
 
-  // Form State
+  // ==================================
+  // FORM STATE
+  // ==================================
   title = '';
   content = '';
   category = '';
   imageUrl = '';
 
   commentTexts: {
-    [key: string]: string
+    [postId: string]: string;
   } = {};
 
-  // UI State
-  showCreateForm = signal(false);
-  creating = signal(false);
-  selectedCategory = signal('');
+  // ==================================
+  // UI STATE
+  // ==================================
+  readonly showCreateForm =
+    signal(false);
 
-  sortBy =
+  readonly creating =
+    signal(false);
+
+  readonly selectedCategory =
+    signal('');
+
+  readonly sortBy =
     signal<'recent' | 'popular'>(
       'recent'
     );
 
-  // Comments cache
-  commentsMap =
+  // ==================================
+  // COMMENTS CACHE
+  // ==================================
+  readonly commentsMap =
     signal<{
-      [postId: string]: Comment[]
+      [postId: string]: Comment[];
     }>({});
 
-  expandedComments =
+  readonly expandedComments =
     signal<Set<string>>(
-      new Set()
+      new Set<string>()
     );
 
-  // Dashboard Stats
-  stats = signal({
+  // ==================================
+  // DASHBOARD STATS
+  // ==================================
+  readonly stats = signal({
     totalPosts: 0,
     totalLikes: 0,
     totalComments: 0
   });
 
-  categories = [
+  /**
+   * Har stats API request ko version milega.
+   * Purana response naye stats ko overwrite nahi karega.
+   */
+  private statsRequestVersion = 0;
+
+  /**
+   * Rapid double-click par like aur turant unlike hone se rokega.
+   */
+  private readonly pendingLikeRequests =
+    new Set<string>();
+
+  /**
+   * Comment button ko multiple requests bhejne se rokega.
+   */
+  private readonly pendingCommentRequests =
+    new Set<string>();
+
+  readonly categories = [
     'Travel Tips',
     'Routes',
     'Destinations',
@@ -106,49 +132,71 @@ export class Community implements OnInit {
   ngOnInit(): void {
     this.loadPosts();
 
-    if (
-      this.authService.isLoggedIn()
-    ) {
+    if (this.authService.isLoggedIn()) {
       this.loadUserStats();
     }
   }
 
-  // ================================
-  // LOAD USER STATS
-  // ================================
-  loadUserStats(): void {
-    if (
-      !this.authService.isLoggedIn()
-    ) {
-      this.stats.set({
-        totalPosts: 0,
-        totalLikes: 0,
-        totalComments: 0
-      });
+  // ==================================
+  // APPLY DASHBOARD STATS
+  // ==================================
+  private applyStats(
+    responseStats: any,
+    invalidateOldRequests = false
+  ): void {
+    if (invalidateOldRequests) {
+      /**
+       * Agar koi purani GET /stats request pending hai,
+       * to ab uska response ignore kiya jayega.
+       */
+      this.statsRequestVersion++;
+    }
 
+    this.stats.set({
+      totalPosts: Number(
+        responseStats?.totalPosts ?? 0
+      ),
+
+      totalLikes: Number(
+        responseStats?.totalLikes ?? 0
+      ),
+
+      totalComments: Number(
+        responseStats?.totalComments ?? 0
+      )
+    });
+  }
+
+  // ==================================
+  // LOAD USER STATS
+  // ==================================
+  loadUserStats(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.applyStats(null);
       return;
     }
+
+    const currentRequestVersion =
+      ++this.statsRequestVersion;
 
     this.communityService
       .getUserStats()
       .subscribe({
         next: (response: any) => {
-          const responseStats =
-            response?.stats || {};
+          /**
+           * Is request ke baad like/comment response
+           * aa chuka hai to ye response purana hai.
+           */
+          if (
+            currentRequestVersion !==
+            this.statsRequestVersion
+          ) {
+            return;
+          }
 
-          this.stats.set({
-            totalPosts: Number(
-              responseStats.totalPosts || 0
-            ),
-
-            totalLikes: Number(
-              responseStats.totalLikes || 0
-            ),
-
-            totalComments: Number(
-              responseStats.totalComments || 0
-            )
-          });
+          this.applyStats(
+            response?.stats
+          );
         },
 
         error: (error: any) => {
@@ -157,18 +205,24 @@ export class Community implements OnInit {
             error
           );
 
-          this.stats.set({
-            totalPosts: 0,
-            totalLikes: 0,
-            totalComments: 0
-          });
+          /**
+           * Important:
+           * API error par existing correct stats ko zero
+           * nahi karenge.
+           */
+          if (
+            currentRequestVersion !==
+            this.statsRequestVersion
+          ) {
+            return;
+          }
         }
       });
   }
 
-  // ================================
+  // ==================================
   // LOAD POSTS
-  // ================================
+  // ==================================
   loadPosts(): void {
     this.communityService.loadPosts({
       category:
@@ -179,13 +233,8 @@ export class Community implements OnInit {
     });
   }
 
-  setCategory(
-    category: string
-  ): void {
-    this.selectedCategory.set(
-      category
-    );
-
+  setCategory(category: string): void {
+    this.selectedCategory.set(category);
     this.loadPosts();
   }
 
@@ -196,9 +245,9 @@ export class Community implements OnInit {
     this.loadPosts();
   }
 
-  // ================================
+  // ==================================
   // CREATE POST
-  // ================================
+  // ==================================
   createPost(): void {
     const currentUser =
       this.authService.currentUser();
@@ -243,8 +292,8 @@ export class Community implements OnInit {
 
     this.communityService
       .createPost({
-        title: this.title,
-        content: this.content,
+        title: this.title.trim(),
+        content: this.content.trim(),
         category: this.category,
         imageUrl: this.imageUrl
       })
@@ -283,13 +332,11 @@ export class Community implements OnInit {
     this.showCreateForm.set(false);
   }
 
-  // ================================
+  // ==================================
   // LIKE / UNLIKE
-  // ================================
+  // ==================================
   toggleLike(postId: string): void {
-    if (
-      !this.authService.isLoggedIn()
-    ) {
+    if (!this.authService.isLoggedIn()) {
       this.toast.info(
         'Please login to like posts'
       );
@@ -297,13 +344,24 @@ export class Community implements OnInit {
       return;
     }
 
+    /**
+     * Rapid double-click ignore hoga.
+     */
+    if (
+      this.pendingLikeRequests.has(postId)
+    ) {
+      return;
+    }
+
+    this.pendingLikeRequests.add(postId);
+
     this.communityService
       .toggleLike(postId)
       .subscribe({
         next: (response: any) => {
-          /*
-           * Backend ki actual likes array
-           * post card par apply hogi.
+          /**
+           * Post card par backend ki actual
+           * updated likes array show karenge.
            */
           this.communityService.posts.update(
             posts =>
@@ -323,58 +381,66 @@ export class Community implements OnInit {
                   };
                 }
 
-                /*
-                 * Old backend response ke liye fallback
+                /**
+                 * Old backend response fallback.
                  */
                 const userId =
                   this.authService
                     .currentUser()
                     ?._id || '';
 
+                const currentLikes =
+                  Array.isArray(post.likes)
+                    ? post.likes
+                    : [];
+
+                if (response.liked) {
+                  return {
+                    ...post,
+                    likes: Array.from(
+                      new Set([
+                        ...currentLikes,
+                        userId
+                      ])
+                    )
+                  };
+                }
+
                 return {
                   ...post,
-
-                  likes: response.liked
-                    ? [
-                        ...post.likes,
-                        userId
-                      ]
-                    : post.likes.filter(
-                        id =>
-                          String(id) !==
-                          String(userId)
-                      )
+                  likes:
+                    currentLikes.filter(
+                      likeId =>
+                        String(likeId) !==
+                        String(userId)
+                    )
                 };
               })
           );
 
-          /*
-           * Backend ne updated dashboard
-           * stats return ki hain.
+          /**
+           * Response me backend already correct stats
+           * bhej raha hai: 2 posts, 2 likes, 3 comments.
            */
-          if (response.stats) {
-            this.stats.set({
-              totalPosts: Number(
-                response.stats
-                  .totalPosts || 0
-              ),
-
-              totalLikes: Number(
-                response.stats
-                  .totalLikes || 0
-              ),
-
-              totalComments: Number(
-                response.stats
-                  .totalComments || 0
-              )
-            });
+          if (response?.stats) {
+            this.applyStats(
+              response.stats,
+              true
+            );
           } else {
             this.loadUserStats();
           }
+
+          this.pendingLikeRequests.delete(
+            postId
+          );
         },
 
         error: (error: any) => {
+          this.pendingLikeRequests.delete(
+            postId
+          );
+
           console.error(
             'Like update error:',
             error
@@ -416,26 +482,26 @@ export class Community implements OnInit {
     );
   }
 
-  // ================================
+  // ==================================
   // SHARE
-  // ================================
+  // ==================================
   sharePost(post: any): void {
     const text =
       `🚌 ${post.title}\n\n` +
       `${post.content}\n\n` +
-      `Check it out on TED BUS!`;
+      'Check it out on TED BUS!';
 
     const url =
       window.location.href;
 
     if (navigator.share) {
-      navigator.share({
+      void navigator.share({
         title: post.title,
         text,
         url
       });
     } else {
-      navigator.clipboard.writeText(
+      void navigator.clipboard.writeText(
         `${text}\n${url}`
       );
 
@@ -448,18 +514,26 @@ export class Community implements OnInit {
 
     this.communityService
       .sharePost(post._id)
-      .subscribe();
+      .subscribe({
+        error: error => {
+          console.error(
+            'Share count update failed:',
+            error
+          );
+        }
+      });
   }
 
-  // ================================
+  // ==================================
   // DELETE POST
-  // ================================
+  // ==================================
   deletePost(postId: string): void {
-    if (
-      !confirm(
+    const confirmed =
+      confirm(
         'Are you sure you want to delete this post?'
-      )
-    ) {
+      );
+
+    if (!confirmed) {
       return;
     }
 
@@ -477,17 +551,18 @@ export class Community implements OnInit {
           this.loadUserStats();
         },
 
-        error: () => {
+        error: (error: any) => {
           this.toast.error(
+            error?.error?.message ||
             'Failed to delete post'
           );
         }
       });
   }
 
-  // ================================
+  // ==================================
   // REPORT POST
-  // ================================
+  // ==================================
   reportPost(postId: string): void {
     const reason =
       prompt(
@@ -515,17 +590,18 @@ export class Community implements OnInit {
           );
         },
 
-        error: () => {
+        error: (error: any) => {
           this.toast.error(
+            error?.error?.message ||
             'Failed to report post'
           );
         }
       });
   }
 
-  // ================================
+  // ==================================
   // COMMENTS
-  // ================================
+  // ==================================
   toggleComments(postId: string): void {
     const expanded =
       new Set(
@@ -558,7 +634,7 @@ export class Community implements OnInit {
             map => ({
               ...map,
               [postId]:
-                response.comments || []
+                response?.comments || []
             })
           );
         },
@@ -590,64 +666,75 @@ export class Community implements OnInit {
       return;
     }
 
+    if (
+      this.pendingCommentRequests.has(
+        postId
+      )
+    ) {
+      return;
+    }
+
+    this.pendingCommentRequests.add(
+      postId
+    );
+
     this.communityService
       .addComment(postId, text)
       .subscribe({
         next: (response: any) => {
+          this.pendingCommentRequests.delete(
+            postId
+          );
+
           this.commentTexts[postId] = '';
 
           this.loadComments(postId);
 
-          /*
-           * Backend se actual comment count
-           * post card par update hoga.
+          /**
+           * Backend ki actual updated commentCount
+           * card par show hogi.
            */
           this.communityService.posts.update(
             posts =>
-              posts.map(post =>
-                post._id === postId
-                  ? {
-                      ...post,
+              posts.map(post => {
+                if (post._id !== postId) {
+                  return post;
+                }
 
-                      commentCount:
-                        Number(
-                          response.commentCount ??
-                          (
-                            post.commentCount +
-                            1
-                          )
-                        )
-                    }
-                  : post
-              )
+                return {
+                  ...post,
+
+                  commentCount: Number(
+                    response?.commentCount ??
+                    (
+                      Number(
+                        post.commentCount || 0
+                      ) + 1
+                    )
+                  )
+                };
+              })
           );
 
-          /*
-           * Dashboard comments stat update
+          /**
+           * Dashboard ke correct stats apply honge
+           * aur purani pending request invalidate hogi.
            */
-          if (response.stats) {
-            this.stats.set({
-              totalPosts: Number(
-                response.stats
-                  .totalPosts || 0
-              ),
-
-              totalLikes: Number(
-                response.stats
-                  .totalLikes || 0
-              ),
-
-              totalComments: Number(
-                response.stats
-                  .totalComments || 0
-              )
-            });
+          if (response?.stats) {
+            this.applyStats(
+              response.stats,
+              true
+            );
           } else {
             this.loadUserStats();
           }
         },
 
         error: (error: any) => {
+          this.pendingCommentRequests.delete(
+            postId
+          );
+
           console.error(
             'Comment add error:',
             error
@@ -661,9 +748,9 @@ export class Community implements OnInit {
       });
   }
 
-  // ================================
+  // ==================================
   // IMAGE
-  // ================================
+  // ==================================
   onImageSelected(event: Event): void {
     const input =
       event.target as HTMLInputElement;
@@ -685,9 +772,9 @@ export class Community implements OnInit {
     );
   }
 
-  // ================================
+  // ==================================
   // HELPERS
-  // ================================
+  // ==================================
   getTimeAgo(
     dateString: string
   ): string {

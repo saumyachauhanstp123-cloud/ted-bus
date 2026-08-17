@@ -1,282 +1,984 @@
-<section class="min-h-screen bg-gray-50 dark:bg-gray-950 py-12 px-4 animate-fade-in transition-colors duration-300">
+<section
+  class="min-h-screen bg-gray-50 dark:bg-gray-950
+         py-12 px-4 animate-fade-in
+         transition-colors duration-300">
+
   <div class="max-w-5xl mx-auto">
 
-    <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+    <!-- ========================= -->
+    <!-- HEADER SECTION -->
+    <!-- ========================= -->
+    <div
+      class="flex flex-col md:flex-row
+             md:items-end justify-between
+             mb-10 gap-6">
+
       <div>
-        <span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest border border-red-200/50 dark:border-red-800/50">
+        <span
+          class="bg-red-100 dark:bg-red-900/30
+                 text-red-600 dark:text-red-400
+                 text-xs font-bold
+                 px-4 py-2 rounded-full
+                 uppercase tracking-widest
+                 border border-red-200/50
+                 dark:border-red-800/50">
+
           Explore TED BUS Community
         </span>
-        <h1 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-gray-100 mt-4 tracking-tighter">
+
+        <h1
+          class="text-4xl md:text-5xl
+                 font-black
+                 text-gray-900 dark:text-gray-100
+                 mt-4 tracking-tighter">
+
           {{ 'COMMUNITY_PAGE.TITLE' | translate }}
         </h1>
-        <p class="text-gray-500 dark:text-gray-400 mt-2 text-lg">
+
+        <p
+          class="text-gray-500 dark:text-gray-400
+                 mt-2 text-lg">
+
           {{ 'COMMUNITY_PAGE.SUBTITLE' | translate }}
         </p>
       </div>
 
       @if (authService.isLoggedIn()) {
-        <button (click)="showCreateForm.set(!showCreateForm())"
-          class="h-14 px-8 bg-gradient-to-r from-red-600 to-rose-700 dark:from-red-700 dark:to-red-900 text-white rounded-2xl font-bold hover:shadow-xl hover:shadow-red-200 dark:hover:shadow-red-900/20 transition-all active:scale-95 flex items-center gap-2">
+        <button
+          type="button"
+          (click)="showCreateForm.set(!showCreateForm())"
+          class="h-14 px-8
+                 bg-gradient-to-r
+                 from-red-600 to-rose-700
+                 dark:from-red-700 dark:to-red-900
+                 text-white rounded-2xl
+                 font-bold
+                 hover:shadow-xl
+                 hover:shadow-red-200
+                 dark:hover:shadow-red-900/20
+                 transition-all
+                 active:scale-95
+                 flex items-center gap-2">
+
           @if (showCreateForm()) {
-            <span>✕</span> <span>{{ 'COMMUNITY_PAGE.CLOSE_FORM' | translate }}</span>
+            <span>✕</span>
+
+            <span>
+              {{ 'COMMUNITY_PAGE.CLOSE_FORM' | translate }}
+            </span>
           } @else {
-            <span class="text-xl">+</span> <span>{{ 'COMMUNITY_PAGE.SHARE_STORY' | translate }}</span>
+            <span class="text-xl">+</span>
+
+            <span>
+              {{ 'COMMUNITY_PAGE.SHARE_STORY' | translate }}
+            </span>
           }
         </button>
       }
     </div>
 
-    <!-- Stats Cards -->
+    <!-- ========================= -->
+    <!-- DASHBOARD STATS -->
+    <!-- ========================= -->
     @if (authService.isLoggedIn()) {
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-        <!-- Posts Stat -->
-        <div class="bg-white dark:bg-gray-900 rounded-[2rem] p-6 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-5 group hover:border-red-200 dark:hover:border-red-800/50 transition-all">
-          <div class="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">📝</div>
+      <div
+        class="grid grid-cols-1
+               sm:grid-cols-3
+               gap-6 mb-12">
+
+        <!-- POSTS STAT -->
+        <div
+          class="bg-white dark:bg-gray-900
+                 rounded-[2rem] p-6
+                 shadow-sm
+                 border border-gray-100
+                 dark:border-gray-800
+                 flex items-center gap-5
+                 group
+                 hover:border-red-200
+                 dark:hover:border-red-800/50
+                 transition-all">
+
+          <div
+            class="w-14 h-14 rounded-2xl
+                   bg-red-50 dark:bg-red-900/20
+                   text-red-600 dark:text-red-400
+                   flex items-center justify-center
+                   text-2xl
+                   group-hover:scale-110
+                   transition-transform">
+            📝
+          </div>
+
           <div>
-            <div class="text-2xl font-black text-gray-900 dark:text-gray-100">{{ stats().totalPosts }}</div>
-            <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{{ 'COMMUNITY_PAGE.MY_POSTS' | translate }}</div>
+            <!-- Google Translate se protected count -->
+            <div
+              class="notranslate text-2xl font-black
+                     text-gray-900 dark:text-gray-100"
+              translate="no">
+              {{ stats().totalPosts }}
+            </div>
+
+            <div
+              class="text-xs font-bold
+                     text-gray-400 dark:text-gray-500
+                     uppercase tracking-wider">
+
+              {{ 'COMMUNITY_PAGE.MY_POSTS' | translate }}
+            </div>
           </div>
         </div>
-        <!-- Likes Stat -->
-        <div class="bg-white dark:bg-gray-900 rounded-[2rem] p-6 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-5 group hover:border-pink-200 dark:hover:border-pink-800/50 transition-all">
-          <div class="w-14 h-14 rounded-2xl bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">❤️</div>
+
+        <!-- LIKES STAT -->
+        <div
+          class="bg-white dark:bg-gray-900
+                 rounded-[2rem] p-6
+                 shadow-sm
+                 border border-gray-100
+                 dark:border-gray-800
+                 flex items-center gap-5
+                 group
+                 hover:border-pink-200
+                 dark:hover:border-pink-800/50
+                 transition-all">
+
+          <div
+            class="w-14 h-14 rounded-2xl
+                   bg-pink-50 dark:bg-pink-900/20
+                   text-pink-600 dark:text-pink-400
+                   flex items-center justify-center
+                   text-2xl
+                   group-hover:scale-110
+                   transition-transform">
+            ❤️
+          </div>
+
           <div>
-            <div class="text-2xl font-black text-gray-900 dark:text-gray-100">{{ stats().totalLikes }}</div>
-            <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{{ 'COMMUNITY_PAGE.LIKES_RECEIVED' | translate }}</div>
+            <!-- Google Translate se protected count -->
+            <div
+              class="notranslate text-2xl font-black
+                     text-gray-900 dark:text-gray-100"
+              translate="no">
+              {{ stats().totalLikes }}
+            </div>
+
+            <div
+              class="text-xs font-bold
+                     text-gray-400 dark:text-gray-500
+                     uppercase tracking-wider">
+
+              {{ 'COMMUNITY_PAGE.LIKES_RECEIVED' | translate }}
+            </div>
           </div>
         </div>
-        <!-- Comments Stat -->
-        <div class="bg-white dark:bg-gray-900 rounded-[2rem] p-6 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-5 group hover:border-blue-200 dark:hover:border-blue-800/50 transition-all">
-          <div class="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">💬</div>
+
+        <!-- COMMENTS STAT -->
+        <div
+          class="bg-white dark:bg-gray-900
+                 rounded-[2rem] p-6
+                 shadow-sm
+                 border border-gray-100
+                 dark:border-gray-800
+                 flex items-center gap-5
+                 group
+                 hover:border-blue-200
+                 dark:hover:border-blue-800/50
+                 transition-all">
+
+          <div
+            class="w-14 h-14 rounded-2xl
+                   bg-blue-50 dark:bg-blue-900/20
+                   text-blue-600 dark:text-blue-400
+                   flex items-center justify-center
+                   text-2xl
+                   group-hover:scale-110
+                   transition-transform">
+            💬
+          </div>
+
           <div>
-            <div class="text-2xl font-black text-gray-900 dark:text-gray-100">{{ stats().totalComments }}</div>
-            <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{{ 'COMMUNITY_PAGE.COMMENTS' | translate }}</div>
+            <!-- Google Translate se protected count -->
+            <div
+              class="notranslate text-2xl font-black
+                     text-gray-900 dark:text-gray-100"
+              translate="no">
+              {{ stats().totalComments }}
+            </div>
+
+            <div
+              class="text-xs font-bold
+                     text-gray-400 dark:text-gray-500
+                     uppercase tracking-wider">
+
+              {{ 'COMMUNITY_PAGE.COMMENTS' | translate }}
+            </div>
           </div>
         </div>
       </div>
     }
 
-    <!-- Create Post Form -->
+    <!-- ========================= -->
+    <!-- CREATE POST FORM -->
+    <!-- ========================= -->
     @if (showCreateForm()) {
-      <div class="bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-2xl dark:shadow-gray-950/50 border border-gray-100 dark:border-gray-800 p-8 mb-12 animate-slide-down">
-        <h2 class="text-2xl font-black text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-3">
-          <span>✍️</span> {{ 'COMMUNITY_PAGE.CREATE_POST' | translate }}
+      <div
+        class="bg-white dark:bg-gray-900
+               rounded-[2.5rem]
+               shadow-2xl dark:shadow-gray-950/50
+               border border-gray-100
+               dark:border-gray-800
+               p-8 mb-12
+               animate-slide-down">
+
+        <h2
+          class="text-2xl font-black
+                 text-gray-900 dark:text-gray-100
+                 mb-6 flex items-center gap-3">
+
+          <span>✍️</span>
+
+          {{ 'COMMUNITY_PAGE.CREATE_POST' | translate }}
         </h2>
 
         <div class="space-y-6">
-          <input type="text" [(ngModel)]="title" [placeholder]="'COMMUNITY_PAGE.POST_TITLE' | translate"
-            class="w-full border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 rounded-2xl px-6 py-4 font-semibold focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 focus:border-red-500 dark:focus:border-red-600 focus:bg-white dark:focus:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-600 transition-all outline-none" />
 
-          <textarea [(ngModel)]="content" rows="4" [placeholder]="'COMMUNITY_PAGE.POST_CONTENT' | translate"
-            class="w-full border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 rounded-2xl px-6 py-4 font-medium focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 focus:border-red-500 dark:focus:border-red-600 focus:bg-white dark:focus:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-600 transition-all outline-none resize-none"></textarea>
+          <!-- Title -->
+          <input
+            type="text"
+            [(ngModel)]="title"
+            [placeholder]="'COMMUNITY_PAGE.POST_TITLE' | translate"
+            class="w-full
+                   border-2 border-gray-100
+                   dark:border-gray-800
+                   bg-gray-50 dark:bg-gray-950
+                   text-gray-900 dark:text-gray-100
+                   rounded-2xl
+                   px-6 py-4
+                   font-semibold
+                   focus:ring-4 focus:ring-red-50
+                   dark:focus:ring-red-900/20
+                   focus:border-red-500
+                   dark:focus:border-red-600
+                   focus:bg-white
+                   dark:focus:bg-gray-900
+                   placeholder-gray-400
+                   dark:placeholder-gray-600
+                   transition-all outline-none" />
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Content -->
+          <textarea
+            [(ngModel)]="content"
+            rows="4"
+            [placeholder]="'COMMUNITY_PAGE.POST_CONTENT' | translate"
+            class="w-full
+                   border-2 border-gray-100
+                   dark:border-gray-800
+                   bg-gray-50 dark:bg-gray-950
+                   text-gray-900 dark:text-gray-100
+                   rounded-2xl
+                   px-6 py-4
+                   font-medium
+                   focus:ring-4 focus:ring-red-50
+                   dark:focus:ring-red-900/20
+                   focus:border-red-500
+                   dark:focus:border-red-600
+                   focus:bg-white
+                   dark:focus:bg-gray-900
+                   placeholder-gray-400
+                   dark:placeholder-gray-600
+                   transition-all
+                   outline-none resize-none">
+          </textarea>
+
+          <div
+            class="grid grid-cols-1
+                   md:grid-cols-2 gap-6">
+
+            <!-- Category -->
             <div class="relative">
-              <select [(ngModel)]="category"
-                class="w-full appearance-none border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 rounded-2xl px-6 py-4 font-semibold focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 focus:border-red-500 dark:focus:border-red-600 focus:bg-white dark:focus:bg-gray-900 transition-all outline-none">
-                <option value="">{{ 'COMMUNITY_PAGE.SELECT_CATEGORY' | translate }}</option>
+              <select
+                [(ngModel)]="category"
+                class="w-full appearance-none
+                       border-2 border-gray-100
+                       dark:border-gray-800
+                       bg-gray-50 dark:bg-gray-950
+                       text-gray-900 dark:text-gray-100
+                       rounded-2xl
+                       px-6 py-4
+                       font-semibold
+                       focus:ring-4 focus:ring-red-50
+                       dark:focus:ring-red-900/20
+                       focus:border-red-500
+                       dark:focus:border-red-600
+                       focus:bg-white
+                       dark:focus:bg-gray-900
+                       transition-all outline-none">
+
+                <option value="">
+                  {{ 'COMMUNITY_PAGE.SELECT_CATEGORY' | translate }}
+                </option>
+
                 @for (cat of categories; track cat) {
-                  <option [value]="cat">{{ cat }}</option>
+                  <option [value]="cat">
+                    {{ cat }}
+                  </option>
                 }
               </select>
-              <div class="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 dark:text-gray-500">▼</div>
+
+              <div
+                class="absolute right-6 top-1/2
+                       -translate-y-1/2
+                       pointer-events-none
+                       text-gray-400 dark:text-gray-500">
+                ▼
+              </div>
             </div>
 
+            <!-- Image Upload -->
             <label class="cursor-pointer group">
-              <div class="w-full h-full border-2 border-dashed border-gray-200 dark:border-gray-700 group-hover:border-red-300 dark:group-hover:border-red-500/50 rounded-2xl flex items-center justify-center gap-3 text-gray-500 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-all bg-gray-50 dark:bg-gray-900/50">
+              <div
+                class="w-full h-full
+                       border-2 border-dashed
+                       border-gray-200 dark:border-gray-700
+                       group-hover:border-red-300
+                       dark:group-hover:border-red-500/50
+                       rounded-2xl
+                       flex items-center justify-center
+                       gap-3
+                       text-gray-500 dark:text-gray-400
+                       group-hover:text-red-600
+                       dark:group-hover:text-red-400
+                       transition-all
+                       bg-gray-50 dark:bg-gray-900/50">
+
                 <span class="text-xl">📷</span>
-                <span class="font-bold text-sm">Upload Photo</span>
-                <input type="file" accept="image/*" (change)="onImageSelected($event)" class="hidden" />
+
+                <span class="font-bold text-sm">
+                  Upload Photo
+                </span>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onImageSelected($event)"
+                  class="hidden" />
               </div>
             </label>
           </div>
 
+          <!-- Image Preview -->
           @if (imageUrl) {
-            <div class="relative w-32 h-32 rounded-2xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg">
-              <img [src]="imageUrl" class="w-full h-full object-cover">
-              <button (click)="imageUrl = ''" class="absolute top-1 right-1 bg-black/60 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-red-600 transition-colors">✕</button>
+            <div
+              class="relative w-32 h-32
+                     rounded-2xl overflow-hidden
+                     border-4 border-white
+                     dark:border-gray-800
+                     shadow-lg">
+
+              <img
+                [src]="imageUrl"
+                alt="Selected post"
+                class="w-full h-full object-cover" />
+
+              <button
+                type="button"
+                (click)="imageUrl = ''"
+                class="absolute top-1 right-1
+                       bg-black/60 text-white
+                       rounded-full
+                       w-6 h-6 text-xs
+                       flex items-center justify-center
+                       hover:bg-red-600
+                       transition-colors">
+                ✕
+              </button>
             </div>
           }
 
-          <button (click)="createPost()" [disabled]="creating()"
-            class="w-full h-14 bg-red-600 text-white rounded-2xl font-black text-lg hover:bg-red-700 disabled:opacity-60 transition-all shadow-xl shadow-red-100 dark:shadow-red-900/20">
-            @if (creating()) { {{ 'COMMUNITY_PAGE.CREATING' | translate }} } @else { {{ 'COMMUNITY_PAGE.CREATE_BUTTON' | translate }} }
+          <!-- Create Button -->
+          <button
+            type="button"
+            (click)="createPost()"
+            [disabled]="creating()"
+            class="w-full h-14
+                   bg-red-600 text-white
+                   rounded-2xl
+                   font-black text-lg
+                   hover:bg-red-700
+                   disabled:opacity-60
+                   disabled:cursor-not-allowed
+                   transition-all
+                   shadow-xl shadow-red-100
+                   dark:shadow-red-900/20">
+
+            @if (creating()) {
+              {{ 'COMMUNITY_PAGE.CREATING' | translate }}
+            } @else {
+              {{ 'COMMUNITY_PAGE.CREATE_BUTTON' | translate }}
+            }
           </button>
         </div>
       </div>
     }
 
-    <!-- Feed Filters -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+    <!-- ========================= -->
+    <!-- FEED FILTERS -->
+    <!-- ========================= -->
+    <div
+      class="flex flex-col md:flex-row
+             md:items-center justify-between
+             mb-8 gap-4">
+
       <div class="flex flex-wrap gap-2">
-        <button (click)="setCategory('')"
-          [class]="selectedCategory() === '' ? 'bg-gray-900 dark:bg-red-600 text-white shadow-lg' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'"
-          class="px-5 py-2.5 rounded-2xl text-sm font-bold transition-all">
+
+        <button
+          type="button"
+          (click)="setCategory('')"
+          [class]="
+            selectedCategory() === ''
+              ? 'bg-gray-900 dark:bg-red-600 text-white shadow-lg'
+              : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+          "
+          class="px-5 py-2.5
+                 rounded-2xl
+                 text-sm font-bold
+                 transition-all">
+
           {{ 'COMMUNITY_PAGE.ALL' | translate }}
         </button>
+
         @for (cat of categories; track cat) {
-          <button (click)="setCategory(cat)"
-            [class]="selectedCategory() === cat ? 'bg-red-600 text-white shadow-lg' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'"
-            class="px-5 py-2.5 rounded-2xl text-sm font-bold transition-all">
+          <button
+            type="button"
+            (click)="setCategory(cat)"
+            [class]="
+              selectedCategory() === cat
+                ? 'bg-red-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+            "
+            class="px-5 py-2.5
+                   rounded-2xl
+                   text-sm font-bold
+                   transition-all">
+
             {{ cat }}
           </button>
         }
       </div>
 
-      <div class="flex bg-gray-200/50 dark:bg-gray-800 p-1 rounded-2xl w-fit">
-        <button (click)="setSort('recent')"
-          [class]="sortBy() === 'recent' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400'"
-          class="px-5 py-2 rounded-xl text-xs font-bold transition-all">
+      <div
+        class="flex
+               bg-gray-200/50 dark:bg-gray-800
+               p-1 rounded-2xl w-fit">
+
+        <button
+          type="button"
+          (click)="setSort('recent')"
+          [class]="
+            sortBy() === 'recent'
+              ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+              : 'text-gray-500 dark:text-gray-400'
+          "
+          class="px-5 py-2
+                 rounded-xl
+                 text-xs font-bold
+                 transition-all">
+
           {{ 'COMMUNITY_PAGE.LATEST' | translate }}
         </button>
-        <button (click)="setSort('popular')"
-          [class]="sortBy() === 'popular' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400'"
-          class="px-5 py-2 rounded-xl text-xs font-bold transition-all">
+
+        <button
+          type="button"
+          (click)="setSort('popular')"
+          [class]="
+            sortBy() === 'popular'
+              ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+              : 'text-gray-500 dark:text-gray-400'
+          "
+          class="px-5 py-2
+                 rounded-xl
+                 text-xs font-bold
+                 transition-all">
+
           {{ 'COMMUNITY_PAGE.POPULAR' | translate }}
         </button>
       </div>
     </div>
 
-    <!-- Loading State -->
+    <!-- ========================= -->
+    <!-- LOADING STATE -->
+    <!-- ========================= -->
     @if (communityService.loading()) {
       <div class="space-y-6">
-        @for (i of [1,2,3]; track i) {
-          <div class="bg-white dark:bg-gray-900 rounded-[2.5rem] p-8 animate-pulse shadow-sm border border-gray-100 dark:border-gray-800">
+
+        @for (item of [1, 2, 3]; track item) {
+          <div
+            class="bg-white dark:bg-gray-900
+                   rounded-[2.5rem]
+                   p-8 animate-pulse
+                   shadow-sm
+                   border border-gray-100
+                   dark:border-gray-800">
+
             <div class="flex gap-4 mb-6">
-              <div class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl"></div>
+              <div
+                class="w-12 h-12
+                       bg-gray-200 dark:bg-gray-800
+                       rounded-2xl">
+              </div>
+
               <div class="flex-1 space-y-2">
-                <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-1/4"></div>
-                <div class="h-3 bg-gray-200 dark:bg-gray-800 rounded w-1/6"></div>
+                <div
+                  class="h-4 bg-gray-200
+                         dark:bg-gray-800
+                         rounded w-1/4">
+                </div>
+
+                <div
+                  class="h-3 bg-gray-200
+                         dark:bg-gray-800
+                         rounded w-1/6">
+                </div>
               </div>
             </div>
-            <div class="h-6 bg-gray-200 dark:bg-gray-800 rounded w-3/4 mb-4"></div>
-            <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-full mb-2"></div>
-            <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-5/6"></div>
+
+            <div
+              class="h-6 bg-gray-200
+                     dark:bg-gray-800
+                     rounded w-3/4 mb-4">
+            </div>
+
+            <div
+              class="h-4 bg-gray-200
+                     dark:bg-gray-800
+                     rounded w-full mb-2">
+            </div>
+
+            <div
+              class="h-4 bg-gray-200
+                     dark:bg-gray-800
+                     rounded w-5/6">
+            </div>
           </div>
         }
       </div>
     }
 
-    <!-- Posts Feed -->
+    <!-- ========================= -->
+    <!-- POSTS FEED -->
+    <!-- ========================= -->
     <div class="space-y-8">
-      @for (post of communityService.posts(); track post._id) {
-        <div class="bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-xl dark:hover:shadow-black/50 hover:shadow-gray-200/50 transition-all duration-500 group">
+
+      @for (
+        post of communityService.posts();
+        track post._id
+      ) {
+        <article
+          class="bg-white dark:bg-gray-900
+                 rounded-[2.5rem]
+                 shadow-sm
+                 border border-gray-100
+                 dark:border-gray-800
+                 overflow-hidden
+                 hover:shadow-xl
+                 dark:hover:shadow-black/50
+                 hover:shadow-gray-200/50
+                 transition-all duration-500
+                 group">
 
           <!-- Card Header -->
-          <div class="p-6 sm:p-8 flex items-center justify-between">
+          <div
+            class="p-6 sm:p-8
+                   flex items-center justify-between">
+
             <div class="flex items-center gap-4">
               <div class="relative">
-                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center font-black text-red-600 dark:text-red-400 text-xl border-2 border-white dark:border-gray-800 shadow-inner overflow-hidden">
+
+                <div
+                  class="w-14 h-14 rounded-2xl
+                         bg-gradient-to-br
+                         from-gray-100 to-gray-200
+                         dark:from-gray-800 dark:to-gray-700
+                         flex items-center justify-center
+                         font-black
+                         text-red-600 dark:text-red-400
+                         text-xl
+                         border-2 border-white
+                         dark:border-gray-800
+                         shadow-inner overflow-hidden">
+
                   @if (post.author?.avatar) {
-                    <img [src]="post.author.avatar" class="w-full h-full object-cover">
+                    <img
+                      [src]="post.author.avatar"
+                      [alt]="post.author.name"
+                      class="w-full h-full object-cover" />
                   } @else {
                     {{ post.author?.name?.[0] || '?' }}
                   }
                 </div>
+
                 @if (post.author?.isVerified) {
-                  <div class="absolute -bottom-1 -right-1 bg-blue-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] border-2 border-white dark:border-gray-900 shadow-md">✓</div>
+                  <div
+                    class="absolute -bottom-1 -right-1
+                           bg-blue-500 text-white
+                           w-5 h-5 rounded-full
+                           flex items-center justify-center
+                           text-[10px]
+                           border-2 border-white
+                           dark:border-gray-900
+                           shadow-md">
+                    ✓
+                  </div>
                 }
               </div>
+
               <div>
-                <p class="font-black text-gray-900 dark:text-gray-100 text-base flex items-center gap-1.5">
+                <p
+                  class="font-black
+                         text-gray-900 dark:text-gray-100
+                         text-base
+                         flex items-center gap-1.5">
+
                   {{ post.author?.name }}
                 </p>
-                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{{ getTimeAgo(post.createdAt) }}</p>
+
+                <p
+                  class="text-xs font-bold
+                         text-gray-400 dark:text-gray-500
+                         uppercase tracking-widest">
+
+                  {{ getTimeAgo(post.createdAt) }}
+                </p>
               </div>
             </div>
 
             <div class="flex gap-2">
+
               @if (isOwner(post)) {
-                <button (click)="deletePost(post._id)" class="w-10 h-10 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 transition-all">🗑</button>
+                <button
+                  type="button"
+                  (click)="deletePost(post._id)"
+                  class="w-10 h-10 rounded-xl
+                         hover:bg-red-50
+                         dark:hover:bg-red-900/20
+                         text-gray-300 dark:text-gray-600
+                         hover:text-red-500
+                         dark:hover:text-red-400
+                         transition-all"
+                  aria-label="Delete post">
+                  🗑
+                </button>
               }
-              <button (click)="reportPost(post._id)" class="w-10 h-10 rounded-xl hover:bg-amber-50 dark:hover:bg-amber-900/20 text-gray-300 dark:text-gray-600 hover:text-amber-500 dark:hover:text-amber-400 transition-all">🚩</button>
+
+              <button
+                type="button"
+                (click)="reportPost(post._id)"
+                class="w-10 h-10 rounded-xl
+                       hover:bg-amber-50
+                       dark:hover:bg-amber-900/20
+                       text-gray-300 dark:text-gray-600
+                       hover:text-amber-500
+                       dark:hover:text-amber-400
+                       transition-all"
+                aria-label="Report post">
+                🚩
+              </button>
             </div>
           </div>
 
-          <!-- Content -->
+          <!-- Post Content -->
           <div class="px-6 sm:px-8 pb-4">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="text-[10px] font-black uppercase tracking-[0.15em] bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-3 py-1.5 rounded-xl border border-gray-200/50 dark:border-gray-700/50">
+
+            <div
+              class="flex items-center
+                     gap-3 mb-4">
+
+              <span
+                class="text-[10px] font-black
+                       uppercase tracking-[0.15em]
+                       bg-gray-100 dark:bg-gray-800
+                       text-gray-500 dark:text-gray-400
+                       px-3 py-1.5 rounded-xl
+                       border border-gray-200/50
+                       dark:border-gray-700/50">
+
                 # {{ post.category }}
               </span>
 
-              @if (post.likes.length >= 5) {
-                <span class="text-[10px] font-black uppercase tracking-[0.15em] bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 px-3 py-1.5 rounded-xl flex items-center gap-1 border border-orange-200/50 dark:border-orange-800/50">
+              @if ((post.likes?.length || 0) >= 5) {
+                <span
+                  class="text-[10px] font-black
+                         uppercase tracking-[0.15em]
+                         bg-orange-100 dark:bg-orange-900/20
+                         text-orange-600 dark:text-orange-400
+                         px-3 py-1.5 rounded-xl
+                         flex items-center gap-1
+                         border border-orange-200/50
+                         dark:border-orange-800/50">
+
                   🔥 {{ 'COMMUNITY_PAGE.TRENDING' | translate }}
                 </span>
               }
             </div>
 
-            <h2 class="text-2xl font-black text-gray-900 dark:text-white leading-tight mb-3">{{ post.title }}</h2>
-            <p class="text-gray-600 dark:text-gray-300 text-base leading-relaxed line-clamp-4">{{ post.content }}</p>
+            <h2
+              class="text-2xl font-black
+                     text-gray-900 dark:text-white
+                     leading-tight mb-3">
+
+              {{ post.title }}
+            </h2>
+
+            <p
+              class="text-gray-600 dark:text-gray-300
+                     text-base leading-relaxed
+                     line-clamp-4">
+
+              {{ post.content }}
+            </p>
           </div>
 
-          <!-- Visuals -->
+          <!-- Post Image -->
           @if (post.imageUrl) {
             <div class="px-6 sm:px-8 mb-4">
-              <div class="rounded-3xl overflow-hidden shadow-inner border border-gray-100 dark:border-gray-800">
-                <img [src]="post.imageUrl" alt="Post content" class="w-full max-h-[500px] object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div
+                class="rounded-3xl overflow-hidden
+                       shadow-inner
+                       border border-gray-100
+                       dark:border-gray-800">
+
+                <img
+                  [src]="post.imageUrl"
+                  alt="Post content"
+                  class="w-full max-h-[500px]
+                         object-cover
+                         group-hover:scale-105
+                         transition-transform
+                         duration-700" />
               </div>
             </div>
           }
 
-          <!-- Card Actions -->
-          <div class="px-6 sm:px-8 py-6 flex items-center gap-4">
-            <button (click)="toggleLike(post._id)"
-              [class]="isLiked(post) ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/30' : 'bg-gray-50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 border-transparent'"
-              class="flex items-center gap-2 font-black text-xs uppercase px-5 py-3 rounded-2xl border-2 transition-all active:scale-90">
-              ❤️ {{ post.likes.length }}
+          <!-- ========================= -->
+          <!-- POST ACTIONS -->
+          <!-- ========================= -->
+          <div
+            class="px-6 sm:px-8 py-6
+                   flex items-center gap-4">
+
+            <!-- Like -->
+            <button
+              type="button"
+              (click)="toggleLike(post._id)"
+              [class]="
+                isLiked(post)
+                  ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/30'
+                  : 'bg-gray-50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 border-transparent'
+              "
+              class="flex items-center gap-2
+                     font-black text-xs uppercase
+                     px-5 py-3 rounded-2xl
+                     border-2
+                     transition-all
+                     active:scale-90">
+
+              <span>
+                {{ isLiked(post) ? '❤️' : '🤍' }}
+              </span>
+
+              <!-- Google Translate se protected count -->
+              <span
+                class="notranslate"
+                translate="no">
+                {{ post.likes?.length || 0 }}
+              </span>
             </button>
 
-            <button (click)="toggleComments(post._id)"
-              class="flex items-center gap-2 bg-gray-50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 font-black text-xs uppercase px-5 py-3 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all active:scale-90 border-2 border-transparent">
-              💬 {{ post.commentCount }}
+            <!-- Comments -->
+            <button
+              type="button"
+              (click)="toggleComments(post._id)"
+              class="flex items-center gap-2
+                     bg-gray-50 dark:bg-gray-800/50
+                     text-gray-600 dark:text-gray-400
+                     font-black text-xs uppercase
+                     px-5 py-3 rounded-2xl
+                     hover:bg-blue-50
+                     dark:hover:bg-blue-900/20
+                     hover:text-blue-600
+                     dark:hover:text-blue-400
+                     transition-all
+                     active:scale-90
+                     border-2 border-transparent">
+
+              <span>💬</span>
+
+              <!-- Google Translate se protected count -->
+              <span
+                class="notranslate"
+                translate="no">
+                {{ post.commentCount || 0 }}
+              </span>
             </button>
 
-            <button (click)="sharePost(post)"
-              class="ml-auto w-12 h-12 flex items-center justify-center bg-gray-50 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 rounded-2xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all active:scale-90 border-2 border-transparent">
+            <!-- Share -->
+            <button
+              type="button"
+              (click)="sharePost(post)"
+              class="ml-auto
+                     w-12 h-12
+                     flex items-center justify-center
+                     bg-gray-50 dark:bg-gray-800/50
+                     text-gray-600 dark:text-gray-400
+                     rounded-2xl
+                     hover:bg-emerald-50
+                     dark:hover:bg-emerald-900/20
+                     hover:text-emerald-600
+                     dark:hover:text-emerald-400
+                     transition-all
+                     active:scale-90
+                     border-2 border-transparent"
+              aria-label="Share post">
               📤
             </button>
           </div>
 
-          <!-- Comments Drawer Style -->
+          <!-- ========================= -->
+          <!-- COMMENTS DRAWER -->
+          <!-- ========================= -->
           @if (isExpanded(post._id)) {
-            <div class="px-6 sm:px-8 pb-8 animate-slide-up">
-              <div class="bg-gray-50/50 dark:bg-gray-950/30 rounded-[2rem] p-6 border border-gray-100 dark:border-gray-800">
+            <div
+              class="px-6 sm:px-8
+                     pb-8 animate-slide-up">
 
+              <div
+                class="bg-gray-50/50
+                       dark:bg-gray-950/30
+                       rounded-[2rem]
+                       p-6
+                       border border-gray-100
+                       dark:border-gray-800">
+
+                <!-- Add Comment -->
                 @if (authService.isLoggedIn()) {
                   <div class="flex gap-4 mb-8">
-                    <input type="text" [(ngModel)]="commentTexts[post._id]"
+
+                    <input
+                      type="text"
+                      [(ngModel)]="commentTexts[post._id]"
                       [placeholder]="'COMMUNITY_PAGE.COMMENT_PLACEHOLDER' | translate"
-                      class="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-2xl px-6 py-3.5 text-sm focus:ring-4 focus:ring-red-50 dark:focus:ring-red-900/20 focus:border-red-500 outline-none transition-all shadow-sm placeholder-gray-400 dark:placeholder-gray-600" />
-                    <button (click)="addComment(post._id)"
-                      class="bg-gray-900 dark:bg-red-600 text-white px-6 py-3.5 rounded-2xl text-sm font-black hover:bg-black dark:hover:bg-red-700 transition-all shadow-lg active:scale-95">
+                      class="flex-1
+                             bg-white dark:bg-gray-900
+                             border border-gray-200
+                             dark:border-gray-700
+                             text-gray-900 dark:text-gray-100
+                             rounded-2xl
+                             px-6 py-3.5
+                             text-sm
+                             focus:ring-4 focus:ring-red-50
+                             dark:focus:ring-red-900/20
+                             focus:border-red-500
+                             outline-none transition-all
+                             shadow-sm
+                             placeholder-gray-400
+                             dark:placeholder-gray-600" />
+
+                    <button
+                      type="button"
+                      (click)="addComment(post._id)"
+                      class="bg-gray-900 dark:bg-red-600
+                             text-white
+                             px-6 py-3.5
+                             rounded-2xl
+                             text-sm font-black
+                             hover:bg-black
+                             dark:hover:bg-red-700
+                             transition-all
+                             shadow-lg
+                             active:scale-95">
+
                       {{ 'COMMUNITY_PAGE.POST_BUTTON' | translate }}
                     </button>
                   </div>
                 }
 
+                <!-- Comment List -->
                 <div class="space-y-5">
-                  @for (comment of getPostComments(post._id); track comment._id) {
+
+                  @for (
+                    comment of getPostComments(post._id);
+                    track comment._id
+                  ) {
                     <div class="flex gap-4 group">
-                      <div class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-xs font-black text-gray-400 dark:text-gray-500 flex-shrink-0">
+
+                      <div
+                        class="w-10 h-10
+                               rounded-xl
+                               bg-white dark:bg-gray-800
+                               border border-gray-200
+                               dark:border-gray-700
+                               flex items-center justify-center
+                               text-xs font-black
+                               text-gray-400 dark:text-gray-500
+                               flex-shrink-0">
+
                         {{ comment.author?.name?.[0] || '?' }}
                       </div>
+
                       <div class="flex-1">
-                        <div class="bg-white dark:bg-gray-900 p-4 rounded-2xl rounded-tl-none border border-gray-100 dark:border-gray-800 shadow-sm relative">
-                          <p class="text-xs font-black text-gray-900 dark:text-gray-200 mb-1 flex items-center justify-between">
-                            {{ comment.author?.name }}
-                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase">{{ getTimeAgo(comment.createdAt) }}</span>
+
+                        <div
+                          class="bg-white dark:bg-gray-900
+                                 p-4 rounded-2xl
+                                 rounded-tl-none
+                                 border border-gray-100
+                                 dark:border-gray-800
+                                 shadow-sm relative">
+
+                          <p
+                            class="text-xs font-black
+                                   text-gray-900 dark:text-gray-200
+                                   mb-1
+                                   flex items-center justify-between">
+
+                            <span>
+                              {{ comment.author?.name }}
+                            </span>
+
+                            <span
+                              class="text-[10px]
+                                     text-gray-400
+                                     dark:text-gray-500
+                                     font-bold uppercase">
+
+                              {{ getTimeAgo(comment.createdAt) }}
+                            </span>
                           </p>
-                          <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium">{{ comment.message }}</p>
+
+                          <p
+                            class="text-sm
+                                   text-gray-600
+                                   dark:text-gray-400
+                                   leading-relaxed
+                                   font-medium">
+
+                            {{ comment.message }}
+                          </p>
                         </div>
                       </div>
                     </div>
                   }
 
-                  @if (getPostComments(post._id).length === 0) {
-                    <div class="text-center py-6 text-gray-400 dark:text-gray-500 font-bold text-sm tracking-wide">
+                  @if (
+                    getPostComments(post._id).length === 0
+                  ) {
+                    <div
+                      class="text-center py-6
+                             text-gray-400
+                             dark:text-gray-500
+                             font-bold text-sm
+                             tracking-wide">
+
                       {{ 'COMMUNITY_PAGE.NO_COMMENTS' | translate }}
                     </div>
                   }
@@ -284,19 +986,58 @@
               </div>
             </div>
           }
-        </div>
+        </article>
       }
     </div>
 
-    <!-- Empty State -->
-    @if (!communityService.loading() && communityService.posts().length === 0) {
-      <div class="bg-white dark:bg-gray-900 rounded-[3rem] p-20 text-center shadow-sm border border-dashed border-gray-200 dark:border-gray-800">
-        <div class="text-7xl mb-6 grayscale opacity-70">📝</div>
-        <h3 class="text-2xl font-black text-gray-800 dark:text-gray-200">{{ 'COMMUNITY_PAGE.NO_POSTS' | translate }}</h3>
-        <p class="text-gray-500 dark:text-gray-400 mt-2 font-medium">{{ 'COMMUNITY_PAGE.NO_POSTS_SUBTITLE' | translate }}</p>
-        <button (click)="showCreateForm.set(true)" class="mt-8 text-red-600 dark:text-red-500 font-black hover:underline underline-offset-4">START THE CONVERSATION →</button>
+    <!-- ========================= -->
+    <!-- EMPTY STATE -->
+    <!-- ========================= -->
+    @if (
+      !communityService.loading() &&
+      communityService.posts().length === 0
+    ) {
+      <div
+        class="bg-white dark:bg-gray-900
+               rounded-[3rem]
+               p-20 text-center
+               shadow-sm
+               border border-dashed
+               border-gray-200
+               dark:border-gray-800">
+
+        <div
+          class="text-7xl mb-6
+                 grayscale opacity-70">
+          📝
+        </div>
+
+        <h3
+          class="text-2xl font-black
+                 text-gray-800 dark:text-gray-200">
+
+          {{ 'COMMUNITY_PAGE.NO_POSTS' | translate }}
+        </h3>
+
+        <p
+          class="text-gray-500 dark:text-gray-400
+                 mt-2 font-medium">
+
+          {{ 'COMMUNITY_PAGE.NO_POSTS_SUBTITLE' | translate }}
+        </p>
+
+        <button
+          type="button"
+          (click)="showCreateForm.set(true)"
+          class="mt-8
+                 text-red-600 dark:text-red-500
+                 font-black
+                 hover:underline
+                 underline-offset-4">
+
+          START THE CONVERSATION →
+        </button>
       </div>
     }
-
   </div>
 </section>
