@@ -17,7 +17,7 @@ export interface Offer {
 @Injectable({ providedIn: 'root' })
 export class OfferService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api/offers';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/offers';
 
   activeOffers = signal<Offer[]>([]);
   allOffers = signal<Offer[]>([]);

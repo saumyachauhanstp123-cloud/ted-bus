@@ -28,7 +28,7 @@ export interface RouteReview {
 })
 export class ReviewService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api/reviews';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/reviews';
 
   getRouteReviews(busId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/route/${busId}`);

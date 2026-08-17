@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BusService {
-  private apiUrl = 'http://localhost:5000/api/bus';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/bus';
 
   // 🔥 Signal for buses list (Admin panel table mein use hoga)
   buses = signal<any[]>([]);

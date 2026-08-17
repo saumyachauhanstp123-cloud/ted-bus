@@ -27,7 +27,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/auth';
 
   // 🔥 Signals — poori app mein yahan se login state milega
   currentUser = signal<User | null>(this.getUserFromStorage());

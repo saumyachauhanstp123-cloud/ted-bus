@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class AdminService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api/admin';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/admin';
 
   stats = signal<any>({});
   reports = signal<any[]>([]);

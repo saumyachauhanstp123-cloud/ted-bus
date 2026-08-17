@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BookingService {
 
-  private apiUrl = 'http://localhost:5000/api/booking';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/booking';
 
   constructor(private http: HttpClient) {}
 
@@ -43,7 +43,7 @@ getMyBookings(): Observable<any> {
 getBusById(busId: string): Observable<any> {
 
   return this.http.get(
-    `http://localhost:5000/api/bus/${busId}`
+    `https://ted-bus-1.onrender.com/api/bus/${busId}`
   );
 
 }

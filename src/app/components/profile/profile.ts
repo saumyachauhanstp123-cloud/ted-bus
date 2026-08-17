@@ -19,7 +19,8 @@ export class Profile implements OnInit {
   private authService = inject(AuthService);
   private toast = inject(ToastService);
 
-  private apiUrl = 'http://localhost:5000/api';
+  private apiUrl =
+  'https://ted-bus-1.onrender.com/api';
 
   // Profile data
   name = '';

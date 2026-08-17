@@ -7,7 +7,7 @@ import { Notification } from '../models/notification';
 })
 export class NotificationService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api/notification';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/notification';
 
   notifications = signal<Notification[]>([]);
   loading = signal(false);

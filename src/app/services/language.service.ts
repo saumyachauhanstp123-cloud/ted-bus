@@ -35,7 +35,7 @@ export class LanguageService {
     'language';
 
   private readonly languageApiUrl =
-    'http://localhost:5000/api/auth/language';
+    'https://ted-bus-1.onrender.com/api/auth/language';
 
   readonly supportedLanguages = [
     {

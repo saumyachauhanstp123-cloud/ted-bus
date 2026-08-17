@@ -8,7 +8,7 @@ import { Discussion } from '../models/discussion';
 @Injectable({ providedIn: 'root' })
 export class CommunityService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api/community';
+  private apiUrl = 'https://ted-bus-1.onrender.com/api/community';
 
   posts = signal<Post[]>([]);
   discussions = signal<Discussion[]>([]);
