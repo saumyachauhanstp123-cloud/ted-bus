@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const user = require('../models/User');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/sendEmail');
 
