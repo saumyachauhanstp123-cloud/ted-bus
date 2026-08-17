@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const user = require('../models/user.js');
 
 // =====================
 // PROTECT — JWT verify

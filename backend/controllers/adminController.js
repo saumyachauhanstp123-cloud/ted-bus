@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const user = require('../models/user.js');
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 const Booking = require("../models/Booking");

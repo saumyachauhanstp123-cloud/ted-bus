@@ -1,5 +1,5 @@
 const Notification = require("../models/Notification");
-const User = require("../models/User");
+const user = require('../models/user.js');
 const { retryNotification, sendNotification } = require("../utils/notificationHelper");
 
 // GET ALL (history with delivery status)
