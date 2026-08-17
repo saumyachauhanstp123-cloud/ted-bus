@@ -32,6 +32,7 @@ export class Community implements OnInit {
   creating = signal(false);
   selectedCategory = signal('');
   sortBy = signal<'recent' | 'popular'>('recent');
+  
 
   // Comments cache
   commentsMap = signal<{ [postId: string]: Comment[] }>({});
@@ -67,7 +68,9 @@ export class Community implements OnInit {
       this.stats.set({
         totalPosts: Number(stats.totalPosts || 0),
         totalLikes: Number(stats.totalLikes || 0),
-        totalComments: Number(stats.totalComments || 0)
+        totalComments: Number(
+  stats.commentsWritten ?? stats.totalComments ?? 0
+)
       });
     },
 
@@ -147,32 +150,49 @@ export class Community implements OnInit {
     this.imageUrl = '';
     this.showCreateForm.set(false);
   }
-
   toggleLike(postId: string): void {
-    if (!this.authService.isLoggedIn()) {
-      this.toast.info('Please login to like posts');
-      return;
-    }
-
-    this.communityService.toggleLike(postId).subscribe({
-      next: (res: any) => {
-        this.communityService.posts.update(posts =>
-          posts.map(p => {
-            if (p._id === postId) {
-              const userId = this.authService.currentUser()?._id || '';
-              return {
-                ...p,
-                likes: res.liked
-                  ? [...p.likes, userId]
-                  : p.likes.filter((id: string) => id !== userId),
-              };
-            }
-            return p;
-          })
-        );
-      },
-    });
+  if (!this.authService.isLoggedIn()) {
+    this.toast.info('Please login to like posts');
+    return;
   }
+
+  this.communityService.toggleLike(postId).subscribe({
+    next: (res: any) => {
+      this.communityService.posts.update(posts =>
+        posts.map(p => {
+          if (p._id === postId) {
+            const userId =
+              this.authService.currentUser()?._id || '';
+
+            return {
+              ...p,
+              likes: res.liked
+                ? [...p.likes, userId]
+                : p.likes.filter(
+                    (id: string) => id !== userId
+                  ),
+            };
+          }
+
+          return p;
+        })
+      );
+
+      // Dashboard stats ko refresh karega
+      this.loadUserStats();
+    },
+
+    error: (err: any) => {
+      this.toast.error(
+        err?.error?.message ||
+        'Failed to update like'
+      );
+    },
+  });
+}
+
+  
+            
 
   isLiked(post: any): boolean {
     const userId = this.authService.currentUser()?._id;
