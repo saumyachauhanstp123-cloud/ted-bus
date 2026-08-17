@@ -2,7 +2,7 @@ const Post = require('../models/Post.js');
 const Comment = require('../models/Comment.js');
 const Discussion = require('../models/Discussion.js');
 const Report = require('../models/Report.js');
-const user =require('../models/user.js');
+const User = require('../models/user.js');
 const Notification = require('../models/Notification.js');
 
 // =====================
