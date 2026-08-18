@@ -209,3 +209,45 @@
     transition: none !important;
   }
 }
+/* =========================================
+   PREMIUM FEATURES DARK MODE
+========================================= */
+
+:host {
+  display: block;
+}
+
+/*
+  Tailwind classes ke saath strong dark fallback.
+  Isse Features section light nahi rahega.
+*/
+:host-context(.dark) .premium-features-section {
+  background-color: #010208 !important;
+  background-image:
+    radial-gradient(
+      circle at 8% 12%,
+      rgba(239, 68, 68, 0.2),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 18%,
+      rgba(59, 130, 246, 0.18),
+      transparent 29%
+    ),
+    radial-gradient(
+      circle at 75% 80%,
+      rgba(139, 92, 246, 0.17),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 18% 88%,
+      rgba(16, 185, 129, 0.11),
+      transparent 27%
+    ),
+    linear-gradient(
+      180deg,
+      #010208 0%,
+      #060812 48%,
+      #010208 100%
+    ) !important;
+}

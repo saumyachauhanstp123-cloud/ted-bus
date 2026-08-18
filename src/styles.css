@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 
 /* =========================================
@@ -26,9 +27,13 @@ html.dark {
 }
 
 /* Dark mode background overrides */
-html.dark .bg-white,
-html.dark .bg-gray-50,
-html.dark .bg-gray-100 {
+/*
+  Sirf un elements par fallback lagao jinke paas
+  explicit dark background class nahi hai.
+*/
+html.dark .bg-white:not([class*="dark:bg-"]),
+html.dark .bg-gray-50:not([class*="dark:bg-"]),
+html.dark .bg-gray-100:not([class*="dark:bg-"]) {
   background-color: #1e2937 !important;
 }
 
