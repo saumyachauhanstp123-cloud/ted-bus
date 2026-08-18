@@ -876,16 +876,20 @@
   <!-- ========================= -->
   <!-- MOBILE / TABLET MENU -->
   <!-- ========================= -->
-  @if (mobileMenuOpen()) {
-    <div
-      id="mobile-navigation-menu"
-      class="xl:hidden
-             border-t border-gray-200/70 dark:border-gray-800
-             bg-white/95 dark:bg-gray-900/95
-             backdrop-blur-2xl
-             shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+ @if (mobileMenuOpen()) {
+  <div
+    id="mobile-navigation-menu"
+    class="xl:hidden
+           max-h-[calc(100dvh-68px)]
+           sm:max-h-[calc(100dvh-76px)]
+           overflow-y-auto
+           overscroll-contain
+           border-t border-gray-200/70 dark:border-gray-800
+           bg-white/95 dark:bg-gray-900/95
+           backdrop-blur-2xl
+           shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
 
-      <div class="px-4 py-5 space-y-2 animate-slide-down">
+    <div class="px-4 py-5 space-y-2 animate-slide-down">
 
         <!-- Mobile User Card -->
         @if (isLoggedIn()) {
@@ -1236,48 +1240,58 @@
             <span>{{ 'PREFERENCES' | translate }}</span>
           </a>
         }
+        <!-- Mobile Login / Logout - Always Visible at Bottom -->
+<div
+  class="sticky bottom-0 z-30
+         -mx-1 mt-3 px-1 pt-4 pb-2
+         border-t border-gray-100 dark:border-gray-700
+         bg-white/95 dark:bg-gray-900/95
+         backdrop-blur-xl
+         shadow-[0_-10px_30px_rgba(0,0,0,0.06)]
+         dark:shadow-[0_-10px_30px_rgba(0,0,0,0.25)]">
 
-        <!-- Login / Logout -->
-        <div
-          class="pt-4 mt-3
-                 border-t border-gray-100
-                 dark:border-gray-700">
+  @if (!isLoggedIn()) {
+    <a
+      routerLink="/login"
+      (click)="closeMenus()"
+      class="block w-full
+             bg-gradient-to-r from-red-600 to-red-700
+             text-white text-center
+             px-5 py-3.5 rounded-2xl
+             font-extrabold shadow-lg
+             hover:from-red-700 hover:to-red-800
+             active:scale-[0.98]
+             transition-all duration-200">
 
-          @if (!isLoggedIn()) {
-            <a
-              routerLink="/login"
-              (click)="closeMenus()"
-              class="block w-full
-                     bg-gradient-to-r
-                     from-red-600 to-red-700
-                     text-white text-center
-                     px-5 py-3 rounded-2xl
-                     font-extrabold shadow-lg
-                     hover:from-red-700 hover:to-red-800
-                     hover:-translate-y-0.5
-                     transition-all duration-200">
+      {{ 'LOGIN' | translate }}
+    </a>
+  } @else {
+    <button
+      type="button"
+      (click)="logout()"
+      class="group w-full min-h-[52px]
+             flex items-center justify-center gap-3
+             bg-red-50 dark:bg-red-900/20
+             text-red-600 dark:text-red-400
+             border border-red-100 dark:border-red-800/50
+             px-5 py-3 rounded-2xl
+             font-bold shadow-sm
+             hover:bg-red-100 dark:hover:bg-red-900/30
+             hover:shadow-md
+             active:scale-[0.98]
+             transition-all duration-200">
 
-              {{ 'LOGIN' | translate }}
-            </a>
-          } @else {
-            <button
-              type="button"
-              (click)="logout()"
-              class="w-full
-                     flex items-center justify-center gap-2
-                     bg-red-50 dark:bg-red-900/20
-                     text-red-600 dark:text-red-400
-                     px-5 py-3 rounded-2xl
-                     font-semibold
-                     hover:bg-red-100
-                     dark:hover:bg-red-900/30
-                     transition-all duration-200">
+      <span
+        class="text-lg transition-transform duration-200
+               group-hover:translate-x-0.5">
+        🚪
+      </span>
 
-              🚪 {{ 'LOGOUT' | translate }}
-            </button>
-          }
-        </div>
-      </div>
+      <span>{{ 'LOGOUT' | translate }}</span>
+    </button>
+  }
+</div>       
+  </div>
     </div>
   }
 </nav>
