@@ -1,128 +1,289 @@
 const Notification = require('../models/Notification.js');
-const Updateser = require('../models/user.js');
-const sendEmail = require("./sendEmail");
-const { getTemplate } = require("./notificationTemplates");
+const User = require('../models/user.js');
+const sendEmail = require('./sendEmail');
+const {
+  getTemplate
+} = require('./notificationTemplates');
 
 /**
  * Advanced notification dispatcher
- * - Checks user preferences
- * - Localizes message
- * - Sends via enabled channels
- * - Tracks delivery status
+ *
+ * - User preferences check karta hai
+ * - Selected language me template leta hai
+ * - In-app notification create karta hai
+ * - Email ko Brevo API ke through send karta hai
+ * - Delivery status save karta hai
+ *
+ * Email fail hone par booking/cancellation fail nahi hogi.
  */
-async function sendNotification({ userId, templateKey, type, data = {} }) {
+async function sendNotification({
+  userId,
+  templateKey,
+  type,
+  data = {}
+}) {
   try {
     const user = await User.findById(userId);
-    if (!user) return null;
 
-    const prefs = user.notificationPreferences || {};
-    const language = prefs.language || "en";
+    if (!user) {
+      console.error(
+        `Notification skipped: user ${userId} not found`
+      );
 
-    // Check opt-outs
-    if (type === "Promotion" && prefs.promotional === false) {
-      console.log(`⏭ Skipped promo notification for ${user.email} (opted out)`);
       return null;
     }
 
-    if (["Booking", "Cancellation", "ScheduleChange", "Reminder"].includes(type)
-        && prefs.bookingUpdates === false) {
-      console.log(`⏭ Skipped booking notification for ${user.email} (opted out)`);
+    const preferences =
+      user.notificationPreferences || {};
+
+    const language =
+      preferences.language || 'en';
+
+    // Promotional notifications opt-out
+    if (
+      type === 'Promotion' &&
+      preferences.promotional === false
+    ) {
+      console.log(
+        `⏭ Promotion skipped for ${user.email} (opted out)`
+      );
+
       return null;
     }
 
-    // Localized content
-    const { title, message } = getTemplate(templateKey, language, data);
+    // Booking-related notifications opt-out
+    if (
+      [
+        'Booking',
+        'Cancellation',
+        'ScheduleChange',
+        'Reminder'
+      ].includes(type) &&
+      preferences.bookingUpdates === false
+    ) {
+      console.log(
+        `⏭ Booking notification skipped for ${user.email} (opted out)`
+      );
 
-    // Create notification (in-app always sent)
-    const notification = await Notification.create({
-      user: userId,
+      return null;
+    }
+
+    // Localized notification content
+    const {
       title,
-      message,
-      type,
+      message
+    } = getTemplate(
+      templateKey,
       language,
-      channels: {
-        inApp: { status: "Sent" },
-        email: {
-          enabled: prefs.email !== false,
-          status: prefs.email !== false ? "Pending" : "Skipped",
-        },
-        push: {
-          enabled: prefs.push !== false,
-          status: prefs.push !== false ? "Pending" : "Skipped",
-        },
-      },
-    });
+      data
+    );
 
-    // EMAIL channel
-    if (prefs.email !== false) {
+    if (!title || !message) {
+      throw new Error(
+        `Notification template "${templateKey}" returned invalid content`
+      );
+    }
+
+    // In-app notification create
+    const notification =
+      await Notification.create({
+        user: userId,
+        title,
+        message,
+        type,
+        language,
+
+        channels: {
+          inApp: {
+            status: 'Sent'
+          },
+
+          email: {
+            enabled:
+              preferences.email !== false,
+
+            status:
+              preferences.email !== false
+                ? 'Pending'
+                : 'Skipped'
+          },
+
+          push: {
+            enabled:
+              preferences.push !== false,
+
+            status:
+              preferences.push !== false
+                ? 'Pending'
+                : 'Skipped'
+          }
+        }
+      });
+
+    // =================================
+    // EMAIL CHANNEL — BREVO REST API
+    // =================================
+    if (preferences.email !== false) {
       try {
-        await sendEmail({ to: user.email, subject: title, text: message });
-        notification.channels.email.status = "Sent";
-        notification.channels.email.sentAt = new Date();
-      } catch (err) {
-        notification.channels.email.status = "Failed";
-        notification.channels.email.error = err.message;
-        console.error(`❌ Email failed for ${user.email}: ${err.message}`);
+        await sendEmail({
+          to: user.email,
+          subject: title,
+          text: message
+        });
+
+        notification.channels.email.status =
+          'Sent';
+
+        notification.channels.email.sentAt =
+          new Date();
+
+        notification.channels.email.error =
+          '';
+
+        console.log(
+          `✅ ${templateKey} email sent to ${user.email}`
+        );
+      } catch (emailError) {
+        notification.channels.email.status =
+          'Failed';
+
+        notification.channels.email.error =
+          emailError.message;
+
+        console.error(
+          `❌ ${templateKey} email failed for ${user.email}: ${emailError.message}`
+        );
       }
     }
 
-    // PUSH channel (simulated — real push ke liye FCM/web-push chahiye)
-    if (prefs.push !== false) {
-      notification.channels.push.status = "Sent";
-      notification.channels.push.sentAt = new Date();
+    // Push channel simulated
+    if (preferences.push !== false) {
+      notification.channels.push.status =
+        'Sent';
+
+      notification.channels.push.sentAt =
+        new Date();
+
+      notification.channels.push.error =
+        '';
     }
 
     await notification.save();
-    return notification;
 
+    return notification;
   } catch (error) {
-    console.error("Notification helper error:", error.message);
+    /*
+     * Notification failure ki wajah se booking
+     * ya cancellation request fail nahi hogi.
+     */
+    console.error(
+      'Notification helper error:',
+      error.message
+    );
+
     return null;
   }
 }
 
 /**
- * Retry failed notification delivery
+ * Failed notification delivery retry
  */
-async function retryNotification(notificationId, userId) {
-  const notification = await Notification.findOne({
-    _id: notificationId,
-    user: userId,
-  });
+async function retryNotification(
+  notificationId,
+  userId
+) {
+  const notification =
+    await Notification.findOne({
+      _id: notificationId,
+      user: userId
+    });
 
-  if (!notification) throw new Error("Notification not found");
-
-  if (notification.retryCount >= notification.maxRetries) {
-    throw new Error("Maximum retry attempts reached");
+  if (!notification) {
+    throw new Error(
+      'Notification not found'
+    );
   }
 
-  const user = await User.findById(userId);
+  if (
+    notification.retryCount >=
+    notification.maxRetries
+  ) {
+    throw new Error(
+      'Maximum retry attempts reached'
+    );
+  }
+
+  const user =
+    await User.findById(userId);
+
+  if (!user) {
+    throw new Error(
+      'User not found'
+    );
+  }
+
   notification.retryCount += 1;
 
-  // Retry email if failed
-  if (notification.channels.email.status === "Failed") {
+  // Retry failed email through Brevo
+  if (
+    notification.channels.email.enabled &&
+    notification.channels.email.status ===
+      'Failed'
+  ) {
     try {
       await sendEmail({
         to: user.email,
         subject: notification.title,
-        text: notification.message,
+        text: notification.message
       });
-      notification.channels.email.status = "Sent";
-      notification.channels.email.sentAt = new Date();
-      notification.channels.email.error = "";
-    } catch (err) {
-      notification.channels.email.error = err.message;
+
+      notification.channels.email.status =
+        'Sent';
+
+      notification.channels.email.sentAt =
+        new Date();
+
+      notification.channels.email.error =
+        '';
+
+      console.log(
+        `✅ Retried email sent to ${user.email}`
+      );
+    } catch (emailError) {
+      notification.channels.email.status =
+        'Failed';
+
+      notification.channels.email.error =
+        emailError.message;
+
+      console.error(
+        `❌ Retried email failed for ${user.email}: ${emailError.message}`
+      );
     }
   }
 
-  // Retry push if failed
-  if (notification.channels.push.status === "Failed") {
-    notification.channels.push.status = "Sent";
-    notification.channels.push.sentAt = new Date();
+  // Retry simulated push
+  if (
+    notification.channels.push.enabled &&
+    notification.channels.push.status ===
+      'Failed'
+  ) {
+    notification.channels.push.status =
+      'Sent';
+
+    notification.channels.push.sentAt =
+      new Date();
+
+    notification.channels.push.error =
+      '';
   }
 
   await notification.save();
+
   return notification;
 }
 
-module.exports = { sendNotification, retryNotification };
+module.exports = {
+  sendNotification,
+  retryNotification
+};
