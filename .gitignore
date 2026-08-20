@@ -39,3 +39,12 @@ __screenshots__/
 Thumbs.db
 new ted bus.zip
 tsconfig.spec.zip
+
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Keep example environment files
+!.env.example
+!**/.env.example
