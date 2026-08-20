@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./screenshots/home.png" alt="TedBus Home Page" width="900"/>
+  <img src="./Screenshot/Home.png" alt="TedBus Home Page" width="900"/>
 </p>
 
 <div align="center">
@@ -14,26 +14,28 @@ A modern full-stack bus ticket booking and travel platform built using the **MEA
 
 TedBus provides a complete digital travel experience with bus search, seat selection, passenger management, online payments, digital tickets, real-time notifications, route planning, community features, reviews, offers and an admin dashboard.
 
-<p>
-  <a href="https://ted-bus-one.vercel.app/">
-    <img src="https://img.shields.io/badge/🚀_LIVE_DEMO-FF4B2B?style=for-the-badge"/>
-  </a>
-  <a href="https://github.com/saumyachauhanstp123-cloud/TedBus">
-    <img src="https://img.shields.io/badge/💻_GITHUB-0F172A?style=for-the-badge&logo=github&logoColor=white"/>
-  </a>
-  <a href="https://www.linkedin.com/in/saumya-singh-chauhan-3723b4376/">
-    <img src="https://img.shields.io/badge/💼_LINKEDIN-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
-  </a>
-</p>
+<br/>
 
-<p>
-  <img src="https://img.shields.io/badge/Angular-Frontend-DD0031?style=flat-square&logo=angular&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Node.js-Runtime-339933?style=flat-square&logo=node.js&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Express.js-Backend-000000?style=flat-square&logo=express&logoColor=white"/>
-  <img src="https://img.shields.io/badge/MongoDB-Database-47A248?style=flat-square&logo=mongodb&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Socket.IO-Real--Time-010101?style=flat-square&logo=socketdotio&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Razorpay-Payments-3395FF?style=flat-square&logo=razorpay&logoColor=white"/>
-</p>
+<a href="https://ted-bus-one.vercel.app/">
+  <img src="https://img.shields.io/badge/🚀_LIVE_DEMO-FF4B2B?style=for-the-badge"/>
+</a>
+
+<a href="https://github.com/saumyachauhanstp123-cloud/TedBus">
+  <img src="https://img.shields.io/badge/💻_GITHUB-0F172A?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://www.linkedin.com/in/saumya-singh-chauhan-3723b4376/">
+  <img src="https://img.shields.io/badge/💼_LINKEDIN-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+
+<br/><br/>
+
+<img src="https://img.shields.io/badge/Angular-Frontend-DD0031?style=flat-square&logo=angular&logoColor=white"/>
+<img src="https://img.shields.io/badge/Node.js-Runtime-339933?style=flat-square&logo=node.js&logoColor=white"/>
+<img src="https://img.shields.io/badge/Express.js-Backend-000000?style=flat-square&logo=express&logoColor=white"/>
+<img src="https://img.shields.io/badge/MongoDB-Database-47A248?style=flat-square&logo=mongodb&logoColor=white"/>
+<img src="https://img.shields.io/badge/Socket.IO-Real--Time-010101?style=flat-square&logo=socketdotio&logoColor=white"/>
+<img src="https://img.shields.io/badge/Razorpay-Payments-3395FF?style=flat-square&logo=razorpay&logoColor=white"/>
 
 </div>
 
@@ -41,19 +43,19 @@ TedBus provides a complete digital travel experience with bus search, seat selec
 
 # 🌐 Live Application
 
-| Service                  | Link                                                        |
-| ------------------------ | ----------------------------------------------------------- |
-| 🚀 **Live Application**  | https://ted-bus-one.vercel.app/                             |
-| 💻 **GitHub Repository** | https://github.com/saumyachauhanstp123-cloud/TedBus         |
-| 💼 **LinkedIn**          | https://www.linkedin.com/in/saumya-singh-chauhan-3723b4376/ |
+| Service                  | Link                                                                                               |
+| ------------------------ | -------------------------------------------------------------------------------------------------- |
+| 🚀 **Live Application**  | [ted-bus-one.vercel.app](https://ted-bus-one.vercel.app/)                                          |
+| 💻 **GitHub Repository** | [github.com/saumyachauhanstp123-cloud/TedBus](https://github.com/saumyachauhanstp123-cloud/TedBus) |
+| 💼 **LinkedIn**          | [Saumya Singh Chauhan](https://www.linkedin.com/in/saumya-singh-chauhan-3723b4376/)                |
 
 ---
 
 # ✨ About TedBus
 
-**TedBus** is a full-stack bus ticket booking platform developed using the **MEAN Stack**.
+**TedBus** is a full-stack bus ticket booking and travel management platform developed using the **MEAN Stack**.
 
-The application is designed to provide users with a complete and convenient travel-booking experience.
+The application is designed to provide users with a complete, convenient and modern travel-booking experience.
 
 Users can:
 
@@ -227,7 +229,7 @@ Features:
 
 ## ⭐ Reviews & Ratings
 
-Users can share their experience through:
+Users can share their travel experience through:
 
 * Bus ratings
 * Reviews
@@ -283,7 +285,7 @@ The application is designed for:
 
 ## 🌍 Internationalization
 
-The application supports multilingual functionality using Angular-compatible internationalization tools and translation architecture.
+The application supports multilingual functionality using Angular-compatible internationalization and translation architecture.
 
 ---
 
@@ -292,7 +294,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 🏠 Home Page
 
 <p align="center">
-  <img src="./screenshots/home.png" width="700" alt="TedBus Home Page"/>
+  <img src="./screenshots/Home.png" width="700" alt="TedBus Home Page"/>
 </p>
 
 ---
@@ -300,7 +302,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 🔎 Search Buses
 
 <p align="center">
-  <img src="./screenshots/search-bus.png" width="700" alt="Bus Search"/>
+  <img src="./Screenshot/BusDetails.png" width="700" alt="TedBus Bus Details"/>
 </p>
 
 ---
@@ -308,7 +310,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 🚌 Bus Details
 
 <p align="center">
-  <img src="./screenshots/but-details.png" width="700" alt="Bus Details"/>
+  <img src="./Screenshot/BusDetails.png" width="700" alt="TedBus Bus Details"/>
 </p>
 
 ---
@@ -316,7 +318,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 💺 Seat Selection
 
 <p align="center">
-  <img src="./screenshots/seat-selection.png" width="700" alt="Seat Selection"/>
+  <img src="./Screenshot/seatSelection.png" width="700" alt="TedBus Seat Selection"/>
 </p>
 
 ---
@@ -324,15 +326,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 🎫 Booking
 
 <p align="center">
-  <img src="./screenshots/Booking.png" width="700" alt="Booking"/>
-</p>
-
----
-
-## 💳 Payment
-
-<p align="center">
-  <img src="./screenshots/Payment.png" width="700" alt="Payment"/>
+  <img src="./Screenshot/Booking.png" width="700" alt="TedBus Booking"/>
 </p>
 
 ---
@@ -340,7 +334,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 🔔 Notifications
 
 <p align="center">
-  <img src="./screenshots/Notification.png" width="700" alt="Notifications"/>
+  <img src="./Screenshot/Notification.png" width="700" alt="TedBus Notifications"/>
 </p>
 
 ---
@@ -348,7 +342,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 🎁 Offers
 
 <p align="center">
-  <img src="./screenshots/Offer.png" width="700" alt="Offers"/>
+  <img src="./Screenshot/Offers.png" width="700" alt="TedBus Offers"/>
 </p>
 
 ---
@@ -356,7 +350,7 @@ The application supports multilingual functionality using Angular-compatible int
 ## 🗺️ Route Planner
 
 <p align="center">
-  <img src="./screenshots/RoutePlanner.png" width="700" alt="Route Planner"/>
+  <img src="./Screenshot/Route.png" width="700" alt="TedBus Route Planner"/>
 </p>
 
 ---
@@ -364,16 +358,10 @@ The application supports multilingual functionality using Angular-compatible int
 ## 👥 Community
 
 <p align="center">
-  <img src="./screenshots/community.png" width="700" alt="Community"/>
+  <img src="./Screenshot/community.png" width="700" alt="TedBus Community"/>
 </p>
 
----
-
-## 🛠️ Admin Dashboard
-
-<p align="center">
-  <img src="./screenshots/admin-Dashboard.png" width="700" alt="Admin Dashboard"/>
-</p>
+> **Note:** Only the screenshots currently available in the `screenshots` folder are used in this README.
 
 ---
 
@@ -442,8 +430,8 @@ The application supports multilingual functionality using Angular-compatible int
               ┌──────────────────────────┐
               │     ⚙️ EXPRESS.JS       │
               │                          │
-              │      Node.js Server     │
-              │      REST APIs          │
+              │       Node.js Server    │
+              │       REST APIs         │
               └────────────┬─────────────┘
                            │
                            ▼
@@ -589,7 +577,7 @@ TedBus implements multiple security practices:
 🌐 CORS Configuration
 ```
 
-Sensitive credentials such as database passwords, JWT secrets and payment credentials are stored through environment variables.
+Sensitive credentials such as database passwords, JWT secrets and payment credentials are stored using environment variables.
 
 ---
 
@@ -738,8 +726,8 @@ MongoDB Atlas
 
 | 🚀 Feature       | ⚡ Technology         |
 | ---------------- | -------------------- |
-| Frontend         | Angular + TypeScript |
 | Architecture     | MEAN Stack           |
+| Frontend         | Angular + TypeScript |
 | Backend          | Node.js + Express.js |
 | Database         | MongoDB Atlas        |
 | Authentication   | JWT + OTP            |
@@ -817,11 +805,11 @@ I enjoy building modern, scalable and user-focused web applications using techno
 <br/>
 
 <a href="https://github.com/saumyachauhanstp123-cloud">
-<img src="https://img.shields.io/badge/GitHub-Saumya%20Singh%20Chauhan-181717?style=for-the-badge&logo=github&logoColor=white"/>
+  <img src="https://img.shields.io/badge/GitHub-Saumya%20Singh%20Chauhan-181717?style=for-the-badge&logo=github&logoColor=white"/>
 </a>
 
 <a href="https://www.linkedin.com/in/saumya-singh-chauhan-3723b4376/">
-<img src="https://img.shields.io/badge/LinkedIn-Saumya%20Singh%20Chauhan-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+  <img src="https://img.shields.io/badge/LinkedIn-Saumya%20Singh%20Chauhan-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 
 </div>
